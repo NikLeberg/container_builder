@@ -10,6 +10,7 @@ jobs:
         image: [esp-idf-qemu]
     steps:
       - name: Build image
+        uses: .github/workflows/container_builder.yml
         with:
           registry: docker.io
           username: nikolodion
