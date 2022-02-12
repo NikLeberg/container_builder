@@ -8,32 +8,23 @@ jobs:
     strategy:
       matrix:
         image: [esp-idf-qemu]
-    steps:
-
-      - name: Build image
-        uses: NikLeberg/container_builder/.github/workflows/container_builder.yml@main
-        with:
-          registry: docker.io
-          username: nikolodion
-          password: ${{secrets.DOCKERHUB_PASSWORD}}
-          image: ${{matrix.image}}
-          push: ${{github.event_name == 'push'}}
+    uses: NikLeberg/container_builder/.github/workflows/container_builder.yml@main
+      with:
+        registry: docker.io
+        username: nikolodion
+        password: ${{secrets.DOCKERHUB_PASSWORD}}
+        image: ${{matrix.image}}
+        push: ${{github.event_name == 'push'}}
 
   github:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
         image: [speki-ci, tanks-ci, vhdl_rpn-ci]
-    steps:
-
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Build image
-        uses: NikLeberg/container_builder/.github/workflows/container_builder.yml@main
-        with:
-          registry: ghcr.io
-          username: ${{github.actor}}
-          password: ${{secrets.GITHUB_TOKEN}}
-          image: ${{matrix.image}}
-          push: ${{github.event_name == 'push'}}
+    uses: NikLeberg/container_builder/.github/workflows/container_builder.yml@main
+      with:
+        registry: ghcr.io
+        username: ${{github.actor}}
+        password: ${{secrets.GITHUB_TOKEN}}
+        image: ${{matrix.image}}
+        push: ${{github.event_name == 'push'}}
