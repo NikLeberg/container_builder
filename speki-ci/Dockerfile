@@ -1,6 +1,6 @@
 FROM ubuntu:impish
 
-ENV DEBIAN_FRONTEND=noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=C.UTF-8
 
 # Update all packages and install neccessary tools and dependencies
@@ -10,6 +10,7 @@ RUN apt-get -q -y update \
         git wget make python3 python3-pip \
         cpio libncurses5 openocd gdb \
         cppcheck doxygen graphviz \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 RUN pip3 install cppcheck-junit doxygen-junit
 

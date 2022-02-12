@@ -2,7 +2,7 @@ FROM espressif/idf:release-v4.4
 
 WORKDIR /
 
-ENV DEBIAN_FRONTEND=noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=C.UTF-8
 
 # Install espressif QEMU fork https://github.com/espressif/qemu
