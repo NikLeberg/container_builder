@@ -9,12 +9,13 @@ jobs:
       matrix:
         image: [esp-idf-qemu]
     uses: NikLeberg/container_builder/.github/workflows/container_builder.yml@main
-      with:
-        registry: docker.io
-        username: nikolodion
-        password: ${{secrets.DOCKERHUB_PASSWORD}}
-        image: ${{matrix.image}}
-        push: ${{github.event_name == 'push'}}
+    with:
+      registry: docker.io
+      username: nikolodion
+      image: ${{matrix.image}}
+      push: ${{github.event_name == 'push'}}
+    secrets:
+      password: ${{secrets.DOCKERHUB_PASSWORD}}
 
   github:
     runs-on: ubuntu-20.04
@@ -22,9 +23,10 @@ jobs:
       matrix:
         image: [speki-ci, tanks-ci, vhdl_rpn-ci]
     uses: NikLeberg/container_builder/.github/workflows/container_builder.yml@main
-      with:
-        registry: ghcr.io
-        username: ${{github.actor}}
-        password: ${{secrets.GITHUB_TOKEN}}
-        image: ${{matrix.image}}
-        push: ${{github.event_name == 'push'}}
+    with:
+      registry: ghcr.io
+      username: ${{github.actor}}
+      image: ${{matrix.image}}
+      push: ${{github.event_name == 'push'}}
+    secrets:
+      password: ${{secrets.GITHUB_TOKEN}}
