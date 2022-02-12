@@ -51,7 +51,7 @@ jobs:
         run: docker build --pull -t ${{env.image_tag}} .
 
       - name: Scan Container
-      - uses: azure/container-scan@v0.1
+        uses: azure/container-scan@v0.1
         with:
           image-name: ${{env.image_tag}}
           username: ${{inputs.username}}
