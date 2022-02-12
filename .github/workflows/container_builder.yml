@@ -23,6 +23,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     strategy:
+      fail-fast: false
       matrix:
         images: ${{fromJson(inputs.images)}}
     steps:
@@ -36,6 +37,7 @@ jobs:
       - name: Login to Registry
         uses: docker/login-action@v1
         with:
+          registry: ${{inputs.registry}}
           username: ${{inputs.username}}
           password: ${{secrets.password}}
           
