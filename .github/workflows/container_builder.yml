@@ -30,13 +30,15 @@ jobs:
       run:
         shell: bash
         working-directory: ./${{matrix.image}}
+    env:
+      image_tag: ${{inputs.registry}}/${{inputs.username}}/${{matrix.image}}:latest
     steps:
     
       - name: Checkout Repository
         uses: actions/checkout@v2
         
       - name: Login to Registry
-        run: docker login -u ${{inputs.username}} -p ${{secrets.password}} ${{inputs.registry}}
+        run: echo ${{secrets.password}} | docker login ${{inputs.registry}} -u ${{inputs.username}} --password-stdin
         
       - name: Run pre_build Script
         run: |
@@ -46,11 +48,11 @@ jobs:
           fi
         
       - name: Build Image
-        run: docker build --pull -t ${{inputs.username}}/${{matrix.image}}:latest .
+        run: docker build --pull -t ${{env.image_tag}} .
         
       - name: Push Image
         if: ${{inputs.push}}
-        run: docker push ${{inputs.username}}/${{matrix.image}}:latest
+        run: docker push ${{env.image_tag}}
         
       - name: Run post_build Script
         run: |
