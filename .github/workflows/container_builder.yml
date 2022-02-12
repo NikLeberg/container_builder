@@ -9,7 +9,7 @@ on:
       username:
         required: true
         type: string
-      image:
+      images:
         required: true
         type: string
       push:
@@ -22,6 +22,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        images: ${{fromJson(inputs.images)}}
     steps:
 
       - name: Checkout Repository
@@ -37,18 +40,18 @@ jobs:
           password: ${{secrets.password}}
           
       - name: Run pre_build Script
-        if: hashFiles('${{inputs.image}}/pre_build.sh') != ''
+        if: hashFiles('${{matrix.image}}/pre_build.sh') != ''
         shell: bash
-        run: ${{inputs.image}}/pre_build.sh
+        run: ${{matrix.image}}/pre_build.sh
         
       - name: Build image
         uses: docker/build-push-action@v2
         with:
-          file: ${{inputs.image}}/Dockerfile
+          file: ${{matrix.image}}/Dockerfile
           push: ${{github.event_name == 'push'}}
-          tags: ${{inputs.username}}/${{inputs.image}}:latest
+          tags: ${{inputs.username}}/${{matrix.image}}:latest
 
       - name: Run post_build Script
-        if: hashFiles('${{inputs.image}}/post_build.sh') != ''
+        if: hashFiles('${{matrix.image}}/post_build.sh') != ''
         shell: bash
-        run: ${{inputs.image}}/post_build.sh
+        run: ${{matrix.image}}/post_build.sh

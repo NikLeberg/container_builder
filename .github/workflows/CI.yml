@@ -4,29 +4,25 @@ on: [push, pull_request]
 
 jobs:
   dockerhub:
-    runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        image: [esp-idf-qemu]
+    name: Build images for DockerHub
     uses: NikLeberg/container_builder/.github/workflows/container_builder.yml@main
     with:
       registry: docker.io
       username: nikolodion
-      image: ${{matrix.image}}
+      images: >-
+        ["esp-idf-qemu"]
       push: ${{github.event_name == 'push'}}
     secrets:
       password: ${{secrets.DOCKERHUB_PASSWORD}}
 
   github:
-    runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        image: [speki-ci, tanks-ci, vhdl_rpn-ci]
+    name: Build images for GitHub registry
     uses: NikLeberg/container_builder/.github/workflows/container_builder.yml@main
     with:
       registry: ghcr.io
       username: ${{github.actor}}
-      image: ${{matrix.image}}
+      images: >-
+        ["speki-ci", "tanks-ci", "vhdl_rpn-ci"]
       push: ${{github.event_name == 'push'}}
     secrets:
       password: ${{secrets.GITHUB_TOKEN}}
