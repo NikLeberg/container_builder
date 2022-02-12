@@ -26,40 +26,35 @@ jobs:
       fail-fast: false
       matrix:
         image: ${{fromJson(inputs.images)}}
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./${{matrix.image}}
     steps:
-
+    
       - name: Checkout Repository
         uses: actions/checkout@v2
         
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        
       - name: Login to Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ${{inputs.registry}}
-          username: ${{inputs.username}}
-          password: ${{secrets.password}}
-          
+        run: docker login -u ${{inputs.username}} -p ${{secrets.password}} ${{inputs.registry}}
+        
       - name: Run pre_build Script
-        shell: bash
         run: |
-          if [ -e ${{matrix.image}}/pre_build.sh ]
+          if [ -e ./pre_build.sh ]
           then
-            ${{matrix.image}}/pre_build.sh
+            ./pre_build.sh
           fi
         
-      - name: Build image
-        uses: docker/build-push-action@v2
-        with:
-          file: ${{matrix.image}}/Dockerfile
-          push: ${{github.event_name == 'push'}}
-          tags: ${{inputs.username}}/${{matrix.image}}:latest
-
+      - name: Build Image
+        run: docker build --pull -t ${{inputs.username}}/${{matrix.image}}:latest .
+        
+      - name: Push Image
+        if: ${{inputs.push}}
+        run: docker push ${{inputs.username}}/${{matrix.image}}:latest
+        
       - name: Run post_build Script
-        shell: bash
         run: |
-          if [ -e ${{matrix.image}}/post_build.sh ]
+          if [ -e ./post_build.sh ]
           then
-            ${{matrix.image}}/post_build.sh
+            ./post_build.sh
           fi
