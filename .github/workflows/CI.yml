@@ -1,0 +1,33 @@
+name: CI/CD
+
+on: [push, pull_request]
+
+jobs:
+  dockerhub:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        image: [esp-idf-qemu]
+    steps:
+      - name: Build image
+        with:
+          registry: docker.io
+          username: nikolodion
+          password: ${{secrets.DOCKERHUB_PASSWORD}}
+          image: ${{matrix.image}}
+          push: ${{github.event_name == 'push'}}
+
+  github:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        image: [speki-ci, tanks-ci, vhdl_rpn-ci]
+    steps:
+      - name: Build image
+        uses: .github/workflows/container_builder.yml
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+          image: ${{matrix.image}}
+          push: ${{github.event_name == 'push'}}
