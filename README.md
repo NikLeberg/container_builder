@@ -10,7 +10,7 @@ GitHub registry:
 
 ## Adding images
 To build the different images, [matrix builds](https://docs.github.com/en/actions/using-jobs/using-a-build-matrix-for-your-jobs) in the `.github/workflows/CI.yml` are defined.
-In the job with the coresponding registry extend the `matrix:` array with the image name. In a subfolder of the same name place the coresponding Dockerfile. Optionally one can add `pre_build.sh` and `post_build.sh` scripts that will be run before and after the image is build. This allows for example to download support files or running tests against the image.
+In the job with the coresponding registry extend the `with.images:` array with the image name. In a subfolder of the same name place the coresponding Dockerfile. Optionally one can add `pre_build.sh` and `post_build.sh` scripts that will be run before and after the image is build. This allows for example to download support files or running tests against the image.
 
 ## License
 [MIT](LICENSE) © [NikLeberg](https://github.com/NikLeberg).
