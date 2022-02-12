@@ -10,7 +10,7 @@ jobs:
         image: [esp-idf-qemu]
     steps:
       - name: Build image
-        uses: .github/workflows/container_builder.yml
+        uses: ./.github/workflows/container_builder.yml
         with:
           registry: docker.io
           username: nikolodion
@@ -25,7 +25,7 @@ jobs:
         image: [speki-ci, tanks-ci, vhdl_rpn-ci]
     steps:
       - name: Build image
-        uses: .github/workflows/container_builder.yml
+        uses: ./.github/workflows/container_builder.yml
         with:
           registry: ghcr.io
           username: ${{github.actor}}
