@@ -4,6 +4,7 @@ general:
     - CVE-2022-0492 # speki-ci, no fix as of 12.02.2022
     - CVE-2022-23222 # speki-ci, no fix as of 12.02.2022
     - CVE-2019-1010083 # esp-idf-qemu, gdbgui of idf requires specified version
+    - CVE-2021-23926 # vhdl_rpn-ci, unlikely as of 12.02.2022
   bestPracticeViolations:
     - CIS-DI-0001
     - DKL-DI-0006
