@@ -9,6 +9,10 @@ jobs:
       matrix:
         image: [esp-idf-qemu]
     steps:
+    
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
       - name: Build image
         uses: ./.github/workflows/container_builder.yml
         with:
@@ -24,6 +28,10 @@ jobs:
       matrix:
         image: [speki-ci, tanks-ci, vhdl_rpn-ci]
     steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
       - name: Build image
         uses: ./.github/workflows/container_builder.yml
         with:
