@@ -20,7 +20,7 @@ jobs:
     uses: NikLeberg/container_builder/.github/workflows/container_builder.yml@main
     with:
       registry: ghcr.io
-      username: ${{github.actor}}
+      username: nikleberg
       images: >-
         ["speki-ci", "tanks-ci", "vhdl_rpn-ci"]
       push: ${{github.event_name == 'push'}}
