@@ -9,12 +9,9 @@ jobs:
       matrix:
         image: [esp-idf-qemu]
     steps:
-    
-      - name: Checkout Repository
-        uses: actions/checkout@v2
 
       - name: Build image
-        uses: ./.github/workflows/container_builder.yml
+        uses: NikLeberg/container_builder/.github/workflows/container_builder.yml@main
         with:
           registry: docker.io
           username: nikolodion
@@ -33,7 +30,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build image
-        uses: ./.github/workflows/container_builder.yml
+        uses: NikLeberg/container_builder/.github/workflows/container_builder.yml@main
         with:
           registry: ghcr.io
           username: ${{github.actor}}

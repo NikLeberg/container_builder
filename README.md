@@ -13,4 +13,4 @@ To build the different images, [matrix builds](https://docs.github.com/en/action
 In the job with the coresponding registry extend the `matrix:` array with the image name. In a subfolder of the same name place the coresponding Dockerfile. Optionally one can add `pre_build.sh` and `post_build.sh` scripts that will be run before and after the image is build. This allows for example to download support files or running tests against the image.
 
 ## License
-[MIT](LICENSE) © [N. Leuenberger](mailto:niklaus.leuenb+github@gmail.com).
+[MIT](LICENSE) © [NikLeberg](https://github.com/NikLeberg).
