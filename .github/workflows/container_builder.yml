@@ -42,7 +42,7 @@ jobs:
           password: ${{secrets.password}}
           
       - name: Run pre_build Script
-        if: hashFiles('${{matrix.image}}/pre_build.sh') != ''
+        if: hashFiles('./${{matrix.image}}/pre_build.sh') != ''
         shell: bash
         run: ${{matrix.image}}/pre_build.sh
         
@@ -54,6 +54,6 @@ jobs:
           tags: ${{inputs.username}}/${{matrix.image}}:latest
 
       - name: Run post_build Script
-        if: hashFiles('${{matrix.image}}/post_build.sh') != ''
+        if: hashFiles('./${{matrix.image}}/post_build.sh') != ''
         shell: bash
         run: ${{matrix.image}}/post_build.sh
