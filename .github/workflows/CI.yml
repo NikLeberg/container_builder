@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   dockerhub:
     name: Build images for DockerHub
-    uses: NikLeberg/container_builder/.github/workflows/container_builder.yml@main
+    uses: ./.github/workflows/container_builder.yml
     with:
       registry: docker.io
       username: nikolodion
@@ -17,7 +17,7 @@ jobs:
 
   github:
     name: Build images for GitHub registry
-    uses: NikLeberg/container_builder/.github/workflows/container_builder.yml@main
+    uses: ./.github/workflows/container_builder.yml
     with:
       registry: ghcr.io
       username: nikleberg
