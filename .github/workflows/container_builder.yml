@@ -44,7 +44,7 @@ jobs:
       - name: Run pre_build Script
         if: hashFiles('./${{matrix.image}}/pre_build.sh') != ''
         shell: bash
-        run: ${{matrix.image}}/pre_build.sh
+        run: ./${{matrix.image}}/pre_build.sh
         
       - name: Build image
         uses: docker/build-push-action@v2
@@ -56,4 +56,4 @@ jobs:
       - name: Run post_build Script
         if: hashFiles('./${{matrix.image}}/post_build.sh') != ''
         shell: bash
-        run: ${{matrix.image}}/post_build.sh
+        run: ./${{matrix.image}}/post_build.sh
