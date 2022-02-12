@@ -6,7 +6,7 @@ dockerhub:
 - `docker pull nikolodion/<image_name>`
 
 GitHub registry:
-- Not sure.
+- `docker pull ghcr.io/nikleberg/<image_name>`
 
 ## Adding images
 To build the different images, [matrix builds](https://docs.github.com/en/actions/using-jobs/using-a-build-matrix-for-your-jobs) in the `.github/workflows/CI.yml` are defined.
