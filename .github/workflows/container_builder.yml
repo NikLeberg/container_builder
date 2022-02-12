@@ -47,10 +47,17 @@ jobs:
             ./pre_build.sh
           fi
         
-      - name: Build Image
+      - name: Build Container
         run: docker build --pull -t ${{env.image_tag}} .
+
+      - name: Scan Container
+      - uses: azure/container-scan@v0.1
+        with:
+          image-name: ${{env.image_tag}}
+          username: ${{inputs.username}}
+          password: ${{secrets.password}}
         
-      - name: Push Image
+      - name: Push Container
         if: ${{inputs.push}}
         run: docker push ${{env.image_tag}}
         
