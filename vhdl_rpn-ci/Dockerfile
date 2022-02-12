@@ -8,7 +8,7 @@ ENV LC_ALL=C.UTF-8
 ENV PATH="/home/developer/altera_lite/quartus/bin/:${PATH}"
 
 # Update packages
-RUN apt-get -q -y update
+RUN apt-get -q -y update \
     && apt-get -q -y upgrade \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
