@@ -57,13 +57,13 @@ jobs:
           username: ${{inputs.username}}
           password: ${{secrets.password}}
         
-      - name: Push Container
-        if: ${{inputs.push}}
-        run: docker push ${{env.image_tag}}
-        
       - name: Run post_build Script
         run: |
           if [ -e ./post_build.sh ]
           then
             ./post_build.sh
           fi
+        
+      - name: Push Container
+        if: ${{inputs.push}}
+        run: docker push ${{env.image_tag}}
