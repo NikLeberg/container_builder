@@ -22,7 +22,7 @@ jobs:
       registry: ghcr.io
       username: nikleberg
       images: >-
-        ["speki-ci", "tanks-ci", "vhdl_rpn-ci"]
+        ["speki-ci", "tanks-ci", "vhdl_rpn-ci", "tdd-platform"]
       push: ${{github.event_name == 'push'}}
     secrets:
       password: ${{secrets.GITHUB_TOKEN}}

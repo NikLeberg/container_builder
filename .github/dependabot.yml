@@ -24,4 +24,8 @@ updates:
     directory: "/vhdl_rpn-ci"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/tdd-platform"
+    schedule:
+      interval: "weekly"
   
