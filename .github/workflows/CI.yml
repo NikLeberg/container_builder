@@ -12,7 +12,7 @@ jobs:
       username: nikolodion
       images: >-
         ["esp-idf-qemu"]
-      push: ${{github.event_name == 'push'}}
+      push: ${{github.event_name == 'push' && github.ref_name == 'main'}}
     secrets:
       password: ${{secrets.DOCKERHUB_PASSWORD}}
 
@@ -24,6 +24,6 @@ jobs:
       username: nikleberg
       images: >-
         ["speki-ci", "tanks-ci", "vhdl_rpn-ci", "tdd-platform"]
-      push: ${{github.event_name == 'push'}}
+      push: ${{github.event_name == 'push' && github.ref_name == 'main'}}
     secrets:
       password: ${{secrets.GITHUB_TOKEN}}
