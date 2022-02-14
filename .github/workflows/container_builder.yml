@@ -33,7 +33,7 @@ jobs:
     env:
       image_tag: ${{inputs.registry}}/${{inputs.username}}/${{matrix.image}}:latest
     steps:
-    
+
       - name: Checkout Repository
         uses: actions/checkout@v2
         
@@ -50,12 +50,21 @@ jobs:
       - name: Build Container
         run: docker build --pull -t ${{env.image_tag}} .
 
-      - name: Scan Container
-        uses: azure/container-scan@v0.1
+      - name: Scan Container with Trivy
+        uses: aquasecurity/trivy-action@master
         with:
-          image-name: ${{env.image_tag}}
-          username: ${{inputs.username}}
-          password: ${{secrets.password}}
+          image-ref: ${{env.image_tag}}
+          ignore-unfixed: true
+          exit-code: 1
+          format: sarif
+          output: trivy-results.sarif
+          timeout: 10m0s
+
+      - name: Upload Scan Results
+        uses: github/codeql-action/upload-sarif@v1
+        if: always()
+        with:
+          sarif_file: .
         
       - name: Run post_build Script
         run: |

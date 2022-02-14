@@ -3,26 +3,27 @@ name: CI/CD
 on: [push, pull_request]
 
 jobs:
+
   dockerhub:
-    name: Build images for DockerHub
+    name: DockerHub
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: docker.io
       username: nikolodion
       images: >-
         ["esp-idf-qemu"]
-      push: ${{github.event_name == 'push'}}
+      push: ${{github.event_name == 'push' && github.ref_name == 'main'}}
     secrets:
       password: ${{secrets.DOCKERHUB_PASSWORD}}
 
   github:
-    name: Build images for GitHub registry
+    name: GitHub registry
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: ghcr.io
       username: nikleberg
       images: >-
         ["speki-ci", "tanks-ci", "vhdl_rpn-ci", "tdd-platform"]
-      push: ${{github.event_name == 'push'}}
+      push: ${{github.event_name == 'push' && github.ref_name == 'main'}}
     secrets:
       password: ${{secrets.GITHUB_TOKEN}}
