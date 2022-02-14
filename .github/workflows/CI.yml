@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
 
   dockerhub:
-    name: Build images for DockerHub
+    name: DockerHub
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: docker.io
@@ -17,7 +17,7 @@ jobs:
       password: ${{secrets.DOCKERHUB_PASSWORD}}
 
   github:
-    name: Build images for GitHub registry
+    name: GitHub registry
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: ghcr.io
