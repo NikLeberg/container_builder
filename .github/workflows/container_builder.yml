@@ -55,10 +55,16 @@ jobs:
         with:
           image-ref: ${{env.image_tag}}
           ignore-unfixed: true
-          exit-code: 1
           format: sarif
           output: trivy-results.sarif
           timeout: 10m0s
+
+      - name: Scan Container with Dockle
+        uses: erzz/dockle-action@v1.1.1
+        with:
+          image: ${{env.image_tag}}
+          report-format: sarif
+          report-name: dockle-results
 
       - name: Upload Scan Results
         uses: github/codeql-action/upload-sarif@v1

@@ -1,0 +1,15 @@
+# Add HEALTHCHECK instruction to the container image
+# -> ignore
+CIS-DI-0006
+
+# Confirm safety of setuid/setgid files
+# -> ignore 
+CIS-DI-0008
+
+# Create a user for the container
+# -> dev containers need access to tty devices
+CIS-DI-0001
+
+# Avoid latest tag
+# -> but its convenient...
+DKL-DI-0006
