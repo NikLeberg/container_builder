@@ -1,8 +1,33 @@
 name: CI/CD
 
-on: [push, pull_request]
+on: [push]
+
+env:
+  # Names of container images for their respective registries. (Space separated)
+  dockerhub: "esp-idf-qemu"
+  github: "speki-ci tanks-ci vhdl_rpn-ci tdd-platform"
 
 jobs:
+
+  detect_changes:
+    name: Detect Changes
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash
+    outputs:
+      dockerhub-changed: ${{steps.changed-containers.outputs.dockerhub-changed}}
+      github-changed: ${{steps.changed-containers.outputs.github-changed}}
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed Containers
+        id: changed-containers
+        run: .github/workflows/detect_changes.sh "${{env.dockerhub}}" "${{env.github}}"
 
   dockerhub:
     name: DockerHub
@@ -10,11 +35,11 @@ jobs:
     with:
       registry: docker.io
       username: nikolodion
-      images: >-
-        ["esp-idf-qemu"]
-      push: ${{github.event_name == 'push' && github.ref_name == 'main'}}
+      images: ${{needs.detect_changes.outputs.dockerhub-changed}}
+      push: ${{github.ref_name == 'main'}}
     secrets:
       password: ${{secrets.DOCKERHUB_PASSWORD}}
+    needs: detect_changes
 
   github:
     name: GitHub registry
@@ -22,8 +47,8 @@ jobs:
     with:
       registry: ghcr.io
       username: nikleberg
-      images: >-
-        ["speki-ci", "tanks-ci", "vhdl_rpn-ci", "tdd-platform"]
-      push: ${{github.event_name == 'push' && github.ref_name == 'main'}}
+      images: ${{needs.detect_changes.outputs.github-changed}}
+      push: ${{github.ref_name == 'main'}}
     secrets:
       password: ${{secrets.GITHUB_TOKEN}}
+    needs: detect_changes
