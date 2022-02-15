@@ -60,11 +60,12 @@ jobs:
           timeout: 10m0s
 
       - name: Scan Container with Dockle
-        uses: erzz/dockle-action@v1.1.1
+        uses: NikLeberg/dockle-action@main
         with:
           image: ${{env.image_tag}}
           report-format: sarif
           report-name: dockle-results
+          timeout: 10m
 
       - name: Upload Scan Results
         uses: github/codeql-action/upload-sarif@v1
