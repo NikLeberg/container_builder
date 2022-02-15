@@ -44,7 +44,7 @@ RUN mkdir -p ~/.espressif \
     && rm ./tools/tools_never.json \
     && sed -i -e 's/^__main && __enable_autocomplete$/__main/g' ./export.sh \
     && ./install.sh \
-    && rm -rf ~/.espressif/dist ~/.espressif/esp-idf/.git
+    && rm -rf ~/.espressif/dist
 
 # Install sdk for ESP8266 support
 ARG ESP8266_CLONE_URL=https://github.com/espressif/ESP8266_RTOS_SDK.git
@@ -54,7 +54,7 @@ RUN mkdir -p ~/.espressif \
     && cd ~/.espressif \
     && git clone $ESP8266_CLONE_URL -b $ESP8266_CLONE_TAG --depth 1 \
     && ./ESP8266_RTOS_SDK/install.sh \
-    && rm -rf ~/.espressif/dist ~/.espressif/ESP8266_RTOS_SDK/.git
+    && rm -rf ~/.espressif/dist
 
 # Install packages for CARME-M4 support (see: https://askubuntu.com/a/1243405)
 ARG ARM_TOOLCHAIN_VERSION=10.3-2021.10
