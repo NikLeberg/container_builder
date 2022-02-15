@@ -4,7 +4,13 @@
 # Source: https://github.com/actions/checkout/issues/296
 latest_main_commit=$(git rev-parse "refs/remotes/origin/main")
 current_commit=$(git rev-parse HEAD)
-changed_files=$(git diff --name-only $latest_main_commit $current_commit)
+if [ "$latest_main_commit" == "$current_commit" ]; then
+    # on main
+    changed_files=$(git diff --name-only $latest_main_commit~ $current_commit)
+else
+    # on a branch
+    changed_files=$(git diff --name-only $latest_main_commit $current_commit)
+fi
 
 # Loop over all toplevel folders, every folder defines a container. Add the name
 # of the container to the change_containers array if either a file inside its
