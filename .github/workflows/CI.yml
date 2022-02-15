@@ -31,6 +31,8 @@ jobs:
 
   dockerhub:
     name: DockerHub
+    needs: detect_changes
+    if: ${{needs.detect_changes.outputs.dockerhub-changed != ''}}
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: docker.io
@@ -39,10 +41,11 @@ jobs:
       push: ${{github.ref_name == 'main'}}
     secrets:
       password: ${{secrets.DOCKERHUB_PASSWORD}}
-    needs: detect_changes
 
   github:
     name: GitHub registry
+    needs: detect_changes
+    if: ${{needs.detect_changes.outputs.github-changed != ''}}
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: ghcr.io
@@ -51,4 +54,3 @@ jobs:
       push: ${{github.ref_name == 'main'}}
     secrets:
       password: ${{secrets.GITHUB_TOKEN}}
-    needs: detect_changes
