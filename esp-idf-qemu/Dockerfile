@@ -30,3 +30,8 @@ RUN apt-get -q -y update && apt-get -q -y install \
 RUN sed -i -e 's/^__main && __enable_autocomplete$/__main/g' /opt/esp/idf/export.sh
 COPY env.sh /opt/esp/env.sh
 ENV BASH_ENV=/opt/esp/env.sh
+
+# Fix CVE-2021-3995 and CVE-2021-3996
+RUN apt-get -q -y update && apt-get -q -y install \
+        util-linux \
+    && rm -rf /var/lib/apt/lists/*
