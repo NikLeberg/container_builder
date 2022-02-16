@@ -7,6 +7,7 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         git=1:2.30* \
         libc6-dev=2.33* \
         gcc=4:10.3* \
+        clang=1:12.0* \
         make=4.3* \
         cmake=3.18* \
         ccache=4.2* \
