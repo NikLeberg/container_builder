@@ -14,6 +14,7 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         doxygen=1.9* \
         graphviz=2.42* \
         cppcheck=2.3* \
+        clang-tidy=1:12.0* \
         jq=1.6* \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
