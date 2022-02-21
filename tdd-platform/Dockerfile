@@ -19,6 +19,27 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Install packages for libFuzzer fuzzing with protocol buffers support
+ARG PROTOBUF_MUTATOR_CLONE_URL=https://github.com/google/libprotobuf-mutator.git
+ARG PROTOBUF_MUTATOR_CLONE_TAG=v1.0
+
+RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
+        protobuf-compiler \
+        libprotobuf-dev \
+        liblzma-dev \
+        libz-dev \
+        pkg-config \
+        autoconf \
+        libtool \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && cd /tmp \
+    && GIT_SSL_NO_VERIFY=1 git clone $PROTOBUF_MUTATOR_CLONE_URL -b $PROTOBUF_MUTATOR_CLONE_TAG --depth 1 \
+    && cd ./libprotobuf-mutator && mkdir ./build && cd ./build \
+    && CC=clang CXX=clang++ cmake .. -DCMAKE_BUILD_TYPE=Release -DLIB_PROTO_MUTATOR_TESTING=OFF \
+    && make install \
+    && rm -rf /tmp/libprotobuf-mutator
+
 # Install packages for ESP8266 & ESP32 support
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         libusb-1.0-0-dev=2:1.0* \
