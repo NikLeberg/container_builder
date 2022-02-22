@@ -1,21 +1,21 @@
-FROM ubuntu:hirsute
+FROM ubuntu:impish
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=C.UTF-8
 
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
-        git=1:2.30* \
-        libc6-dev=2.33* \
-        gcc=4:10.3* \
-        clang=1:12.0* \
-        make=4.3* \
-        cmake=3.18* \
-        ccache=4.2* \
-        doxygen=1.9* \
-        graphviz=2.42* \
-        cppcheck=2.3* \
-        clang-tidy=1:12.0* \
-        jq=1.6* \
+        git \
+        libc6-dev \
+        gcc \
+        clang \
+        make \
+        cmake \
+        ccache \
+        doxygen \
+        graphviz \
+        cppcheck \
+        clang-tidy \
+        jq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -28,10 +28,12 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         libprotobuf-dev \
         liblzma-dev \
         libz-dev \
+        apt-transport-https ca-certificates \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
+    && update-ca-certificates \
     && cd /tmp \
-    && GIT_SSL_NO_VERIFY=1 git clone $PROTOBUF_MUTATOR_CLONE_URL -b $PROTOBUF_MUTATOR_CLONE_TAG --depth 1 \
+    && git clone $PROTOBUF_MUTATOR_CLONE_URL -b $PROTOBUF_MUTATOR_CLONE_TAG --depth 1 \
     && cd ./libprotobuf-mutator && mkdir ./build && cd ./build \
     && CC=clang CXX=clang++ cmake .. -DCMAKE_BUILD_TYPE=Release -DLIB_PROTO_MUTATOR_TESTING=OFF \
     && make install \
