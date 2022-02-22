@@ -28,8 +28,10 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         libprotobuf-dev \
         liblzma-dev \
         libz-dev \
+        apt-transport-https ca-certificates \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
+    && update-ca-certificates \
     && cd /tmp \
     && git clone $PROTOBUF_MUTATOR_CLONE_URL -b $PROTOBUF_MUTATOR_CLONE_TAG --depth 1 \
     && cd ./libprotobuf-mutator && mkdir ./build && cd ./build \
