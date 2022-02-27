@@ -7,6 +7,7 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         git \
         libc6-dev \
         gcc \
+        llvm \
         clang \
         make \
         cmake \
