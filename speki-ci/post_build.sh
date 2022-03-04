@@ -1,3 +1,3 @@
 #!/bin/sh
 
-echo "post_build.sh ran!"
+docker build -f tests.dockerfile .
