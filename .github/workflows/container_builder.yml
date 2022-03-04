@@ -48,7 +48,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
         with:
           install: true
-          
+
       - name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
         
@@ -60,7 +60,7 @@ jobs:
           fi
         
       - name: Build Container
-        run: docker build --pull -t ${{env.image_tag}} .
+        run: docker build --pull --load -t ${{env.image_tag}} .
 
       - name: Scan Container with Trivy
         uses: aquasecurity/trivy-action@master
