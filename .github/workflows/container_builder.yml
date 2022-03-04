@@ -15,6 +15,10 @@ on:
       push:
         required: true
         type: boolean
+      platform:
+        default: linux/amd64,linux/386
+        required: false
+        type: string
     secrets:
       password:
         required: true
@@ -38,21 +42,19 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Login to Registry
-        run: echo ${{secrets.password}} | docker login ${{inputs.registry}} -u ${{inputs.username}} --password-stdin
+        uses: docker/login-action@v1
+        with:
+          registry: ${{inputs.registry}}
+          username: ${{inputs.username}}
+          password: ${{secrets.password}}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
-        with:
-          platforms: arm
 
       - name: Set up Docker Buildx
-        id: buildx
         uses: docker/setup-buildx-action@v1
         with:
           install: true
-
-      - name: Available platforms
-        run: echo ${{ steps.buildx.outputs.platforms }}
         
       - name: Run pre_build Script
         run: |
@@ -62,30 +64,30 @@ jobs:
           fi
         
       - name: Build Container
-        run: docker buildx build --pull -t ${{env.image_tag}} .
+        run: docker build --pull --load --platform ${{inputs.platform}} -t ${{env.image_tag}} .
 
-      # - name: Scan Container with Trivy
-      #   uses: aquasecurity/trivy-action@master
-      #   with:
-      #     image-ref: ${{env.image_tag}}
-      #     ignore-unfixed: true
-      #     format: sarif
-      #     output: trivy-results.sarif
-      #     timeout: 10m0s
+      - name: Scan Container with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{env.image_tag}}
+          ignore-unfixed: true
+          format: sarif
+          output: trivy-results.sarif
+          timeout: 10m0s
 
-      # - name: Scan Container with Dockle
-      #   uses: NikLeberg/dockle-action@main
-      #   with:
-      #     image: ${{env.image_tag}}
-      #     report-format: sarif
-      #     report-name: dockle-results
-      #     timeout: 10m
+      - name: Scan Container with Dockle
+        uses: NikLeberg/dockle-action@main
+        with:
+          image: ${{env.image_tag}}
+          report-format: sarif
+          report-name: dockle-results
+          timeout: 10m
 
-      # - name: Upload Scan Results
-      #   uses: github/codeql-action/upload-sarif@v1
-      #   if: always()
-      #   with:
-      #     sarif_file: .
+      - name: Upload Scan Results
+        uses: github/codeql-action/upload-sarif@v1
+        if: always()
+        with:
+          sarif_file: .
         
       - name: Run post_build Script
         run: |

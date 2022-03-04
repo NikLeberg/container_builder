@@ -52,5 +52,6 @@ jobs:
       username: nikleberg
       images: ${{needs.detect_changes.outputs.github-changed}}
       push: ${{github.ref_name == 'main'}}
+      platform: linux/arm/v7
     secrets:
       password: ${{secrets.GITHUB_TOKEN}}
