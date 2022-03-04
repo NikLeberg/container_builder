@@ -42,6 +42,8 @@ jobs:
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
+        with:
+          platforms: arm
 
       - name: Set up Docker Buildx
         id: buildx
@@ -60,30 +62,30 @@ jobs:
           fi
         
       - name: Build Container
-        run: docker build --pull --load -t ${{env.image_tag}} .
+        run: docker buildx build --pull -t ${{env.image_tag}} .
 
-      - name: Scan Container with Trivy
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: ${{env.image_tag}}
-          ignore-unfixed: true
-          format: sarif
-          output: trivy-results.sarif
-          timeout: 10m0s
+      # - name: Scan Container with Trivy
+      #   uses: aquasecurity/trivy-action@master
+      #   with:
+      #     image-ref: ${{env.image_tag}}
+      #     ignore-unfixed: true
+      #     format: sarif
+      #     output: trivy-results.sarif
+      #     timeout: 10m0s
 
-      - name: Scan Container with Dockle
-        uses: NikLeberg/dockle-action@main
-        with:
-          image: ${{env.image_tag}}
-          report-format: sarif
-          report-name: dockle-results
-          timeout: 10m
+      # - name: Scan Container with Dockle
+      #   uses: NikLeberg/dockle-action@main
+      #   with:
+      #     image: ${{env.image_tag}}
+      #     report-format: sarif
+      #     report-name: dockle-results
+      #     timeout: 10m
 
-      - name: Upload Scan Results
-        uses: github/codeql-action/upload-sarif@v1
-        if: always()
-        with:
-          sarif_file: .
+      # - name: Upload Scan Results
+      #   uses: github/codeql-action/upload-sarif@v1
+      #   if: always()
+      #   with:
+      #     sarif_file: .
         
       - name: Run post_build Script
         run: |

@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker build -f tests.dockerfile .
+docker buildx build --platform linux/arm/v7 -f tests.dockerfile .
