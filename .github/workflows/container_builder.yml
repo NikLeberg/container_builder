@@ -69,7 +69,7 @@ jobs:
           if [ -n "${{inputs.platform}}" ] ; then
             extra_args="--load --platform ${{inputs.platform}}"
           fi
-          docker build --pull $extra_args -t ${{env.image_tag}}
+          docker build --pull $extra_args -t ${{env.image_tag}} .
 
       - name: Scan Container with Trivy
         uses: aquasecurity/trivy-action@master
