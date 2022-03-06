@@ -15,7 +15,7 @@ RUN apt-get -q -y update \
 RUN pip3 install cppcheck-junit doxygen-junit
 
 # Install gcc-arm-none-eabi
-RUN wget https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2 -O gcc-arm-none-eabi.tar.bz2 \
-    && mkdir gcc-arm-none-eabi && tar xjfv gcc-arm-none-eabi.tar.bz2 -C gcc-arm-none-eabi --strip-components 1 \
+RUN wget --no-verbose https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2 -O gcc-arm-none-eabi.tar.bz2 \
+    && mkdir gcc-arm-none-eabi && tar xjf gcc-arm-none-eabi.tar.bz2 -C gcc-arm-none-eabi --strip-components 1 \
     && rm gcc-arm-none-eabi.tar.bz2
 ENV PATH="/gcc-arm-none-eabi/bin:${PATH}"
