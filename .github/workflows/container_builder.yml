@@ -16,7 +16,7 @@ on:
         required: true
         type: boolean
       platform:
-        default: linux/amd64,linux/386
+        default: ''
         required: false
         type: string
     secrets:
@@ -42,34 +42,40 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Login to Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ${{inputs.registry}}
-          username: ${{inputs.username}}
-          password: ${{secrets.password}}
+        run: echo ${{secrets.password}} | docker login ${{inputs.registry}} -u ${{inputs.username}} --password-stdin
 
-      - name: Set up QEMU
+      - name: Setup QEMU
+        if: inputs.platform != ''
         uses: docker/setup-qemu-action@v1
+        with:
+          platforms: ${{inputs.platform}}
 
-      - name: Set up Docker Buildx
+      - name: Setup Docker Buildx
+        if: inputs.platform != ''
         uses: docker/setup-buildx-action@v1
         with:
           install: true
         
       - name: Run pre_build Script
         run: |
-          if [ -e ./pre_build.sh ]
-          then
+          if [ -e ./pre_build.sh ] ; then
             ./pre_build.sh
           fi
         
       - name: Build Container
-        run: docker build --pull --load --platform ${{inputs.platform}} -t ${{env.image_tag}} .
+        id: build
+        run: |
+          extra_args=
+          if [ -n "${{inputs.platform}}" ] ; then
+            extra_args="--load --platform ${{inputs.platform}}"
+          fi
+          docker build --pull $extra_args -t ${{env.image_tag}} --iidfile sha.tag .
+          echo "::set-output name=sha-tag::$(cat sha.tag)"
 
       - name: Scan Container with Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ${{env.image_tag}}
+          image-ref: ${{steps.build.outputs.sha-tag}}
           ignore-unfixed: true
           format: sarif
           output: trivy-results.sarif
@@ -78,7 +84,7 @@ jobs:
       - name: Scan Container with Dockle
         uses: NikLeberg/dockle-action@main
         with:
-          image: ${{env.image_tag}}
+          image: ${{steps.build.outputs.sha-tag}}
           report-format: sarif
           report-name: dockle-results
           timeout: 10m
@@ -91,11 +97,13 @@ jobs:
         
       - name: Run post_build Script
         run: |
-          if [ -e ./post_build.sh ]
-          then
+          if [ -e ./post_build.sh ] ; then
             ./post_build.sh
           fi
         
       - name: Push Container
         if: ${{inputs.push}}
-        run: docker push ${{env.image_tag}}
+        run: docker push ${{steps.build.outputs.sha-tag}}
+
+      - name: Logout of Registry
+        run: docker logout ${{inputs.registry}}
