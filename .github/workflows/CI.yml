@@ -1,6 +1,10 @@
 name: CI/CD
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 env:
   # Names of container images for their respective registries. (Space separated)
@@ -32,7 +36,7 @@ jobs:
   dockerhub:
     name: DockerHub
     needs: detect_changes
-    if: ${{needs.detect_changes.outputs.dockerhub-changed != ''}}
+    if: needs.detect_changes.outputs.dockerhub-changed != ''
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: docker.io
@@ -45,7 +49,7 @@ jobs:
   github:
     name: GitHub registry
     needs: detect_changes
-    if: ${{needs.detect_changes.outputs.github-changed != ''}}
+    if: needs.detect_changes.outputs.github-changed != ''
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: ghcr.io
