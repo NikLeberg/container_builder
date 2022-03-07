@@ -36,10 +36,7 @@ jobs:
 
       - name: Checkout Repository
         uses: actions/checkout@v2
-        
-      - name: Login to Registry
-        run: echo ${{secrets.password}} | docker login ${{inputs.registry}} -u ${{inputs.username}} --password-stdin
-        
+
       - name: Run pre_build Script
         run: |
           if [ -e ./pre_build.sh ]
@@ -81,5 +78,8 @@ jobs:
           fi
         
       - name: Push Container
-        if: ${{inputs.push}}
-        run: docker push ${{env.image_tag}}
+        if: inputs.push
+        run: |
+          echo ${{secrets.password}} | docker login ${{inputs.registry}} -u ${{inputs.username}} --password-stdin
+          docker push ${{env.image_tag}}
+          docker logout ${{inputs.registry}}
