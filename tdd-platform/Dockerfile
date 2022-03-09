@@ -40,6 +40,42 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
     && make install \
     && rm -rf /tmp/libprotobuf-mutator
 
+# Install packages for KLEE symbolic execution support.
+ARG STP_CLONE_URL=https://github.com/stp/stp
+ARG STP_CLONE_TAG=2.3.3
+ARG KLEE_CLONE_URL=https://github.com/klee/klee.git
+ARG KLEE_CLONE_TAG=master
+
+RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
+        zlib1g-dev \
+        minisat \
+        bison \
+        flex \
+        libsqlite3-dev \
+        llvm-13-dev \
+        apt-transport-https ca-certificates \
+    && cd /tmp \
+    && git clone $STP_CLONE_URL -b $STP_CLONE_TAG --depth 1 \
+    && cmake -S stp -B stp/build \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DBUILD_SHARED_LIBS=OFF \
+        -DSTATICCOMPILE=ON \
+    && make -C stp/build install \
+    && apt-get -q -y remove bison flex \
+    && git clone $KLEE_CLONE_URL -b $KLEE_CLONE_TAG --depth 1 \
+    && cmake -S klee -B klee/build \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DENABLE_KLEE_ASSERTS=OFF \
+        -DENABLE_SOLVER_STP=ON \
+        -DENABLE_SOLVER_Z3=ON \
+        -DKLEE_RUNTIME_BUILD_TYPE=Release \
+        -DENABLE_TCMALLOC=OFF \
+        -DENABLE_SYSTEM_TESTS=OFF \
+        -DENABLE_DOCS=OFF \
+        -DLLVM_CONFIG_BINARY=$(which llvm-config) \
+        -DLLVMCC=$(which clang) \
+        -DLLVMCXX=$(which clang++)
+
 # Install packages for ESP8266 & ESP32 support
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         libusb-1.0-0-dev=2:1.0* \
