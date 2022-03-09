@@ -5,10 +5,10 @@
 latest_main_commit=$(git rev-parse "refs/remotes/origin/main")
 current_commit=$(git rev-parse HEAD)
 if [ "$latest_main_commit" == "$current_commit" ]; then
-    # on main
+    # on main, compare with previous commit
     changed_files=$(git diff --name-only $latest_main_commit~ $current_commit)
 else
-    # on a branch
+    # on a branch, compare with latest main
     changed_files=$(git diff --name-only $latest_main_commit $current_commit)
 fi
 
