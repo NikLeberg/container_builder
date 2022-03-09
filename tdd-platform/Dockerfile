@@ -61,20 +61,21 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         -DBUILD_SHARED_LIBS=OFF \
         -DSTATICCOMPILE=ON \
     && make -C stp/build install \
+    && rm -rf stp \
     && apt-get -q -y remove bison flex \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
     && git clone $KLEE_CLONE_URL -b $KLEE_CLONE_TAG --depth 1 \
     && cmake -S klee -B klee/build \
         -DCMAKE_BUILD_TYPE=Release \
-        -DENABLE_KLEE_ASSERTS=OFF \
         -DENABLE_SOLVER_STP=ON \
         -DENABLE_SOLVER_Z3=ON \
         -DKLEE_RUNTIME_BUILD_TYPE=Release \
         -DENABLE_TCMALLOC=OFF \
         -DENABLE_SYSTEM_TESTS=OFF \
         -DENABLE_DOCS=OFF \
-        -DLLVM_CONFIG_BINARY=$(which llvm-config) \
-        -DLLVMCC=$(which clang) \
-        -DLLVMCXX=$(which clang++)
+    && make -C klee/build install \
+    && rm -rf klee \
 
 # Install packages for ESP8266 & ESP32 support
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
