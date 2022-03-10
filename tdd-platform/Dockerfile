@@ -63,6 +63,7 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
     && make -C stp/build install \
     && rm -rf stp \
     && apt-get -q -y remove bison flex \
+    && apt-get autoremove -q -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && git clone $KLEE_CLONE_URL -b $KLEE_CLONE_TAG --depth 1 \
@@ -75,7 +76,7 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         -DENABLE_SYSTEM_TESTS=OFF \
         -DENABLE_DOCS=OFF \
     && make -C klee/build install \
-    && rm -rf klee \
+    && rm -rf klee
 
 # Install packages for ESP8266 & ESP32 support
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
