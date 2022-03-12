@@ -53,6 +53,7 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         flex \
         libsqlite3-dev \
         llvm-13-dev \
+        file \
         apt-transport-https ca-certificates \
     && cd /tmp \
     && git clone $STP_CLONE_URL -b $STP_CLONE_TAG --depth 1 \
@@ -76,7 +77,8 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         -DENABLE_SYSTEM_TESTS=OFF \
         -DENABLE_DOCS=OFF \
     && make -C klee/build install \
-    && rm -rf klee
+    && rm -rf klee \
+    && pip install wllvm tabulate
 
 # Install packages for ESP8266 & ESP32 support
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
