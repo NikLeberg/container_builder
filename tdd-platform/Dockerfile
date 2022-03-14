@@ -40,6 +40,17 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
     && make install \
     && rm -rf /tmp/libprotobuf-mutator
 
+# Install packages for Python support
+RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
+        python3=3.9* \
+        python3-pip=20.3* \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && update-alternatives --install \
+        /usr/bin/python python /usr/bin/python3.9 1 \
+    && update-alternatives --set \
+        python /usr/bin/python3.9
+
 # Install packages for KLEE symbolic execution support.
 ARG STP_CLONE_URL=https://github.com/stp/stp
 ARG STP_CLONE_TAG=2.3.3
@@ -80,17 +91,11 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
     && rm -rf klee \
     && pip install wllvm tabulate
 
-# Install packages for ESP8266 & ESP32 support
+# Install shared packages for ESP8266 & ESP32 support
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         libusb-1.0-0-dev=2:1.0* \
-        python3=3.9* \
-        python3-pip=20.3* \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && update-alternatives --install \
-        /usr/bin/python python /usr/bin/python3.9 1 \
-    && update-alternatives --set \
-        python /usr/bin/python3.9
+    && rm -rf /var/lib/apt/lists/*
 
 # Install esp-idf for ESP32 support
 ARG ESP32_CLONE_URL=https://github.com/espressif/esp-idf.git
