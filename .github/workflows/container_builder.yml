@@ -57,7 +57,7 @@ jobs:
           timeout: 10m0s
 
       - name: Scan Container with Dockle
-        uses: NikLeberg/dockle-action@main
+        uses: erzz/dockle-action@v1.2.0
         with:
           image: ${{env.image_tag}}
           report-format: sarif
