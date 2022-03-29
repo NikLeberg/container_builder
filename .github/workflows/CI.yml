@@ -58,3 +58,16 @@ jobs:
       push: ${{github.ref_name == 'main'}}
     secrets:
       password: ${{secrets.GITHUB_TOKEN}}
+
+  summarize_builds:
+    # Allows to enforce branch protection rules by requiring that this job
+    # and expecially all its 'needs' succeeded.
+    name: Summarize status of matrix builds
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash
+    needs: [dockerhub, github]
+    steps:
+      - name: Successful builds?
+        run: echo "Seems so."
