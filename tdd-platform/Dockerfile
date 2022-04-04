@@ -52,10 +52,10 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         python /usr/bin/python3.9
 
 # Install packages for KLEE symbolic execution support.
-ARG STP_CLONE_URL=https://github.com/stp/stp
+ARG STP_CLONE_URL=https://github.com/stp/stp.git
 ARG STP_CLONE_TAG=2.3.3
 ARG KLEE_CLONE_URL=https://github.com/klee/klee.git
-ARG KLEE_CLONE_TAG=master
+ARG KLEE_CLONE_TAG=v2.3
 
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         zlib1g-dev \
@@ -82,11 +82,9 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
     && cmake -S klee -B klee/build \
         -DCMAKE_BUILD_TYPE=Release \
         -DENABLE_SOLVER_STP=ON \
-        -DENABLE_SOLVER_Z3=ON \
         -DKLEE_RUNTIME_BUILD_TYPE=Release \
         -DENABLE_TCMALLOC=OFF \
         -DENABLE_SYSTEM_TESTS=OFF \
-        -DENABLE_DOCS=OFF \
     && make -C klee/build install \
     && rm -rf klee \
     && pip install wllvm tabulate
