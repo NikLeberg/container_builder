@@ -59,15 +59,25 @@ jobs:
     secrets:
       password: ${{secrets.GITHUB_TOKEN}}
 
-  summarize_builds:
+  summarize:
     # Allows to enforce branch protection rules by requiring that this job
     # and expecially all its 'needs' succeeded.
-    name: Summarize status of matrix builds
+    # See: https://github.com/actions/runner/issues/491
+    name: Summarize
     runs-on: ubuntu-20.04
     defaults:
       run:
         shell: bash
     needs: [dockerhub, github]
+    if: always()
     steps:
       - name: Successful builds?
-        run: echo "Seems so."
+        run: |
+          if ${{ contains(needs.*.result, 'failure') }}; then
+            echo "One or more matrix builds have failed!"
+            false
+          fi
+          if ${{ contains(needs.*.result, 'cancelled') }}; then
+            echo "One or more matrix builds were cancelled!"
+            false
+          fi
