@@ -4,13 +4,10 @@ FROM ghcr.io/nikleberg/tdd-platform:latest
 
 RUN git clone https://github.com/NikLeberg/tdd-platform.git --recurse-submodules \
     && cd tdd-platform \
-    && git reset --hard 689b179
+    && git reset --hard 4516b17
 
 SHELL ["/bin/bash", "-c"]
 WORKDIR /tdd-platform
-
-RUN cmake -S . -B build/linux -DPLATFORM=linux \
-    && make -C build/linux all
 
 RUN source platform/esp32/environment.sh \
     && cmake -S . -B build/esp32 -DPLATFORM=esp32 \
@@ -23,3 +20,9 @@ RUN source platform/esp8266/environment.sh \
 RUN source platform/carme-m4/environment.sh \
     && cmake -S . -B build/carme-m4 -DPLATFORM=carme-m4 \
     && make -C build/carme-m4 all
+
+# Also test fuzzing and symbolic execution.
+RUN cmake -S . -B build/linux -DPLATFORM=linux \
+    && make -C build/linux all \
+    && make -C build/linux fuzzing_buggy_api_run || true \
+    && make -C build/linux symbolic_buggy_api_run
