@@ -48,6 +48,8 @@ jobs:
         run: docker build --pull -t ${{env.image_tag}} .
 
       - name: Scan Container with Trivy
+        # ToDo: Fix disk space requirement for vhdl_rpn-ci
+        if: matrix.image != 'vhdl_rpn-ci'
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{env.image_tag}}
