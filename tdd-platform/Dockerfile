@@ -89,6 +89,23 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
     && rm -rf klee \
     && pip install wllvm tabulate
 
+# Install packages for GraphFuzz structure aware fuzzing.
+ARG GFUZZ_CLONE_URL=https://github.com/hgarrereyn/GraphFuzz.git
+ARG GFUZZ_CLONE_TAG=master
+
+RUN pip install poetry \
+    && cd /tmp \
+    && git clone $GFUZZ_CLONE_URL -b $GFUZZ_CLONE_TAG --depth 1 \
+    && cmake -S GraphFuzz -B GraphFuzz/build -DCMAKE_BUILD_TYPE=Release \
+    && make -C GraphFuzz/build install \
+    && cd ./GraphFuzz/cli \
+    && poetry build \
+    && poetry export > dist/requirements.txt \
+    && pip install -r dist/requirements.txt \
+    && pip install ./dist/gfuzz-*.whl \
+    && cd ../../ \
+    && rm -rf GraphFuzz
+
 # Install shared packages for ESP8266 & ESP32 support
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         libusb-1.0-0-dev=2:1.0* \
