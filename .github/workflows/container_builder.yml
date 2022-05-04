@@ -38,6 +38,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run pre_build Script
+        id: pre_build
         run: |
           if [ -e ./pre_build.sh ]
           then
@@ -48,8 +49,7 @@ jobs:
         run: docker build --pull -t ${{env.image_tag}} .
 
       - name: Scan Container with Trivy
-        # ToDo: Fix disk space requirement for vhdl_rpn-ci
-        if: matrix.image != 'vhdl_rpn-ci'
+        if: steps.pre_build.outputs.trivy_skip != 'skip'
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{env.image_tag}}
@@ -59,16 +59,17 @@ jobs:
           timeout: 10m0s
 
       - name: Scan Container with Dockle
+        if: steps.pre_build.outputs.dockle_skip != 'skip'
         uses: erzz/dockle-action@v1.2.0
         with:
           image: ${{env.image_tag}}
-          report-format: sarif
-          report-name: dockle-results
+          failure-threshold: FATAL
+          exit-code: 1
           timeout: 10m
 
       - name: Upload Scan Results
+        if: steps.pre_build.outputs.trivy_skip != 'skip'
         uses: github/codeql-action/upload-sarif@v2
-        if: always()
         with:
           sarif_file: .
         
