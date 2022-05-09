@@ -66,6 +66,7 @@ jobs:
           failure-threshold: FATAL
           exit-code: 1
           timeout: 10m
+          dockle-version: "0.4.5"
 
       - name: Upload Scan Results
         if: steps.pre_build.outputs.trivy_skip != 'skip'
