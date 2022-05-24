@@ -28,4 +28,8 @@ updates:
     directory: "/tdd-platform"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/android-ci"
+    schedule:
+      interval: "weekly"
   
