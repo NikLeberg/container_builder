@@ -9,7 +9,7 @@ on:
 
 env:
   # Names of container images for their respective registries. (Space separated)
-  dockerhub: "esp-idf-qemu"
+  dockerhub: "esp-idf-qemu android-ci"
   github: "speki-ci tanks-ci vhdl_rpn-ci tdd-platform"
 
 jobs:
