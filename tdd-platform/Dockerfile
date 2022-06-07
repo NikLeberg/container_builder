@@ -90,8 +90,8 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
     && pip install wllvm tabulate
 
 # Install packages for GraphFuzz structure aware fuzzing.
-ARG GFUZZ_CLONE_URL=https://github.com/hgarrereyn/GraphFuzz.git
-ARG GFUZZ_CLONE_TAG=master
+ARG GFUZZ_CLONE_URL=https://github.com/NikLeberg/GraphFuzz.git
+ARG GFUZZ_CLONE_TAG=output_to_cerr
 
 RUN pip install poetry \
     && cd /tmp \
