@@ -27,10 +27,18 @@ RUN wget --quiet --output-document=sdk-tools.zip \
 ENV PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
 
 # Accept SDK licenses and install android platform binaries and build tools.
-ENV ANDROID_PLATFORM_VERSION="android-32"
-ENV ANDROID_BUILD_TOOLS_VERSION="31.0.0"
+ARG ANDROID_PLATFORM_VERSION="android-32"
+ARG ANDROID_BUILD_TOOLS_VERSION="31.0.0"
 RUN mkdir --parents "$ANDROID_HOME/.android" \
     && yes | sdkmanager --licenses > /dev/null \
     && sdkmanager "platforms;${ANDROID_PLATFORM_VERSION}" \
     && sdkmanager platform-tools \
     && sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}"
+
+# Install and create an virtual android smartphone.
+ENV PATH="$ANDROID_HOME/emulator:$PATH"
+RUN emulator-check \
+    && sdkmanager "system-images;${ANDROID_BUILD_TOOLS_VERSION};google_apis;x86_64" \
+    && echo "no" | avdmanager create avd --force --name ciAVD \
+        --abi google_apis/x86_64 \
+        --package "system-images;${ANDROID_BUILD_TOOLS_VERSION};google_apis;x86_64"
