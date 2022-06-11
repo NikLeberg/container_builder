@@ -35,9 +35,10 @@ RUN mkdir --parents "$ANDROID_HOME/.android" \
     && sdkmanager platform-tools \
     && sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}"
 
-# Install and create an virtual android smartphone.
+# Install and create an emulated virtual android smartphone.
 ENV PATH="$ANDROID_HOME/emulator:$PATH"
-RUN emulator-check \
+RUN sdkmanager emulator \
+    && emulator-check \
     && sdkmanager "system-images;${ANDROID_BUILD_TOOLS_VERSION};google_apis;x86_64" \
     && echo "no" | avdmanager create avd --force --name ciAVD \
         --abi google_apis/x86_64 \
