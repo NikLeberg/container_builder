@@ -60,7 +60,9 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
 ARG STP_CLONE_URL=https://github.com/stp/stp.git
 ARG STP_CLONE_TAG=2.3.3
 ARG KLEE_CLONE_URL=https://github.com/klee/klee.git
-ARG KLEE_CLONE_TAG=v2.3
+ARG KLEE_CLONE_TAG=master
+ARG KLEE_CLONE_SHA=6268027
+ARG KLEE_PATCH_URL=https://github.com/klee/klee/pull/1477.patch
 
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         zlib1g-dev \
@@ -69,6 +71,7 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         flex \
         libsqlite3-dev \
         llvm-dev \
+        wget \
     && cd /tmp \
     && git clone $STP_CLONE_URL -b $STP_CLONE_TAG --depth 1 \
     && cmake -S stp -B stp/build \
@@ -81,8 +84,12 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
     && apt-get autoremove -q -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && git clone $KLEE_CLONE_URL -b $KLEE_CLONE_TAG --depth 1 \
-    && cmake -S klee -B klee/build \
+    && git clone $KLEE_CLONE_URL -b $KLEE_CLONE_TAG \
+    && cd klee \
+    && git checkout $KLEE_CLONE_SHA \
+    && wget $KLEE_PATCH_URL -O llvm-14.patch \
+    && git apply llvm-14.patch \
+    && cd .. \
         -DCMAKE_BUILD_TYPE=Release \
         -DENABLE_SOLVER_STP=ON \
         -DKLEE_RUNTIME_BUILD_TYPE=Release \
