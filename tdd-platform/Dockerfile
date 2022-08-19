@@ -20,6 +20,13 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Update ca-certificates to fix failing git server certificate verification.
+RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
+        apt-transport-https ca-certificates \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && update-ca-certificates
+
 # Install packages for libFuzzer fuzzing with protocol buffers support
 ARG PROTOBUF_MUTATOR_CLONE_URL=https://github.com/google/libprotobuf-mutator.git
 ARG PROTOBUF_MUTATOR_CLONE_TAG=v1.0
@@ -29,10 +36,8 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         libprotobuf-dev \
         liblzma-dev \
         libz-dev \
-        apt-transport-https ca-certificates \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && update-ca-certificates \
     && cd /tmp \
     && git clone $PROTOBUF_MUTATOR_CLONE_URL -b $PROTOBUF_MUTATOR_CLONE_TAG --depth 1 \
     && cd ./libprotobuf-mutator && mkdir ./build && cd ./build \
@@ -64,8 +69,6 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         flex \
         libsqlite3-dev \
         llvm-dev \
-        file \
-        apt-transport-https ca-certificates \
     && cd /tmp \
     && git clone $STP_CLONE_URL -b $STP_CLONE_TAG --depth 1 \
     && cmake -S stp -B stp/build \
