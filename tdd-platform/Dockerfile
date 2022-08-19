@@ -41,7 +41,7 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
     && cd /tmp \
     && git clone $PROTOBUF_MUTATOR_CLONE_URL -b $PROTOBUF_MUTATOR_CLONE_TAG --depth 1 \
     && cd ./libprotobuf-mutator && mkdir ./build && cd ./build \
-    && CC=clang CXX=clang++ cmake .. -DCMAKE_BUILD_TYPE=Release -DLIB_PROTO_MUTATOR_TESTING=OFF \
+    && cmake .. -DCMAKE_BUILD_TYPE=Release -DLIB_PROTO_MUTATOR_TESTING=OFF \
     && make install \
     && rm -rf /tmp/libprotobuf-mutator
 
@@ -74,7 +74,7 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         wget \
     && cd /tmp \
     && git clone $STP_CLONE_URL -b $STP_CLONE_TAG --depth 1 \
-    && cmake -S stp -B stp/build \
+    && CXXFLAGS="-w" cmake -S stp -B stp/build \
         -DCMAKE_BUILD_TYPE=Release \
         -DBUILD_SHARED_LIBS=OFF \
         -DSTATICCOMPILE=ON \
@@ -90,6 +90,7 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
     && wget $KLEE_PATCH_URL -O llvm-14.patch \
     && git apply llvm-14.patch \
     && cd .. \
+    && CXXFLAGS="-w" cmake -S klee -B klee/build \
         -DCMAKE_BUILD_TYPE=Release \
         -DENABLE_SOLVER_STP=ON \
         -DKLEE_RUNTIME_BUILD_TYPE=Release \
