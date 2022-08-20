@@ -1,7 +1,7 @@
 # Based on the excellent mingchen/docker-android-build-box:
 # https://github.com/mingchen/docker-android-build-box/blob/master/Dockerfile
 
-FROM ubuntu:impish
+FROM ubuntu:jammy
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=C.UTF-8

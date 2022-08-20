@@ -1,11 +1,11 @@
-FROM ubuntu:impish
+FROM ubuntu:jammy
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=C.UTF-8
 
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         git \
-        libc6-dev \
+        libc-dev \
         gcc \
         llvm \
         clang \
@@ -20,6 +20,13 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Update ca-certificates to fix failing git server certificate verification.
+RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
+        apt-transport-https ca-certificates \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && update-ca-certificates
+
 # Install packages for libFuzzer fuzzing with protocol buffers support
 ARG PROTOBUF_MUTATOR_CLONE_URL=https://github.com/google/libprotobuf-mutator.git
 ARG PROTOBUF_MUTATOR_CLONE_TAG=v1.0
@@ -29,33 +36,33 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         libprotobuf-dev \
         liblzma-dev \
         libz-dev \
-        apt-transport-https ca-certificates \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && update-ca-certificates \
     && cd /tmp \
     && git clone $PROTOBUF_MUTATOR_CLONE_URL -b $PROTOBUF_MUTATOR_CLONE_TAG --depth 1 \
     && cd ./libprotobuf-mutator && mkdir ./build && cd ./build \
-    && CC=clang CXX=clang++ cmake .. -DCMAKE_BUILD_TYPE=Release -DLIB_PROTO_MUTATOR_TESTING=OFF \
+    && cmake .. -DCMAKE_BUILD_TYPE=Release -DLIB_PROTO_MUTATOR_TESTING=OFF \
     && make install \
     && rm -rf /tmp/libprotobuf-mutator
 
 # Install packages for Python support
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
-        python3=3.9* \
-        python3-pip=20.3* \
+        python3=3.10* \
+        python3-pip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && update-alternatives --install \
-        /usr/bin/python python /usr/bin/python3.9 1 \
+        /usr/bin/python python /usr/bin/python3.10 1 \
     && update-alternatives --set \
-        python /usr/bin/python3.9
+        python /usr/bin/python3.10
 
 # Install packages for KLEE symbolic execution support.
 ARG STP_CLONE_URL=https://github.com/stp/stp.git
 ARG STP_CLONE_TAG=2.3.3
 ARG KLEE_CLONE_URL=https://github.com/klee/klee.git
-ARG KLEE_CLONE_TAG=v2.3
+ARG KLEE_CLONE_TAG=master
+ARG KLEE_CLONE_SHA=6268027
+ARG KLEE_PATCH_URL=https://github.com/klee/klee/pull/1477.patch
 
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         zlib1g-dev \
@@ -63,12 +70,11 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         bison \
         flex \
         libsqlite3-dev \
-        llvm-13-dev \
-        file \
-        apt-transport-https ca-certificates \
+        llvm-dev \
+        wget \
     && cd /tmp \
     && git clone $STP_CLONE_URL -b $STP_CLONE_TAG --depth 1 \
-    && cmake -S stp -B stp/build \
+    && CXXFLAGS="-w" cmake -S stp -B stp/build \
         -DCMAKE_BUILD_TYPE=Release \
         -DBUILD_SHARED_LIBS=OFF \
         -DSTATICCOMPILE=ON \
@@ -78,8 +84,13 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
     && apt-get autoremove -q -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && git clone $KLEE_CLONE_URL -b $KLEE_CLONE_TAG --depth 1 \
-    && cmake -S klee -B klee/build \
+    && git clone $KLEE_CLONE_URL -b $KLEE_CLONE_TAG \
+    && cd klee \
+    && git checkout $KLEE_CLONE_SHA \
+    && wget $KLEE_PATCH_URL -O llvm-14.patch \
+    && git apply llvm-14.patch \
+    && cd .. \
+    && CXXFLAGS="-w" cmake -S klee -B klee/build \
         -DCMAKE_BUILD_TYPE=Release \
         -DENABLE_SOLVER_STP=ON \
         -DKLEE_RUNTIME_BUILD_TYPE=Release \
@@ -108,7 +119,7 @@ RUN pip install poetry \
 
 # Install shared packages for ESP8266 & ESP32 support
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
-        libusb-1.0-0-dev=2:1.0* \
+        libusb-1.0-0-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -140,12 +151,13 @@ RUN mkdir -p ~/.espressif \
     && rm -rf ~/.espressif/dist
 
 # Install packages for CARME-M4 support (see: https://askubuntu.com/a/1243405)
+# https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/downloads
 ARG ARM_TOOLCHAIN_VERSION=10.3-2021.10
 
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
-        wget=1.21* \
-        bzip2=1.0.8* \
-        stlink-tools=1.6.1* \
+        wget \
+        bzip2 \
+        stlink-tools \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && wget -nv -O gcc-arm-none-eabi.tar.bz2 https://developer.arm.com/-/media/Files/downloads/gnu-rm/${ARM_TOOLCHAIN_VERSION}/gcc-arm-none-eabi-${ARM_TOOLCHAIN_VERSION}-x86_64-linux.tar.bz2 \
