@@ -4,7 +4,7 @@ FROM ghcr.io/nikleberg/tdd-platform:latest
 
 RUN git clone https://github.com/NikLeberg/tdd-platform.git --recurse-submodules \
     && cd tdd-platform \
-    && git reset --hard 135907c
+    && git reset --hard 45a37f8
 
 SHELL ["/bin/bash", "-c"]
 WORKDIR /tdd-platform
