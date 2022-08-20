@@ -72,6 +72,7 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         libsqlite3-dev \
         llvm-dev \
         wget \
+        file \
     && cd /tmp \
     && git clone $STP_CLONE_URL -b $STP_CLONE_TAG --depth 1 \
     && CXXFLAGS="-w" cmake -S stp -B stp/build \
