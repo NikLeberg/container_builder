@@ -5,7 +5,7 @@ ENV LC_ALL=C.UTF-8
 
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         git \
-        libc6-dev \
+        libc-dev \
         gcc \
         llvm \
         clang \
@@ -42,14 +42,14 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
 
 # Install packages for Python support
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
-        python3=3.9* \
-        python3-pip=20.3* \
+        python3=3.10* \
+        python3-pip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && update-alternatives --install \
-        /usr/bin/python python /usr/bin/python3.9 1 \
+        /usr/bin/python python /usr/bin/python3.10 1 \
     && update-alternatives --set \
-        python /usr/bin/python3.9
+        python /usr/bin/python3.10
 
 # Install packages for KLEE symbolic execution support.
 ARG STP_CLONE_URL=https://github.com/stp/stp.git
@@ -63,7 +63,7 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         bison \
         flex \
         libsqlite3-dev \
-        llvm-13-dev \
+        llvm-dev \
         file \
         apt-transport-https ca-certificates \
     && cd /tmp \
@@ -108,7 +108,7 @@ RUN pip install poetry \
 
 # Install shared packages for ESP8266 & ESP32 support
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
-        libusb-1.0-0-dev=2:1.0* \
+        libusb-1.0-0-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -140,12 +140,13 @@ RUN mkdir -p ~/.espressif \
     && rm -rf ~/.espressif/dist
 
 # Install packages for CARME-M4 support (see: https://askubuntu.com/a/1243405)
+# https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/downloads
 ARG ARM_TOOLCHAIN_VERSION=10.3-2021.10
 
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
-        wget=1.21* \
-        bzip2=1.0.8* \
-        stlink-tools=1.6.1* \
+        wget \
+        bzip2 \
+        stlink-tools \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && wget -nv -O gcc-arm-none-eabi.tar.bz2 https://developer.arm.com/-/media/Files/downloads/gnu-rm/${ARM_TOOLCHAIN_VERSION}/gcc-arm-none-eabi-${ARM_TOOLCHAIN_VERSION}-x86_64-linux.tar.bz2 \
