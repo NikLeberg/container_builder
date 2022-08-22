@@ -56,7 +56,7 @@ jobs:
           ignore-unfixed: true
           format: sarif
           output: trivy-results.sarif
-          timeout: 10m0s
+          timeout: 20m0s
 
       - name: Scan Container with Dockle
         if: steps.pre_build.outputs.dockle_skip != 'skip'
@@ -65,7 +65,7 @@ jobs:
           image: ${{env.image_tag}}
           failure-threshold: FATAL
           exit-code: 1
-          timeout: 10m
+          timeout: 20m
           dockle-version: "0.4.5"
 
       - name: Upload Scan Results
