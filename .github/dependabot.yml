@@ -32,4 +32,8 @@ updates:
     directory: "/android-ci"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/zephyr-dev"
+    schedule:
+      interval: "weekly"
   
