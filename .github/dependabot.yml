@@ -36,4 +36,8 @@ updates:
     directory: "/zephyr-dev"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/zephyr-fuzz"
+    schedule:
+      interval: "weekly"
   
