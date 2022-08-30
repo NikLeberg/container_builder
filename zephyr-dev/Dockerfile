@@ -42,7 +42,7 @@ RUN pip3 install west \
 ENV ZEPHYR_BASE=/opt/zephyrproject/zephyr
 
 # Install Zephyr SDK
-ARG SDK_VERSION=0.14.2
+ARG SDK_VERSION=0.15.0
 RUN cd /opt \
     && wget -nv https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${SDK_VERSION}/zephyr-sdk-${SDK_VERSION}_linux-x86_64.tar.gz \
     && wget -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${SDK_VERSION}/sha256.sum | shasum --check --ignore-missing \
