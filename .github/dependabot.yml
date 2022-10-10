@@ -40,4 +40,7 @@ updates:
     directory: "/zephyr-fuzz"
     schedule:
       interval: "weekly"
+    directory: "/quartus-prime"
+    schedule:
+      interval: "weekly"
   
