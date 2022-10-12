@@ -1,0 +1,27 @@
+﻿# Intel Corporation Software and/or Intellectual Property License File
+# Issued 10 October 2022
+# Upgrade to these products will no longer be available after the Maintenance Expiration  
+# date unless licenses are renewed.  
+# Fixed Node License
+# Primary Machine Name-docker-image3
+# Primary Machine ID-NIC ID 00ababababab
+# Companion ID-N/A
+# Companion ID 2-N/A
+# Product License Summary:
+# Questasim*-Intel® FPGA Starter Edition, 1 Seat(s)
+# - Maintenance Expiration of 2023.10
+# - License Expires 10-Oct-2023
+################################################################################ 
+# FEATURE START 
+# This is license file for Questasim*-Intel® FPGA Starter Edition 
+# Number of seat licenses is 1 
+# License Expires 10-Oct-2023 
+INCREMENT intelqsimstarter mgcld 2023.10 10-oct-2023 uncounted \
+  \
+    2F35127AB87AFC9A80AA VENDOR_STRING=993BF9DB HOSTID=00ababababab \
+    ISSUER=Intel SN=282509278 SIGN2="0196 3079 C2BB 2B9A 8CC1 8244 F216 \
+    E07B 9C82 5C3B 9D74 D1A4 3B5A 636B 4D88 03C3 EB8E 0F17 A24B B532 7408 \
+    96DB 7E04 6E86 F537 1DFD C17D A71A 6861 FC83"
+# FEATURE END 
+################################################################################
+# End of Intel Corporation Software and/or Intellectual Property License File. Issued 10/10/2022
