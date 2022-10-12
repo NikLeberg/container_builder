@@ -36,7 +36,7 @@ RUN mkdir quartus-lite-linux \
     && rm -r $QUARTUS_ROOTDIR/uninstall \
     && rm -r $QUARTUS_ROOTDIR/logs \
     && rm -r $QUARTUS_ROOTDIR/nios2eds \
-    && rm -r $QUARTUS_ROOTDIR/ip \
+    && rm -r $QUARTUS_ROOTDIR/ip
 ENV PATH="$QUARTUS_ROOTDIR/quartus/bin:$QUARTUS_ROOTDIR/questa_fse/bin:${PATH}"
 
 # Install license aquired from https://licensing.intel.com/ that was fixed to a
