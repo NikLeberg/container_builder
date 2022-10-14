@@ -8,8 +8,10 @@ dockerhub:
 GitHub registry:
 - `docker pull ghcr.io/nikleberg/<image_name>`
 
+For specific usage of each image please have a look at the corresponding `README.md` file in the image subfolder.
+
 ## Adding images
-To build the different images, [matrix builds](https://docs.github.com/en/actions/using-jobs/using-a-build-matrix-for-your-jobs) in [CI.yml](.github/workflows/CI.yml) are defined. Additional images can be added by extending the toplevel `env` variable with the image name. In a subfolder of the same name place the coresponding Dockerfile. Optionally one can add `pre_build.sh` and `post_build.sh` scripts that will be run before and after the image is build. This allows for example to download support files, disabling Trivy/Dockle scanner steps or running tests against the image. 
+To build the different images, [matrix builds](https://docs.github.com/en/actions/using-jobs/using-a-build-matrix-for-your-jobs) in [CI.yml](.github/workflows/CI.yml) are defined. Additional images can be added by extending the toplevel `env` variable with the image name. In a subfolder of the same name place the coresponding Dockerfile. Optionally one can add `pre_build.sh` and `post_build.sh` scripts that will be run before and after the image is build. This allows for example to download support files, disabling Trivy/Dockle scanner steps or running tests against the image.
 
 ## License
 [MIT](LICENSE) © [NikLeberg](https://github.com/NikLeberg).
