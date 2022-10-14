@@ -11,10 +11,9 @@ RUN apt-get -q -y update \
     && apt-get -q -y install \
         git wget \
         libc6 libncurses6 libxtst6 libxft2 libstdc++6 libc6-dev lib32z1 \
-        libncurses5 libbz2-1.0 libpng16-16 \
+        libncurses5 libbz2-1.0 libpng16-16 libqt5xml5 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-# libqt5xml5 liblzma-dev libcanberra-gtk-module
 
 # Install Quartus Prime from:
 # https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html
