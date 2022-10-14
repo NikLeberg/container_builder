@@ -29,7 +29,7 @@ RUN mkdir quartus-lite-linux \
     && ./setup.sh \
         --mode unattended --accept_eula 1 \
         --installdir $QUARTUS_ROOTDIR \
-        --disable-components quartus_help,arria_lite,cyclone10lp,max,max10,quartus_update,questa_fe,modelsim_ase,modelsim_ae \
+        --disable-components quartus_help,quartus_update,questa_fe,modelsim_ase,modelsim_ae \
     && cd .. \
     && rm -r quartus-lite-linux \
     && rm -r $QUARTUS_ROOTDIR/uninstall \
