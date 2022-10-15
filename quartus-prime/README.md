@@ -26,17 +26,23 @@ And inside the running container you could for example run tcl scripts for synth
 quartus_sh -t <script>.tcl  # Quartus Shell
 vsim -c -do <script>.tcl    # QuestaSim Shell
 ```
+To use the Quartus or QuestaSim with a GUI, forward your X11 `DISPLAY` environment variable to the container like so:
+```shell
+docker run -e DISPLAY ghcr.io/nikleberg/quartus-prime
+```
+If you are running in _WSL2_ see this [blog post](https://aalonso.dev/blog/how-to-use-gui-apps-in-wsl2-forwarding-x-server-cdj) on how to setup `VcXsrc` as X11 Server on the Windows Host.
 
-But since v21.1 of Quartus, ModelSim was replaced by QuestaSim. It requires a valid license that can be obtained from [intel](https://licensing.intel.com/). For ease of use a valid license is already included. But it is bound to a specific NIC id e.g. MAC address `00:ab:ab:ab:ab:ab`. Depending on where you want to use the container you have to set the MAC address differently:
+### Questasim License
+Since v21.1 of Quartus, ModelSim was replaced by QuestaSim. It requires a valid license that can be obtained from [intel](https://licensing.intel.com/). For ease of use a valid license is already included. But it is bound to a specific NIC id e.g. MAC address `00:ab:ab:ab:ab:ab`. Depending on where you want to use the container you have to set the MAC address differently:
 
-### Local
-To use the container locally just add a parameter to the docker run command:
+#### Local
+To use the container locally just add the `mac-address` option to the docker run command:
 ```shell
 docker run --mac-address=00:ab:ab:ab:ab:ab ghcr.io/nikleberg/quartus-prime
 ```
 
-### GitHub Action
-For using this container as image in the CI environment of GitHub Actions add the docker MAC address option to `jobs.<job_id>.container.options` in the yaml:
+#### GitHub Action
+For using this container as image in the CI environment of GitHub Actions add the `mac-address` option to `jobs.<job_id>.container.options` in the yaml:
 ```yaml
 jobs:
   example:
@@ -49,7 +55,7 @@ jobs:
 ```
 See the full example [github-ci-example.yml](github-ci-example.yml).
 
-### GitLab CI
+#### GitLab CI
 The GitLab CI yaml syntax i.e. its docker runner has [currently](https://gitlab.com/gitlab-org/gitlab-runner/-/issues/2344) no capability to set additional docker run options. But if the runner has the `CAP_NET` capability then one can change the MAC address within the container itself. For example with `ifconfig`:
 ```yaml
 example:
