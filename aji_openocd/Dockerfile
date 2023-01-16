@@ -18,7 +18,7 @@ RUN apt-get -q -y update \
 # The library has -Werror enabled and has warnings that we cant fix, the below
 # sed commands fix the hard errors to just warnings.
 ARG LIBAJI_CLONE_URL=https://github.com/intel/libaji_client.git
-ARG LIBAJI_CLONE_TAG=main
+ARG LIBAJI_CLONE_TAG=R22.4
 RUN git clone $LIBAJI_CLONE_URL -b $LIBAJI_CLONE_TAG --depth 1 \
     && cd libaji_client \
     && ./bootstrap \
@@ -33,7 +33,7 @@ RUN git clone $LIBAJI_CLONE_URL -b $LIBAJI_CLONE_TAG --depth 1 \
 # The aji fork uses C++ and as such the OpenOCD link step needs to happen with
 # g++ instead of gcc.
 ARG AJI_OPENOCD_CLONE_URL=https://github.com/intel/aji_openocd.git
-ARG AJI_OPENOCD_CLONE_TAG=main
+ARG AJI_OPENOCD_CLONE_TAG=R22.4
 RUN git clone $AJI_OPENOCD_CLONE_URL -b $AJI_OPENOCD_CLONE_TAG --depth 1 \
     && cd aji_openocd \
     && ./bootstrap \
