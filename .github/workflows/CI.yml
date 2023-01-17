@@ -20,7 +20,7 @@ env:
     zephyr-dev
     zephyr-fuzz
     quartus-prime
-    aji_openocd
+    quartus-prime-aji
 
 jobs:
 

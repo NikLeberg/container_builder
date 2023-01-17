@@ -43,7 +43,7 @@ updates:
     directory: "/quartus-prime"
     schedule:
       interval: "weekly"
-    directory: "/aji_openocd"
+    directory: "/quartus-prime-aji"
     schedule:
       interval: "weekly"
   
