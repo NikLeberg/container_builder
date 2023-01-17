@@ -47,6 +47,5 @@ RUN git clone $AJI_OPENOCD_CLONE_URL -b $AJI_OPENOCD_CLONE_TAG --depth 1 \
 
 # Import built openocd into quartus prime container.
 FROM ghcr.io/nikleberg/quartus-prime:latest
-RUN mkdir /opt/aji_openocd
-COPY --from=openocd_builder /aji_openocd/src/openocd ./opt/aji_openocd/
-COPY --from=openocd_builder /aji_openocd/tcl ./opt/aji_openocd/tcl
+COPY --from=openocd_builder /aji_openocd/src/openocd /opt/aji_openocd/
+COPY --from=openocd_builder /aji_openocd/tcl /opt/aji_openocd/tcl
