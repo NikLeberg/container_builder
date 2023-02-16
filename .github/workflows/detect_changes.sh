@@ -61,5 +61,5 @@ echo "Containers from DockerHub that need to be updated: $changed_dockerhub"
 echo "Containers from GitHub registry that need to be updated: $changed_github"
 
 # Set step output for GitHub Action.
-echo "::set-output name=dockerhub-changed::$changed_dockerhub"
-echo "::set-output name=github-changed::$changed_github"
+echo "dockerhub-changed=$changed_dockerhub" >> $GITHUB_OUTPUT
+echo "github-changed=$changed_github" >> $GITHUB_OUTPUT
