@@ -4,5 +4,5 @@
 docker system prune -a -f --volumes
 
 # Skip Trivy and Dockle scan steps, image needs too much disk space.
-echo "::set-output name=trivy_skip::skip"
-echo "::set-output name=dockle_skip::skip"
+echo "trivy_skip=skip" >> $GITHUB_OUTPUT
+echo "dockle_skip=skip" >> $GITHUB_OUTPUT
