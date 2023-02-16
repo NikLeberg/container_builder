@@ -11,8 +11,8 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
     
 # Install GraphFuzz for structure aware fuzzing
-ARG GFUZZ_CLONE_URL=https://github.com/NikLeberg/GraphFuzz.git
-ARG GFUZZ_CLONE_TAG=output_to_cerr
+ARG GFUZZ_CLONE_URL=https://github.com/hgarrereyn/GraphFuzz.git
+ARG GFUZZ_CLONE_TAG=master
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
         protobuf-compiler \
         libprotobuf-dev \
