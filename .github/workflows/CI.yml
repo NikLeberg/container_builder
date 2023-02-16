@@ -8,9 +8,19 @@ on:
   workflow_dispatch:
 
 env:
-  # Names of container images for their respective registries. (Space separated)
-  dockerhub: "esp-idf-qemu android-ci"
-  github: "speki-ci tanks-ci vhdl_rpn-ci tdd-platform zephyr-dev zephyr-fuzz quartus-prime"
+  # Names of container images for their respective registries.
+  dockerhub:
+    esp-idf-qemu
+    android-ci
+  github: 
+    speki-ci
+    tanks-ci
+    vhdl_rpn-ci
+    tdd-platform
+    zephyr-dev
+    zephyr-fuzz
+    quartus-prime
+    quartus-prime-aji
 
 jobs:
 

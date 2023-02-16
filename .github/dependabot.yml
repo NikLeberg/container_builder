@@ -43,4 +43,7 @@ updates:
     directory: "/quartus-prime"
     schedule:
       interval: "weekly"
+    directory: "/quartus-prime-aji"
+    schedule:
+      interval: "weekly"
   
