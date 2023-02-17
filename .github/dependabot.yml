@@ -46,4 +46,7 @@ updates:
     directory: "/quartus-prime-aji"
     schedule:
       interval: "weekly"
+    directory: "/neorv32_soc"
+    schedule:
+      interval: "weekly"
   

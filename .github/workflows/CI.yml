@@ -21,6 +21,7 @@ env:
     zephyr-fuzz
     quartus-prime
     quartus-prime-aji
+    neorv32_soc
 
 jobs:
 
