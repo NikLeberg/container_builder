@@ -16,6 +16,8 @@ To reduce the size some per default installed parts were removed:
 * Intel / Altera IP blocks
 * Nios II EDS
 
+But even with these removed, the image is still very big (> 6 GB). The large _Quartus install_ image layer is split up into multiple smaller layers to help speed up image pull / download and make it more robust.
+
 ## Usage
 Generally the container can just be used with:
 ```shell
@@ -30,7 +32,7 @@ To use the Quartus or QuestaSim with a GUI, forward your X11 `DISPLAY` environme
 ```shell
 docker run -e DISPLAY ghcr.io/nikleberg/quartus-prime
 ```
-If you are running in _WSL2_ see this [blog post](https://aalonso.dev/blog/how-to-use-gui-apps-in-wsl2-forwarding-x-server-cdj) on how to setup `VcXsrc` as X11 Server on the Windows Host.
+If you are running in _WSL2_ see this [blog post](https://aalonso.dev/blog/how-to-use-gui-apps-in-wsl2-forwarding-x-server-cdj) on how to setup `VcXsrc` as X11 Server on the Windows Host. This allows you to access the X11 server from WSL. To further forward this to the docker container you can use the following argument when starting the container: `-e DISPLAY=host.docker.internal:0.0`. This special host name only works when the docker host is the _Docker Desktop for Windows_ application.
 
 ### Questasim License
 Since v21.1 of Quartus, ModelSim was replaced by QuestaSim. It requires a valid license that can be obtained from [intel](https://licensing.intel.com/). For ease of use a valid license is already included. But it is bound to a specific NIC id e.g. MAC address `00:ab:ab:ab:ab:ab`. Depending on where you want to use the container you have to set the MAC address differently:
