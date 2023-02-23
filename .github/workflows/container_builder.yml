@@ -34,6 +34,21 @@ jobs:
       image_tag: ${{inputs.registry}}/${{inputs.username}}/${{matrix.image}}:latest
     steps:
 
+      - name: Maximize Build Space
+        working-directory: .
+        run: |
+          echo "Available storage (pre cleanup):"
+          df -h
+          echo
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/.ghcup
+          sudo rm -rf /usr/share/swift
+          echo "Available storage (after cleanup):"
+          df -h
+
       - name: Checkout Repository
         uses: actions/checkout@v3
 

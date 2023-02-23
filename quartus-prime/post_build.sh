@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Fail on nonzero return
+set -e
+
+# Clean up files from pre_build.sh.
+rm *.tar
+
 # We need to set the container MAC address while building the tests.dockerfile.
 # For this we start a dummy alpine container with the needed MAC address and
 # then build the test container with the network of that dummy container
