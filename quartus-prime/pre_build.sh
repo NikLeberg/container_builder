@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Fail on nonzero return
+set -e
+
 # https://stackoverflow.com/questions/51903877/docker-load-no-space-left-on-device-rhel
 docker system prune -a -f --volumes
 
