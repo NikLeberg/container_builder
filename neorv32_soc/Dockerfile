@@ -1,4 +1,6 @@
-FROM ghcr.io/nikleberg/quartus-prime-aji:latest
+# Use staging tag to depend on just build image from previous CI stage. For
+# releases this is equivalent to latest tag.
+FROM ghcr.io/nikleberg/quartus-prime-aji:staging
 
 # Install neccessary tools and dependencies.
 RUN apt-get -q -y update \

@@ -1,4 +1,4 @@
-FROM ghcr.io/nikleberg/zephyr-dev:latest
+FROM ghcr.io/nikleberg/zephyr-dev:staging
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=C.UTF-8
