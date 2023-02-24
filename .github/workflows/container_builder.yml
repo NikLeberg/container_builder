@@ -21,7 +21,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -31,7 +31,7 @@ jobs:
         shell: bash
         working-directory: ./${{matrix.image}}
     env:
-      image_tag: ${{inputs.registry}}/${{inputs.username}}/${{matrix.image}}:latest
+      base_tag: ${{inputs.registry}}/${{inputs.username}}/${{matrix.image}}
     steps:
 
       - name: Maximize Build Space
@@ -59,16 +59,16 @@ jobs:
           then
             ./pre_build.sh
           fi
-        
+
       - name: Build Container
-        run: docker build --pull -t ${{env.image_tag}} .
+        run: docker build --pull -t ${{env.base_tag}}:staging .
 
       - name: Scan Container with Trivy
         if: steps.pre_build.outputs.trivy_skip != 'skip'
         uses: aquasecurity/trivy-action@master
         with:
           security-checks: vuln
-          image-ref: ${{env.image_tag}}
+          image-ref: ${{env.base_tag}}:staging
           ignore-unfixed: true
           format: sarif
           output: trivy-results.sarif
@@ -76,30 +76,37 @@ jobs:
 
       - name: Scan Container with Dockle
         if: steps.pre_build.outputs.dockle_skip != 'skip'
-        uses: erzz/dockle-action@v1.3.1
+        uses: erzz/dockle-action@v1.3.2
         with:
-          image: ${{env.image_tag}}
+          image: ${{env.base_tag}}:staging
           failure-threshold: FATAL
           exit-code: 1
           timeout: 20m
-          dockle-version: "0.4.5"
 
       - name: Upload Scan Results
         if: steps.pre_build.outputs.trivy_skip != 'skip'
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: .
-        
+
       - name: Run post_build Script
         run: |
           if [ -e ./post_build.sh ]
           then
             ./post_build.sh
           fi
-        
-      - name: Push Container
-        if: inputs.push
+
+      - name: Login to Registry
         run: |
           echo ${{secrets.password}} | docker login ${{inputs.registry}} -u ${{inputs.username}} --password-stdin
-          docker push ${{env.image_tag}}
-          docker logout ${{inputs.registry}}
+
+      - name: Push Container as Staging
+        run: docker push ${{env.base_tag}}:staging
+
+      - name: Push Container as Latest
+        if: inputs.push
+        run: docker push ${{env.base_tag}}:latest
+
+      - name: Logout from Registry
+        if: always()
+        run: docker logout ${{inputs.registry}}

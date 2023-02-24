@@ -8,34 +8,35 @@ on:
   workflow_dispatch:
 
 env:
-  # Names of container images for their respective registries.
-  dockerhub:
+  # Names of container images to build that have no repository internal
+  # dependencies.
+  stage_1:
     esp-idf-qemu
     android-ci
-  github: 
     speki-ci
     tanks-ci
     vhdl_rpn-ci
     tdd-platform
     zephyr-dev
-    zephyr-fuzz
     quartus-prime
+  # Names of images that depend on others in stage 1.
+  stage_2:
+    zephyr-fuzz
     quartus-prime-aji
+  # Names of images that depend on others in stage 2.
+  stage_3:
     neorv32_soc
 
 jobs:
 
   detect_changes:
     name: Detect Changes
-    runs-on: ubuntu-20.04
-    defaults:
-      run:
-        shell: bash
+    runs-on: ubuntu-22.04
     outputs:
-      dockerhub-changed: ${{steps.changed-containers.outputs.dockerhub-changed}}
-      github-changed: ${{steps.changed-containers.outputs.github-changed}}
+      stage_1: ${{steps.changed-containers.outputs.stage_1}}
+      stage_2: ${{steps.changed-containers.outputs.stage_2}}
+      stage_3: ${{steps.changed-containers.outputs.stage_3}}
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
@@ -43,30 +44,44 @@ jobs:
 
       - name: Detect changed Containers
         id: changed-containers
-        run: .github/workflows/detect_changes.sh "${{env.dockerhub}}" "${{env.github}}"
+        run: .github/workflows/detect_changes.sh "${{env.stage_1}}" "${{env.stage_2}}" "${{env.stage_3}}"
+        shell: bash
 
-  dockerhub:
-    name: DockerHub
+  stage_1:
+    name: Build Stage 1 Images
     needs: detect_changes
-    if: needs.detect_changes.outputs.dockerhub-changed != ''
-    uses: ./.github/workflows/container_builder.yml
-    with:
-      registry: docker.io
-      username: nikolodion
-      images: ${{needs.detect_changes.outputs.dockerhub-changed}}
-      push: ${{github.ref_name == 'main'}}
-    secrets:
-      password: ${{secrets.DOCKERHUB_PASSWORD}}
-
-  github:
-    name: GitHub registry
-    needs: detect_changes
-    if: needs.detect_changes.outputs.github-changed != ''
+    if: needs.detect_changes.outputs.stage_1 != ''
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: ghcr.io
       username: nikleberg
-      images: ${{needs.detect_changes.outputs.github-changed}}
+      images: ${{needs.detect_changes.outputs.stage_1}}
+      push: ${{github.ref_name == 'main'}}
+    secrets:
+      password: ${{secrets.GITHUB_TOKEN}}
+
+  stage_2:
+    name: Build Stage 2 Images
+    needs: [detect_changes, stage_1]
+    if: needs.detect_changes.outputs.stage_2 != ''
+    uses: ./.github/workflows/container_builder.yml
+    with:
+      registry: ghcr.io
+      username: nikleberg
+      images: ${{needs.detect_changes.outputs.stage_2}}
+      push: ${{github.ref_name == 'main'}}
+    secrets:
+      password: ${{secrets.GITHUB_TOKEN}}
+
+  stage_3:
+    name: Build Stage 3 Images
+    needs: [detect_changes, stage_2]
+    if: needs.detect_changes.outputs.stage_3 != ''
+    uses: ./.github/workflows/container_builder.yml
+    with:
+      registry: ghcr.io
+      username: nikleberg
+      images: ${{needs.detect_changes.outputs.stage_3}}
       push: ${{github.ref_name == 'main'}}
     secrets:
       password: ${{secrets.GITHUB_TOKEN}}
@@ -76,11 +91,8 @@ jobs:
     # and expecially all its 'needs' succeeded.
     # See: https://github.com/actions/runner/issues/491
     name: Summarize
-    runs-on: ubuntu-20.04
-    defaults:
-      run:
-        shell: bash
-    needs: [dockerhub, github]
+    runs-on: ubuntu-22.04
+    needs: [stage_1, stage_2, stage_3]
     if: always()
     steps:
       - name: Successful builds?
@@ -93,3 +105,4 @@ jobs:
             echo "One or more matrix builds were cancelled!"
             false
           fi
+        shell: bash

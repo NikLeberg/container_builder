@@ -1,6 +1,6 @@
 # Pull in the (probably) just built image, clone the tdd-platform project repo
 # and try to build for each platform.
-FROM ghcr.io/nikleberg/tdd-platform:latest
+FROM ghcr.io/nikleberg/tdd-platform:staging
 
 RUN git clone https://github.com/NikLeberg/tdd-platform.git --recurse-submodules \
     && cd tdd-platform \
