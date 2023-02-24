@@ -12,9 +12,9 @@ RUN apt-get -q -y update \
 
 # Install Quartus Prime from:
 # https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html
-ARG QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/21.1std.1/850/ib_tar/Quartus-lite-21.1.1.850-linux.tar
-ARG QUARTUS_SHA=789c1133d99fde7146fdb99c1f5dcb4d2e5cc0cc
-ARG QUARTUS_VERSION=21.1
+ARG QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/22.1std/915/ib_tar/Quartus-lite-22.1std.0.915-linux.tar
+ARG QUARTUS_SHA=9eeb9ce158348e34614e69873af15de223e786d8
+ARG QUARTUS_VERSION=22.1
 ENV QUARTUS_ROOTDIR="/opt/intelFPGA_lite/$QUARTUS_VERSION"
 RUN mkdir quartus-lite-linux \
     && cd quartus-lite-linux \
@@ -24,7 +24,7 @@ RUN mkdir quartus-lite-linux \
     && ./setup.sh \
         --mode unattended --accept_eula 1 \
         --installdir $QUARTUS_ROOTDIR \
-        --disable-components quartus_help,quartus_update,questa_fe,modelsim_ase,modelsim_ae \
+        --disable-components quartus_help,quartus_update,questa_fe \
     && cd .. \
     && rm -r quartus-lite-linux \
     && rm -r $QUARTUS_ROOTDIR/uninstall \
