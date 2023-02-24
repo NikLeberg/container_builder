@@ -28,6 +28,24 @@ for container in */; do
     done
 done
 
+# Add dependents of changed images to the list of to build images. This crude
+# dependency resolution is looped three times as we only know three stages.
+echo "Resolving dependencies of containers..."
+for i in {1..3}; do
+    for container in */; do
+        container=${container::-1}
+        if [ -e ./$container/depends.on ]; then
+            depends=$(cat ./$container/depends.on)
+            if [[ " ${changed_containers[@]} " =~ " $depends " ]]; then
+                if [[ ! " ${changed_containers[@]} " =~ " $container " ]]; then
+                    echo "  Container '$depends' was changed and '$container' depends on it: Adding dependant to update list."
+                    changed_containers+=($container)
+                fi
+            fi
+        fi
+    done
+done
+
 # From the detected containers, compare them with the given lists of containers
 # of each stage. This then builds three JSON arrays that hold the containers of
 # each stage that needs to be updated.
@@ -38,18 +56,18 @@ changed_stage_1="["
 changed_stage_2="["
 changed_stage_3="["
 for container in ${changed_containers[@]}; do
-    for d_container in $stage_1; do
-        if [ "$d_container" == "$container" ]; then
+    for c in $stage_1; do
+        if [ "$c" == "$container" ]; then
             changed_stage_1+="\"$container\","
         fi
     done
-    for d_container in $stage_2; do
-        if [ "$d_container" == "$container" ]; then
+    for c in $stage_2; do
+        if [ "$c" == "$container" ]; then
             changed_stage_2+="\"$container\","
         fi
     done
-    for d_container in $stage_3; do
-        if [ "$d_container" == "$container" ]; then
+    for c in $stage_3; do
+        if [ "$c" == "$container" ]; then
             changed_stage_3+="\"$container\","
         fi
     done
