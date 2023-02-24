@@ -31,7 +31,7 @@ RUN apt-get -q -y update \
     && rm -rf /var/lib/apt/lists/*
 
 # Add Quartus and Questa to path
-ARG QUARTUS_VERSION=21.1
+ARG QUARTUS_VERSION=22.1
 ENV QUARTUS_ROOTDIR="/opt/intelFPGA_lite/$QUARTUS_VERSION"
 ENV PATH="$QUARTUS_ROOTDIR/quartus/bin:$QUARTUS_ROOTDIR/questa_fse/bin:${PATH}"
 
