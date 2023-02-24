@@ -29,37 +29,51 @@ for container in */; do
 done
 
 # From the detected containers, compare them with the given lists of containers
-# of each registry. This then builds two JSON arrays that hold the containers of
-# each registry that needs to be updated.
-dockerhub=$1
-github=$2
-changed_dockerhub="["
-changed_github="["
+# of each stage. This then builds three JSON arrays that hold the containers of
+# each stage that needs to be updated.
+stage_1=$1
+stage_2=$2
+stage_3=$3
+changed_stage_1="["
+changed_stage_2="["
+changed_stage_3="["
 for container in ${changed_containers[@]}; do
-    for d_container in $dockerhub; do
+    for d_container in $stage_1; do
         if [ "$d_container" == "$container" ]; then
-            changed_dockerhub+="\"$container\","
+            changed_stage_1+="\"$container\","
         fi
     done
-    for g_container in ${github[@]}; do
-        if [ "$g_container" == "$container" ]; then
-            changed_github+="\"$container\","
+    for d_container in $stage_2; do
+        if [ "$d_container" == "$container" ]; then
+            changed_stage_2+="\"$container\","
+        fi
+    done
+    for d_container in $stage_3; do
+        if [ "$d_container" == "$container" ]; then
+            changed_stage_3+="\"$container\","
         fi
     done
 done
-if [ "$changed_dockerhub" == "[" ]; then
-    changed_dockerhub=""
+if [ "$changed_stage_1" == "[" ]; then
+    changed_stage_1=""
 else
-    changed_dockerhub="${changed_dockerhub::-1}]"
+    changed_stage_1="${changed_stage_1::-1}]"
 fi
-if [ "$changed_github" == "[" ]; then
-    changed_github=""
+if [ "$changed_stage_2" == "[" ]; then
+    changed_stage_2=""
 else
-    changed_github="${changed_github::-1}]"
+    changed_stage_2="${changed_stage_2::-1}]"
 fi
-echo "Containers from DockerHub that need to be updated: $changed_dockerhub"
-echo "Containers from GitHub registry that need to be updated: $changed_github"
+if [ "$changed_stage_3" == "[" ]; then
+    changed_stage_3=""
+else
+    changed_stage_3="${changed_stage_3::-1}]"
+fi
+echo "Containers from stage 1 that need to be updated: $changed_stage_1"
+echo "Containers from stage 2 that need to be updated: $changed_stage_2"
+echo "Containers from stage 3 that need to be updated: $changed_stage_3"
 
 # Set step output for GitHub Action.
-echo "dockerhub-changed=$changed_dockerhub" >> $GITHUB_OUTPUT
-echo "github-changed=$changed_github" >> $GITHUB_OUTPUT
+echo "stage_1=$changed_stage_1" >> $GITHUB_OUTPUT
+echo "stage_2=$changed_stage_2" >> $GITHUB_OUTPUT
+echo "stage_3=$changed_stage_3" >> $GITHUB_OUTPUT
