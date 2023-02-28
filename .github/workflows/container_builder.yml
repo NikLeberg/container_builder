@@ -105,7 +105,9 @@ jobs:
 
       - name: Push Container as Latest
         if: inputs.push
-        run: docker push ${{env.base_tag}}:latest
+        run: |
+          docker tag ${{env.base_tag}}:staging ${{env.base_tag}}:latest
+          docker push ${{env.base_tag}}:latest
 
       - name: Logout from Registry
         if: always()
