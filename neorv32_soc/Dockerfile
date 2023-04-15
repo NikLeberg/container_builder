@@ -7,8 +7,9 @@ RUN apt-get -q -y update \
     && apt-get -q -y install \
         git wget \
         make gcc \
+        cutecom \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* 
+    && rm -rf /var/lib/apt/lists/*
 
 # Install precompiled risc-v cross compiler toolchain.
 ARG RISCV_TOOLCHAIN_URL=https://github.com/stnolting/riscv-gcc-prebuilt/releases/download/rv64imc-3.0.0/riscv64-unknown-elf.gcc-12.1.0.tar.gz
