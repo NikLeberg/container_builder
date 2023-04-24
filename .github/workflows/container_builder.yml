@@ -67,7 +67,7 @@ jobs:
         if: steps.pre_build.outputs.trivy_skip != 'skip'
         uses: aquasecurity/trivy-action@master
         with:
-          security-checks: vuln
+          scanners: vuln
           image-ref: ${{env.base_tag}}:staging
           ignore-unfixed: true
           format: sarif
