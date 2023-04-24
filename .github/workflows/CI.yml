@@ -50,7 +50,7 @@ jobs:
   stage_1:
     name: Build Stage 1 Images
     needs: detect_changes
-    if: needs.detect_changes.outputs.stage_1 != ''
+    if: always() && needs.detect_changes.outputs.stage_1 != ''
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: ghcr.io
@@ -63,7 +63,7 @@ jobs:
   stage_2:
     name: Build Stage 2 Images
     needs: [detect_changes, stage_1]
-    if: needs.detect_changes.outputs.stage_2 != ''
+    if: always() && needs.detect_changes.outputs.stage_2 != ''
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: ghcr.io
@@ -76,7 +76,7 @@ jobs:
   stage_3:
     name: Build Stage 3 Images
     needs: [detect_changes, stage_2]
-    if: needs.detect_changes.outputs.stage_3 != ''
+    if: always() && needs.detect_changes.outputs.stage_3 != ''
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: ghcr.io
