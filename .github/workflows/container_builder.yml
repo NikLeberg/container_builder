@@ -52,14 +52,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Run pre_build Script
-        id: pre_build
-        run: |
-          if [ -e ./pre_build.sh ]
-          then
-            ./pre_build.sh
-          fi
-
       - name: Cache Docker Layers
         uses: actions/cache@v2
         with:
@@ -74,12 +66,22 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build Container
+      - name: Run pre_build Script
+        id: pre_build
         run: |
-          docker buildx build --pull --push \
-            --cache-from type=local,src=/tmp/.buildx-cache \
-            --cache-to type=local,dest=/tmp/.buildx-cache-new,mode=max \
-            -t ${{env.base_tag}}:staging .
+          if [ -e ./pre_build.sh ]
+          then
+            ./pre_build.sh
+          fi
+
+      - name: Build and Push as Staging
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{env.base_tag}}:staging
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
       - name: Move Docker Layers Cache
         run: |
@@ -123,14 +125,14 @@ jobs:
         run: |
           echo ${{secrets.password}} | docker login ${{inputs.registry}} -u ${{inputs.username}} --password-stdin
 
-      - name: Push Container as Staging
-        run: docker push ${{env.base_tag}}:staging
-
       - name: Push Container as Latest
         if: inputs.push
-        run: |
-          docker tag ${{env.base_tag}}:staging ${{env.base_tag}}:latest
-          docker push ${{env.base_tag}}:latest
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{env.base_tag}}:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
 
       - name: Logout from Registry
         if: always()
