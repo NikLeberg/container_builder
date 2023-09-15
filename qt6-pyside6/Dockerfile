@@ -44,10 +44,10 @@ RUN git clone $QT_CLONE_URL qt6 -b $QT_CLONE_TAG --depth 1 \
     && git config --global http.sslverify true \
     && mkdir ../qt6-hostbuild \
     && cd ../qt6-hostbuild \
-    && ../qt6/configure -release -prefix /opt/qt6-host -- \
-        -DBUILD_qt3d=OFF -DBUILD_qtmultimedia=OFF -DBUILD_qtquick3d=OFF \
-        -DBUILD_qtwebsockets=OFF -DBUILD_qtwebchannel=OFF \
-        -DBUILD_qtwebengine=OFF -DBUILD_qtwebview=OFF \
+    && ../qt6/configure -release -prefix /opt/qt6-host \
+        -skip qt3d -skip qtquick3d -skip qtwebengine -skip qtwebview \
+        -skip qtwebsockets -skip qtwebchannel -skip qtmultimedia \
+        -- -DCMAKE_UNITY_BUILD=ON \
     && cmake --build . --parallel \
     && cmake --install .
 
@@ -63,10 +63,10 @@ RUN cd qt6-targetbuild \
     && ../qt6/configure -release -opengl es2 -nomake examples \
         -nomake tests -qt-host-path /opt/qt6-host -extprefix /opt/qt6-target \
         -prefix /usr/local/qt6 -device linux-aarch64 \
-        -device-option CROSS_COMPILE=aarch64-linux-gnu- -- \
-        -DBUILD_qt3d=OFF -DBUILD_qtmultimedia=OFF -DBUILD_qtquick3d=OFF \
-        -DBUILD_qtwebsockets=OFF -DBUILD_qtwebchannel=OFF \
-        -DBUILD_qtwebengine=OFF -DBUILD_qtwebview=OFF \
+        -device-option CROSS_COMPILE=aarch64-linux-gnu- \
+        -skip qt3d -skip qtquick3d -skip qtwebengine -skip qtwebview \
+        -skip qtwebsockets -skip qtwebchannel -skip qtmultimedia \
+        -- -DCMAKE_UNITY_BUILD=ON \
         -DCMAKE_TOOLCHAIN_FILE=/qt6-targetbuild/toolchain.cmake \
         -DQT_FEATURE_xcb=ON -DFEATURE_xcb_xlib=ON -DQT_FEATURE_xlib=ON \
     && cmake --build . --parallel \
