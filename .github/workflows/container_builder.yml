@@ -100,7 +100,7 @@ jobs:
 
       - name: Scan Container with Dockle
         if: steps.pre_build.outputs.dockle_skip != 'skip'
-        uses: erzz/dockle-action@v1.3.2
+        uses: erzz/dockle-action@v1.4.0
         with:
           image: ${{env.base_tag}}:staging
           failure-threshold: FATAL
