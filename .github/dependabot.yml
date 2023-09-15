@@ -40,20 +40,13 @@ updates:
     directory: "/zephyr-fuzz"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "docker"
     directory: "/quartus-prime"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "docker"
     directory: "/quartus-prime-aji"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "docker"
     directory: "/neorv32_soc"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "docker"
-    directory: "/qt6-pyside6"
     schedule:
       interval: "weekly"
   
