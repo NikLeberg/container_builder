@@ -77,16 +77,11 @@ jobs:
       - name: Build and Push as Staging
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./${{matrix.image}}
           push: true
           tags: ${{env.base_tag}}:staging
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-
-      - name: Move Docker Layers Cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache    
+          cache-from: type=gha
+          cache-to: type=gha,mode=max   
 
       - name: Scan Container with Trivy
         if: steps.pre_build.outputs.trivy_skip != 'skip'
@@ -129,10 +124,11 @@ jobs:
         if: inputs.push
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./${{matrix.image}}
           push: true
           tags: ${{env.base_tag}}:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Logout from Registry
         if: always()
