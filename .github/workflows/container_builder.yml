@@ -60,8 +60,25 @@ jobs:
             ./pre_build.sh
           fi
 
+      - name: Cache Docker Layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
       - name: Build Container
-        run: docker build --pull -t ${{env.base_tag}}:staging .
+        run: |
+          docker build --pull -t ${{env.base_tag}}:staging \
+            --cache-from type=local,src=/tmp/.buildx-cache \
+            --cache-to type=local,dest=/tmp/.buildx-cache-new,mode=max \
+            .
+
+      - name: Move Docker Layers Cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache    
 
       - name: Scan Container with Trivy
         if: steps.pre_build.outputs.trivy_skip != 'skip'
