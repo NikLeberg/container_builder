@@ -76,10 +76,10 @@ jobs:
 
       - name: Build Container
         run: |
-          docker buildx build --pull -t ${{env.base_tag}}:staging \
+          docker buildx build --pull --push \
             --cache-from type=local,src=/tmp/.buildx-cache \
             --cache-to type=local,dest=/tmp/.buildx-cache-new,mode=max \
-            .
+            -t ${{env.base_tag}}:staging .
 
       - name: Move Docker Layers Cache
         run: |
