@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 as openocd_builder
+FROM ubuntu:22.04 as openocd_builder
 
 # Install neccessary tools and dependencies, libaji_client and aji_openocd use
 # old compiler flags that are incompatible with gcc > 8.
