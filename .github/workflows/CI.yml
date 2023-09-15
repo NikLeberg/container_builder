@@ -19,6 +19,7 @@ env:
     tdd-platform
     zephyr-dev
     quartus-prime
+    qt6-pyside6
   # Names of images that depend on others in stage 1.
   stage_2:
     zephyr-fuzz
