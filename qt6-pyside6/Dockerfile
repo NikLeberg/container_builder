@@ -48,7 +48,6 @@ RUN git clone $QT_CLONE_URL qt6 -b $QT_CLONE_TAG --depth 1 \
         -skip qt3d -skip qtquick3d -skip qtwebengine -skip qtwebview \
         -skip qtwebsockets -skip qtwebchannel -skip qtmultimedia \
         -skip qtquick3dphysics \
-        -- -DCMAKE_UNITY_BUILD=ON \
     && cmake --build . --parallel \
     && cmake --install .
 
@@ -68,8 +67,7 @@ RUN cd qt6-targetbuild \
         -skip qt3d -skip qtquick3d -skip qtwebengine -skip qtwebview \
         -skip qtwebsockets -skip qtwebchannel -skip qtmultimedia \
         -skip qtquick3dphysics \
-        -- -DCMAKE_UNITY_BUILD=ON \
-        -DCMAKE_TOOLCHAIN_FILE=/qt6-targetbuild/toolchain.cmake \
+        -- -DCMAKE_TOOLCHAIN_FILE=/qt6-targetbuild/toolchain.cmake \
         -DQT_FEATURE_xcb=ON -DFEATURE_xcb_xlib=ON -DQT_FEATURE_xlib=ON \
     && cmake --build . --parallel \
     && cmake --install .
