@@ -44,6 +44,7 @@ RUN git clone $QT_CLONE_URL qt6 -b $QT_CLONE_TAG --depth 1 \
     && mkdir ../qt6-hostbuild \
     && cd ../qt6-hostbuild \
     && ../qt6/configure -release -prefix /opt/qt6-host \
+        -- -DBUILD_qtwebengine=OFF \
     && cmake --build . --parallel \
     && cmake --install .
 
@@ -60,6 +61,7 @@ RUN cd qt6-targetbuild \
         -nomake tests -qt-host-path /opt/qt6-host -extprefix /opt/qt6-target \
         -prefix /usr/local/qt6 -device linux-aarch64 \
         -device-option CROSS_COMPILE=aarch64-linux-gnu- -- \
+        -DBUILD_qtwebengine=OFF \
         -DCMAKE_TOOLCHAIN_FILE=/qt6-targetbuild/toolchain.cmake \
         -DQT_FEATURE_xcb=ON -DFEATURE_xcb_xlib=ON -DQT_FEATURE_xlib=ON \
     && cmake --build . --parallel \
