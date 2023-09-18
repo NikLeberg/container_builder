@@ -9,45 +9,21 @@ FROM --platform=$TARGET_ARCH $IMAGE_BASE AS target
 
 # Install EGL backend
 RUN apt-get -y update && apt-get install -y --no-install-recommends \
-        libwayland-client0 \
-        libwayland-server0 \
-        libglx-mesa0 \
-        libegl1 \
-        libegl-dev \
-        mesa-utils-extra \
+        # from qtwayland5 debian package dependencies:
         libegl1-mesa-dev \
-        libgbm1 \
-        libgbm-dev \
-        libgl1-mesa-dev \
-        libgl1-mesa-dri \
-        libgl1-mesa-glx \
-        libglu1-mesa \
-        libglu1-mesa-dev \
-        libfontconfig1-dev \
-        libfreetype6-dev \
-        libx11-dev \
-        libx11-xcb-dev \
-        libxext-dev \
-        libxfixes-dev \
-        libxi-dev \
-        libxrender-dev \
-        libxcb1-dev \
-        libxcb-cursor-dev \
-        libxcb-glx0-dev \
-        libxcb-keysyms1-dev \
-        libxcb-image0-dev \
-        libxcb-shm0-dev \
-        libxcb-icccm4-dev \
-        libxcb-sync-dev \
-        libxcb-xfixes0-dev \
-        libxcb-shape0-dev \
-        libxcb-randr0-dev \
-        libxcb-render-util0-dev \
-        libxcb-util-dev \
-        libxcb-xinerama0-dev \
-        libxcb-xkb-dev \
+        libfontconfig-dev \
+        libglib2.0-dev \
+        libinput-dev \
+        libmtdev-dev \
+        libudev-dev \
+        libwayland-dev \
+        libwayland-egl1 \
+        libxcomposite-dev \
         libxkbcommon-dev \
-        libxkbcommon-x11-dev \
+        libxrender-dev \
+        # incrementally added:
+        libdrm-dev \
+        libgbm-dev \
     && apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/*
 
 
@@ -72,6 +48,7 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
         python3 \
         # cross-compile dependencies
         symlinks \
+        pkg-config \
         gcc-aarch64-linux-gnu \
         g++-aarch64-linux-gnu \
     && apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/*
@@ -112,6 +89,6 @@ RUN cd qt6-targetbuild \
         -skip qtwebsockets -skip qtwebchannel -skip qtmultimedia \
         -skip qtquick3dphysics \
         -- -DCMAKE_TOOLCHAIN_FILE=/qt6-targetbuild/toolchain.cmake \
-        -DQT_FEATURE_xcb=ON -DFEATURE_xcb_xlib=ON -DQT_FEATURE_xlib=ON \
+        -DBUILD_qtwayland=ON -DFEATURE_xcb=OFF \
     && cmake --build . --parallel \
     && cmake --install .
