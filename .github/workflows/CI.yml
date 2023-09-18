@@ -11,14 +11,7 @@ env:
   # Names of container images to build that have no repository internal
   # dependencies.
   stage_1:
-    esp-idf-qemu
-    android-ci
-    speki-ci
-    tanks-ci
-    vhdl_rpn-ci
-    tdd-platform
-    zephyr-dev
-    quartus-prime
+    qt6-pyside6
   # Names of images that depend on others in stage 1.
   stage_2:
     zephyr-fuzz
