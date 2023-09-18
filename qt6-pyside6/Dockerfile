@@ -15,6 +15,14 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
         libegl1 \
         libegl-dev \
         mesa-utils-extra \
+        libegl1-mesa-dev \
+        libgbm1 \
+        libgbm-dev \
+        libgl1-mesa-dev \
+        libgl1-mesa-dri \
+        libgl1-mesa-glx \
+        libglu1-mesa \
+        libglu1-mesa-dev \
     && apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/*
 
 
