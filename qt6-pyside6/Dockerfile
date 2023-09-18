@@ -62,7 +62,7 @@ COPY toolchain.cmake /qt6-targetbuild/toolchain.cmake
 RUN cd qt6-targetbuild \
     && ../qt6/configure -release -opengl es2 -nomake examples \
         -nomake tests -qt-host-path /opt/qt6-host -extprefix /opt/qt6-target \
-        -prefix /usr/local/qt6 -device arm-generic-g++ \
+        -prefix /usr/local/qt6 -xplatform linux-aarch64-gnu-g++ \
         -device-option CROSS_COMPILE=aarch64-linux-gnu- \
         -skip qt3d -skip qtquick3d -skip qtwebengine -skip qtwebview \
         -skip qtwebsockets -skip qtwebchannel -skip qtmultimedia \
