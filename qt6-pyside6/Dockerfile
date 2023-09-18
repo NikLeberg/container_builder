@@ -77,7 +77,7 @@ COPY --from=target /usr/lib target-sysroot/usr/lib
 RUN symlinks -rc target-sysroot
 
 # Build Qt6 from source for target (cross-compiling).
-COPY toolchain.cmake /qt6-targetbuild/toolchain.cmake
+COPY qt6-pyside6/toolchain.cmake /qt6-targetbuild/toolchain.cmake
 RUN cd qt6-targetbuild \
     && ../qt6/configure -release -opengl es2 -nomake examples \
         -nomake tests -qt-host-path /opt/qt6-host -extprefix /opt/qt6-target \
