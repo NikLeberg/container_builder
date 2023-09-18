@@ -7,7 +7,18 @@ ARG TARGET_ARCH=linux/arm64
 # Create a target layer where the correct arm64 libraries are available
 FROM --platform=$TARGET_ARCH $IMAGE_BASE AS target
 
-# Do the build of the work on the host machine architecture.
+# Install EGL backend
+RUN apt-get -y update && apt-get install -y --no-install-recommends \
+        libwayland-client0 \
+        libwayland-server0 \
+        libglx-mesa0 \
+        libegl1 \
+        libegl-dev \
+        mesa-utils-extra \
+    && apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/*
+
+
+# Do the builk of the work on the host machine architecture.
 FROM $IMAGE_BASE AS host
 
 # Cross-Compile Qt6, source:
