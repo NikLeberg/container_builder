@@ -7,31 +7,6 @@ ARG TARGET_ARCH=linux/arm64
 # Do the builk of the work on the host machine architecture.
 FROM ghcr.io/nikleberg/qt6-target:staging AS host
 
-# Create a target layer where the correct arm64 libraries are available
-FROM --platform=$TARGET_ARCH $IMAGE_BASE AS target
-
-# Install EGL backend
-RUN apt-get -y update && apt-get install -y --no-install-recommends \
-        # from qtwayland5 debian package dependencies:
-        libegl1-mesa-dev \
-        libfontconfig-dev \
-        libglib2.0-dev \
-        libinput-dev \
-        libmtdev-dev \
-        libudev-dev \
-        libwayland-dev \
-        libwayland-egl1 \
-        libxcomposite-dev \
-        libxkbcommon-dev \
-        libxrender-dev \
-        # incrementally added:
-        libdrm-dev \
-        libgbm-dev \
-    && apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/*
-
-# Add Qt6 to the actual target.
-COPY --from=host /opt/qt6-target /opt/qt6
-
 # Install PySide6 build dependencies.
 RUN apt-get -y update && apt-get install -y --no-install-recommends \
         # basic python environment
@@ -55,13 +30,20 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
         git \
     && apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/*
 
-# Build PySide6 from source.
+# Cross-Compile PySide6 from source.
+# see: https://codereview.qt-project.org/c/pyside/pyside-setup/+/374068
 ARG PYSIDE6_SETUP_CLONE_URL=https://code.qt.io/pyside/pyside-setup
 ARG PYSIDE6_SETUP_CLONE_TAG=6.5
-RUN git clone $PYSIDE6_SETUP_CLONE_URL -b $PYSIDE6_SETUP_CLONE_TAG --depth 1 \
+COPY shiboken6.patch /pyside-setup/shiboken6.patch
+RUN git clone $PYSIDE6_SETUP_CLONE_URL -b $PYSIDE6_SETUP_CLONE_TAG \
     && cd pyside-setup \
+    && git apply shiboken6.patch \
     && pip3 install -r requirements.txt --break-system-packages \
-    && python3 setup.py build \
-        --qtpaths=/opt/qt6/bin/qtpaths6 \
-        --module-subset=Core,Gui,Widgets --standalone \
-        --ignore-git --parallel=4 --unity --no-qt-tools
+    && python3 setup.py bdist_wheel --parallel=2 --ignore-git --reuse-build \
+        --cmake-toolchain-file=/qt6-targetbuild/toolchain.cmake \
+        --qt-host-path=/opt/qt6-host \
+        --qt-target-path=/opt/qt6-target \
+        --plat-name=linux_aarch64 \
+        --module-subset=Core,Gui,Widgets \
+        --standalone --unity \
+        --verbose-build --no-qt-tools

@@ -1,0 +1,39 @@
+diff --git a/sources/shiboken6/cmake/ShibokenHelpers.cmake b/sources/shiboken6/cmake/ShibokenHelpers.cmake
+index b9bfb0211..6567707b8 100644
+--- a/sources/shiboken6/cmake/ShibokenHelpers.cmake
++++ b/sources/shiboken6/cmake/ShibokenHelpers.cmake
+@@ -184,16 +184,16 @@ macro(set_quiet_build)
+     # Don't display "up-to-date / install" messages when installing, to reduce visual clutter.
+     set(CMAKE_INSTALL_MESSAGE NEVER)
+     # Override message not to display info messages when doing a quiet build.
+-    function(message)
+-        list(GET ARGV 0 MessageType)
+-        if (MessageType STREQUAL FATAL_ERROR OR
+-            MessageType STREQUAL SEND_ERROR OR
+-            MessageType STREQUAL WARNING OR
+-            MessageType STREQUAL AUTHOR_WARNING)
+-                list(REMOVE_AT ARGV 0)
+-                _message(${MessageType} "${ARGV}")
+-        endif()
+-    endfunction()
++#    function(message)
++#        list(GET ARGV 0 MessageType)
++#        if (MessageType STREQUAL FATAL_ERROR OR
++#            MessageType STREQUAL SEND_ERROR OR
++#            MessageType STREQUAL WARNING OR
++#            MessageType STREQUAL AUTHOR_WARNING)
++#                list(REMOVE_AT ARGV 0)
++#                _message(${MessageType} "${ARGV}")
++#        endif()
++#    endfunction()
+ endmacro()
+ 
+ macro(get_python_extension_suffix)
+@@ -202,6 +202,7 @@ macro(get_python_extension_suffix)
+     # Python_SOABI is only set by CMake 3.17+
+     # TODO: Lower this to CMake 3.16 if possible.
+     if(SHIBOKEN_IS_CROSS_BUILD)
++       set(Python_SOABI ".cpython-311-aarch64-linux-gnu")
+         if(NOT Python_SOABI)
+             message(FATAL_ERROR "Python_SOABI variable is empty.")
+         endif()

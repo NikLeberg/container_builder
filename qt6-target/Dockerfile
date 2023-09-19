@@ -24,6 +24,10 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
         # incrementally added:
         libdrm-dev \
         libgbm-dev \
+        libgles2-mesa-dev \
+        # basic python environment:
+        python3 \
+        python3-dev \
     && apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/*
 
 
