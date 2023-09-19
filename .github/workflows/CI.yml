@@ -11,14 +11,13 @@ env:
   # Names of container images to build that have no repository internal
   # dependencies.
   stage_1:
-    qt6-pyside6
+    qt6-host
   # Names of images that depend on others in stage 1.
   stage_2:
-    zephyr-fuzz
-    quartus-prime-aji
+    qt6-target
   # Names of images that depend on others in stage 2.
   stage_3:
-    neorv32_soc
+    qt6-pyside6
 
 jobs:
 
