@@ -51,6 +51,10 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
         wget \
         libegl1-mesa-dev \
         python3 \
+        # wayland support?
+        libwayland-dev \
+        libwayland-egl1 \
+        libwayland-bin \
         # cross-compile dependencies
         symlinks \
         gcc-aarch64-linux-gnu \
