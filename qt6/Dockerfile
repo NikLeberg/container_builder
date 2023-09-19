@@ -7,7 +7,7 @@ ARG TARGET_ARCH=linux/arm64
 # Create a target layer where the correct arm64 libraries are available
 FROM --platform=$TARGET_ARCH $IMAGE_BASE AS target
 
-# Install EGL backend
+# Install EGL and Wayland backend
 RUN apt-get -y update && apt-get install -y --no-install-recommends \
         # from qtwayland5 debian package dependencies:
         libegl1-mesa-dev \
@@ -24,15 +24,57 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
         # incrementally added:
         libdrm-dev \
         libgbm-dev \
+        libwayland-bin \
         libgles2-mesa-dev \
-        # basic python environment:
+        # basic python environment
         python3 \
         python3-dev \
     && apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/*
 
 
-# Do the builk of the work on the host machine architecture.
-FROM ghcr.io/nikleberg/qt6-host:staging AS host
+# Do the bulk of the work on the host machine architecture.
+FROM $IMAGE_BASE AS host
+
+# Cross-Compile Qt6, source:
+# https://wiki.qt.io/Cross-Compile_Qt_6_for_Raspberry_Pi
+
+# Install Qt6 build dependencies and arm cross compiler
+RUN apt-get -y update && apt-get install -y --no-install-recommends \
+        # build dependencies
+        cmake \
+        gcc \
+        g++ \
+        libc-dev \
+        pkg-config \
+        ninja-build \
+        git \
+        wget \
+        libegl1-mesa-dev \
+        python3 \
+        # cross-compile dependencies
+        symlinks \
+        gcc-aarch64-linux-gnu \
+        g++-aarch64-linux-gnu \
+    && apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/*
+
+# Build Qt6 from source for host.
+# https://wiki.qt.io/Building_Qt_6_from_Git
+# See dependency graph: https://qt-kde-team.pages.debian.net/images/qt6_build_deps.png
+ARG QT_CLONE_URL=git://code.qt.io/qt/qt5.git
+ARG QT_CLONE_TAG=v6.5.2
+RUN git clone $QT_CLONE_URL qt6 -b $QT_CLONE_TAG --depth 1 \
+    && cd qt6 \
+    && git config --global http.sslverify false \
+    && perl init-repository \
+    && git config --global http.sslverify true \
+    && mkdir ../qt6-hostbuild \
+    && cd ../qt6-hostbuild \
+    && ../qt6/configure -release -prefix /opt/qt6-host \
+        -skip qt3d -skip qtquick3d -skip qtwebengine -skip qtwebview \
+        -skip qtwebsockets -skip qtwebchannel -skip qtmultimedia \
+        -skip qtquick3dphysics \
+    && cmake --build . --parallel \
+    && cmake --install .
 
 # Copy the target sysroot.
 COPY --from=target /lib target-sysroot/lib
@@ -54,3 +96,8 @@ RUN cd qt6-targetbuild \
         -DBUILD_qtwayland=ON -DFEATURE_xcb=OFF \
     && cmake --build . --parallel \
     && cmake --install .
+
+# Only keep build Qt6 binaries
+FROM $IMAGE_BASE AS min_host
+COPY --from=host /opt/qt6-host /opt/qt6-host
+COPY --from=host /opt/qt6-target /opt/qt6-target
