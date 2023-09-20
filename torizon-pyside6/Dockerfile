@@ -77,7 +77,7 @@ RUN apt-get -q -y update && \
 # Compile PySide6 from source.
 # see: https://codereview.qt-project.org/c/pyside/pyside-setup/+/374068
 ARG PYSIDE6_SETUP_CLONE_URL=https://code.qt.io/pyside/pyside-setup
-ARG PYSIDE6_SETUP_CLONE_TAG=6.4
+ARG PYSIDE6_SETUP_CLONE_TAG=6.4.2
 RUN git clone $PYSIDE6_SETUP_CLONE_URL -b $PYSIDE6_SETUP_CLONE_TAG \
     && cd pyside-setup \
     && pip3 install -r requirements.txt --break-system-packages
