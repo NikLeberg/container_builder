@@ -78,10 +78,11 @@ RUN apt-get -q -y update && \
 # see: https://codereview.qt-project.org/c/pyside/pyside-setup/+/374068
 ARG PYSIDE6_SETUP_CLONE_URL=https://code.qt.io/pyside/pyside-setup
 ARG PYSIDE6_SETUP_CLONE_TAG=6.4
-COPY shiboken6.patch /pyside-setup/shiboken6.patch
 RUN git clone $PYSIDE6_SETUP_CLONE_URL -b $PYSIDE6_SETUP_CLONE_TAG \
     && cd pyside-setup \
-    && pip3 install -r requirements.txt --break-system-packages \
+    && pip3 install -r requirements.txt --break-system-packages
+COPY shiboken6.patch /pyside-setup/shiboken6.patch
+RUN cd pyside-setup \
     && git apply shiboken6.patch \
     && python3 setup.py bdist_wheel --parallel=4 --ignore-git --reuse-build \
         --module-subset=Core,Gui,Widgets \
