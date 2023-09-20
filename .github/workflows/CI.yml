@@ -13,6 +13,7 @@ env:
   stage_1:
     qt6-pyside6
     qt6
+    qt6-host-full
   # Names of images that depend on others in stage 1.
   stage_2:
     zephyr-fuzz
