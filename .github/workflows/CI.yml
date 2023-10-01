@@ -17,6 +17,7 @@ env:
     vhdl_rpn-ci
     tdd-platform
     quartus-prime
+    dev-base
   # Names of images that depend on others in stage 1.
   stage_2:
     quartus-prime-aji

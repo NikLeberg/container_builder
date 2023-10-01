@@ -40,4 +40,8 @@ updates:
     directory: "/neorv32_soc"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/dev-base"
+    schedule:
+      interval: "weekly"
   
