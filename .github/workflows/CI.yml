@@ -12,16 +12,13 @@ env:
   # dependencies.
   stage_1:
     esp-idf-qemu
-    android-ci
     speki-ci
     tanks-ci
     vhdl_rpn-ci
     tdd-platform
-    zephyr-dev
     quartus-prime
   # Names of images that depend on others in stage 1.
   stage_2:
-    zephyr-fuzz
     quartus-prime-aji
   # Names of images that depend on others in stage 2.
   stage_3:
