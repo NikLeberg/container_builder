@@ -12,16 +12,13 @@ env:
   # dependencies.
   stage_1:
     esp-idf-qemu
-    android-ci
     speki-ci
     tanks-ci
     vhdl_rpn-ci
     tdd-platform
-    zephyr-dev
     quartus-prime
   # Names of images that depend on others in stage 1.
   stage_2:
-    zephyr-fuzz
     quartus-prime-aji
   # Names of images that depend on others in stage 2.
   stage_3:
@@ -38,14 +35,13 @@ jobs:
       stage_3: ${{steps.changed-containers.outputs.stage_3}}
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Detect changed Containers
         id: changed-containers
-        run: .github/workflows/detect_changes.sh "${{env.stage_1}}" "${{env.stage_2}}" "${{env.stage_3}}"
-        shell: bash
+        run: .github/workflows/detect_changes.py "${{env.stage_1}}" "${{env.stage_2}}" "${{env.stage_3}}"
 
   stage_1:
     name: Build Stage 1 Images
