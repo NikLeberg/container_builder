@@ -41,8 +41,7 @@ jobs:
 
       - name: Detect changed Containers
         id: changed-containers
-        run: .github/workflows/detect_changes.sh "${{env.stage_1}}" "${{env.stage_2}}" "${{env.stage_3}}"
-        shell: bash
+        run: .github/workflows/detect_changes.py "${{env.stage_1}}" "${{env.stage_2}}" "${{env.stage_3}}"
 
   stage_1:
     name: Build Stage 1 Images
