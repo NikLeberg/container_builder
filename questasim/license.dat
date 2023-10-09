@@ -1,5 +1,5 @@
 ﻿# Intel Corporation Software and/or Intellectual Property License File
-# Issued 10 October 2022
+# Issued 09 October 2023
 # Upgrade to these products will no longer be available after the Maintenance Expiration  
 # date unless licenses are renewed.  
 # Fixed Node License
@@ -8,20 +8,20 @@
 # Companion ID-N/A
 # Companion ID 2-N/A
 # Product License Summary:
-# Questasim*-Intel® FPGA Starter Edition, 1 Seat(s)
+# 2 Questa*-Intel® FPGA Starter Edition (License: SW-QUESTA), 1 Seat(s)
 # - Maintenance Expiration of 2023.10
-# - License Expires 10-Oct-2023
+# - License Expires 08-Oct-2024
 ################################################################################ 
 # FEATURE START 
-# This is license file for Questasim*-Intel® FPGA Starter Edition 
+# This is license file for Questasim*-Intel FPGA Starter Edition 
 # Number of seat licenses is 1 
-# License Expires 10-Oct-2023 
-INCREMENT intelqsimstarter mgcld 2023.10 10-oct-2023 uncounted \
-  \
-    2F35127AB87AFC9A80AA VENDOR_STRING=993BF9DB HOSTID=00ababababab \
-    ISSUER=Intel SN=282509278 SIGN2="0196 3079 C2BB 2B9A 8CC1 8244 F216 \
-    E07B 9C82 5C3B 9D74 D1A4 3B5A 636B 4D88 03C3 EB8E 0F17 A24B B532 7408 \
-    96DB 7E04 6E86 F537 1DFD C17D A71A 6861 FC83"
+# License Expires 08-Oct-2024 
+INCREMENT intelqsimstarter mgcld 2024.01 8-oct-2024 uncounted \
+  EF7782293BCC13EFC151 \
+    VENDOR_STRING=62C5A525 HOSTID=00ababababab ISSUER=Intel SN=287837015 \
+    SIGN2="07B0 1D6E A213 0C55 3C7E 4F8A 970D 3626 2C61 FFBE 0063 D44E \
+    DE06 36D7 F7D6 0DF1 94EC C5B5 8D6D 18CD 8BC3 0B5F 945E 5BD2 C82D DAFE \
+    CCFE 2DF0 9839 0A5C"
 # FEATURE END 
 ################################################################################
-# End of Intel Corporation Software and/or Intellectual Property License File. Issued 10/10/2022
+# End of Intel Corporation Software and/or Intellectual Property License File. Issued 10/09/2023
