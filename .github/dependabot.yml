@@ -44,4 +44,8 @@ updates:
     directory: "/dev-base"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/questasim"
+    schedule:
+      interval: "weekly"
   
