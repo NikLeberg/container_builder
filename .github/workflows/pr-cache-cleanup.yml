@@ -1,0 +1,43 @@
+# Cleanup left over caches from merged PRs.
+# Source: https://github.com/actions/cache/blob/main/tips-and-workarounds.md
+
+name: Cache Cleanup
+on:
+  pull_request:
+    types:
+      - closed
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    name: Cleanup
+    runs-on: ubuntu-latest
+    permissions:
+      # `actions:write` permission is required to delete caches
+      actions: write
+      contents: read
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Cleanup
+        run: |
+          gh extension install actions/gh-actions-cache
+
+          REPO=${{ github.repository }}
+          BRANCH=refs/pull/${{ github.event.pull_request.number }}/merge
+
+          echo "Fetching list of cache keys"
+          cacheKeysForPR=$(gh actions-cache list -R $REPO -B $BRANCH | cut -f 1 )
+
+          ## Setting this to not fail the workflow while deleting cache keys.
+          set +e
+          echo "Deleting caches..."
+          for cacheKey in $cacheKeysForPR
+          do
+              echo "Deleting $cacheKey"
+              gh actions-cache delete $cacheKey -R $REPO -B $BRANCH --confirm
+          done
+          echo "Done"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
