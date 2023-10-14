@@ -4,7 +4,7 @@
 
 This container contains a continerized version of `Questa  Intel Starter FPGA Edition-64 vsim 2021.2 Simulator 2021.04 Apr 14 2021`.
 
-Questa is a part of [Intel Quartus Prime Lite](https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html). To reduce the size of the image the tools of Quartus have been split up into tow images:
+Questa is a part of [Intel Quartus Prime Lite](https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html). To reduce the size of the image the tools of Quartus have been split up into two images:
  - [`quartus`](../quartus/README.md), tools to synthesize HDL for Intel FPGAs
  - `questasim`, tools to simulate HDL (this one here)
 
@@ -56,12 +56,12 @@ export -f get_common_args
 
 function vsim () {
     vsim_args="--hostname vsim --mac-address=00:ab:ab:ab:ab:ab $(get_common_args)"
-    docker run $common_args $vsim_args ghcr.io/nikleberg/questasim:staging $*
+    docker run $common_args $vsim_args ghcr.io/nikleberg/questasim $*
 }
 export -f vsim
 function vsim_bash () {
     vsim_args="--hostname vsim --mac-address=00:ab:ab:ab:ab:ab --entrypoint bash $(get_common_args)"
-    docker run $common_args $vsim_args ghcr.io/nikleberg/questasim:staging $*
+    docker run $common_args $vsim_args ghcr.io/nikleberg/questasim $*
 }
 export -f vsim_bash
 ```

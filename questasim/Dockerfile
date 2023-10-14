@@ -20,7 +20,6 @@ ENV LANG=C.UTF-8 \
 RUN <<EOF
     set -e
     apt-get -q -y update
-    apt-get -q -y upgrade
     apt-get -q -y install --no-install-recommends \
         libncurses6 libxtst6 libxft2 libstdc++6 libc6 lib32z1 libbz2-1.0 \
         libpng16-16 libqt5xml5 libx11-xcb1 libsm6 libdbus-1-3
