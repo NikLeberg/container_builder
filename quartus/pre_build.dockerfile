@@ -49,3 +49,15 @@ RUN <<EOF
     rm -r $QUARTUS_ROOTDIR/uninstall
     rm -r $QUARTUS_ROOTDIR/logs
 EOF
+
+# Post process the install dir and remove duplicates.
+RUN <<EOF
+    set -e
+    apt-get -q -y update
+    apt-get -q -y install --no-install-recommends \
+        rdfind
+    rdfind -makehardlinks true $QUARTUS_ROOTDIR
+    apt-get -q -y remove rdfind
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
+EOF
