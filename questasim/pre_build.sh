@@ -3,12 +3,11 @@
 # Fail on nonzero return
 set -e
 
-# https://stackoverflow.com/questions/51903877/docker-load-no-space-left-on-device-rhel
-docker system prune -a -f --volumes
-
-# Skip Trivy and Dockle scan steps, image needs too much disk space.
-echo "trivy_skip=skip" >> $GITHUB_OUTPUT
-echo "dockle_skip=skip" >> $GITHUB_OUTPUT
+# Set Dockle to ignore "Use COPY instead of ADD".
+echo "DOCKLE_IGNORES=CIS-DI-0009" >> "$GITHUB_ENV"
+# Set Dockle scan step to allow files with extension "sdf".
+# Suspicious file is $QUESTA_ROOTDIR/questa_fse/obf_src/examples/test_n3b.sdf
+echo "dockle_accept_extensions=sdf" >> "$GITHUB_OUTPUT"
 
 # This docker image gets rather big as it needs to download Questa with a hefty
 # size of more than 2 GB. This would create a single layer in the image with a
