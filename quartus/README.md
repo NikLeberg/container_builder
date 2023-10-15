@@ -71,7 +71,7 @@ function command_not_found_handle () {
     if [[ $1 =~ ^quartus.*$ ]]; then
         quartus_args="--hostname quartus --entrypoint $1 $(get_common_args)"
         shift
-        docker run $common_args $quartus_args ghcr.io/nikleberg/quartus $*
+        docker run $quartus_args ghcr.io/nikleberg/quartus $*
         return
     fi
     return 127 # not a quartus command
@@ -79,7 +79,7 @@ function command_not_found_handle () {
 export -f command_not_found_handle
 function quartus_bash () {
     quartus_args="--hostname quartus --entrypoint bash $(get_common_args)"
-    docker run $common_args $quartus_args ghcr.io/nikleberg/quartus $*
+    docker run $quartus_args ghcr.io/nikleberg/quartus $*
 }
 export -f quartus_bash
 ```
