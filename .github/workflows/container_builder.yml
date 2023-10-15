@@ -97,6 +97,7 @@ jobs:
           image: ${{env.base_tag}}:staging
           failure-threshold: FATAL
           timeout: 20m
+          accept-extensions: ${{steps.pre_build.outputs.dockle_accept_extensions}}
 
       - name: Upload Scan Results
         if: steps.pre_build.outputs.trivy_skip != 'skip'
