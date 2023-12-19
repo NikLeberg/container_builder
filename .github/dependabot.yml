@@ -45,6 +45,10 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
+    directory: "/dev-dind"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "docker"
     directory: "/questasim"
     schedule:
       interval: "weekly"

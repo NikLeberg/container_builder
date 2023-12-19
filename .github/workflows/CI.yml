@@ -18,6 +18,7 @@ env:
     tdd-platform
     quartus-prime
     dev-base
+    dev-dind
     questasim
     quartus
   # Names of images that depend on others in stage 1.
