@@ -17,7 +17,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN <<EOF
     set -e
     apt-get -q -y update && apt-get -q -y install --no-install-recommends \
-        git wget
+        git wget make
     apt-get clean
     rm -rf /var/lib/apt/lists/*
 EOF

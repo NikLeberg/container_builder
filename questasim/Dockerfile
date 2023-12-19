@@ -43,6 +43,16 @@ COPY license.dat $LM_LICENSE_FILE
 # based license a daemon needs to be running and also the hostname needs to be
 # fixed. So alternatively use the NIC based host id that is just the MAC addess.
 
+# Install additional development tools.
+RUN <<EOF
+    set -e
+    apt-get -q -y update
+    apt-get -q -y install --no-install-recommends \
+        make
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
+EOF
+
 # Entrypoint is the vsim executable.
 ENTRYPOINT ["vsim"]
 # With args "-c -do <script.tcl>" an arbirtrary TCL script can be run.
