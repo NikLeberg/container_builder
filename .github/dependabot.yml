@@ -52,4 +52,8 @@ updates:
     directory: "/quartus"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/riscv-gcc"
+    schedule:
+      interval: "weekly"
   

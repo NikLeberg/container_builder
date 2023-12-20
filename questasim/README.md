@@ -56,12 +56,12 @@ export -f get_common_args
 
 function vsim () {
     vsim_args="--hostname vsim --mac-address=00:ab:ab:ab:ab:ab $(get_common_args)"
-    docker run $common_args $vsim_args ghcr.io/nikleberg/questasim $*
+    docker run $vsim_args ghcr.io/nikleberg/questasim $*
 }
 export -f vsim
 function vsim_bash () {
     vsim_args="--hostname vsim --mac-address=00:ab:ab:ab:ab:ab --entrypoint bash $(get_common_args)"
-    docker run $common_args $vsim_args ghcr.io/nikleberg/questasim $*
+    docker run $vsim_args ghcr.io/nikleberg/questasim $*
 }
 export -f vsim_bash
 ```
