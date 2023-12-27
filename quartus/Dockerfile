@@ -37,9 +37,15 @@ ENV PATH="$QUARTUS_ROOTDIR/quartus/bin:${PATH}"
 # creating a specific file that quartus expects. What exactly the content is..
 # no clue. It changes everytime quartus is started for the first time. The
 # following values were observed: 47b262d9285cf37e, b3b88ae373d98a4f,
-# 5aa8417559ca6424, bfa7fb05de703e01, f7fcb7797c7d8b54.
-RUN mkdir ~/.altera.quartus \
-    && echo -n "5aa8417559ca6424">.dPwdoBmbMGe
+# 5aa8417559ca6424, bfa7fb05de703e01, f7fcb7797c7d8b54, c00a2ee0c5154f94.
+# We also tell it to not show the "are you trusting this project" dialog.
+COPY <<.5NoREgoqh7Y <<quartus2.qreg /root/.altera.quartus/
+c00a2ee0c5154f94
+.5NoREgoqh7Y
+[22.1]
+General\\show_project_open_security_prompt=false
+Registry_version=27
+quartus2.qreg
 
 # Entrypoint is the quartus shell.
 ENTRYPOINT ["quartus_sh"]
