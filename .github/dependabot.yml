@@ -56,4 +56,8 @@ updates:
     directory: "/riscv-gcc"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/ghdl"
+    schedule:
+      interval: "weekly"
   
