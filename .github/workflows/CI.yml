@@ -7,83 +7,61 @@ on:
   pull_request:
   workflow_dispatch:
 
-env:
-  # Names of container images to build that have no repository internal
-  # dependencies.
-  stage_1:
-    esp-idf-qemu
-    speki-ci
-    tanks-ci
-    vhdl_rpn-ci
-    tdd-platform
-    quartus-prime
-    dev-base
-    questasim
-    quartus
-    riscv-gcc
-    ghdl
-  # Names of images that depend on others in stage 1.
-  stage_2:
-    quartus-prime-aji
-  # Names of images that depend on others in stage 2.
-  stage_3:
-    neorv32_soc
-
 jobs:
 
-  detect_changes:
-    name: Detect Changes
+  collect:
+    name: Collect Matrix Jobs
     runs-on: ubuntu-22.04
     outputs:
-      stage_1: ${{steps.changed-containers.outputs.stage_1}}
-      stage_2: ${{steps.changed-containers.outputs.stage_2}}
-      stage_3: ${{steps.changed-containers.outputs.stage_3}}
+      builderMatrixStage1: ${{steps.collect.outputs.builderMatrixStage1}}
+      builderMatrixStage2: ${{steps.collect.outputs.builderMatrixStage2}}
+      builderMatrixStage3: ${{steps.collect.outputs.builderMatrixStage3}}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Detect changed Containers
-        id: changed-containers
-        run: .github/workflows/detect_changes.py "${{env.stage_1}}" "${{env.stage_2}}" "${{env.stage_3}}"
+      - name: Detect changes and build GHA matrices
+        id: collect
+        run: .github/workflows/collect.py
 
-  stage_1:
+  stage1:
     name: Build Stage 1 Images
-    needs: detect_changes
-    if: always() && needs.detect_changes.outputs.stage_1 != ''
+    needs: collect
+    if: always() && needs.collect.outputs.builderMatrixStage1 != ''
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: ghcr.io
       username: nikleberg
-      images: ${{needs.detect_changes.outputs.stage_1}}
-      push: ${{github.ref_name == 'main'}}
+      release: ${{github.ref_name == 'main'}}
+      builderMatrix: ${{needs.collect.outputs.builderMatrixStage1}}
     secrets:
       password: ${{secrets.GITHUB_TOKEN}}
 
-  stage_2:
+  stage2:
     name: Build Stage 2 Images
-    needs: [detect_changes, stage_1]
-    if: always() && needs.detect_changes.outputs.stage_2 != ''
+    needs: [collect, stage1]
+    if: always() && needs.collect.outputs.builderMatrixStage2 != ''
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: ghcr.io
       username: nikleberg
-      images: ${{needs.detect_changes.outputs.stage_2}}
-      push: ${{github.ref_name == 'main'}}
+      release: ${{github.ref_name == 'main'}}
+      builderMatrix: ${{needs.collect.outputs.builderMatrixStage2}}
     secrets:
       password: ${{secrets.GITHUB_TOKEN}}
 
-  stage_3:
+  stage3:
     name: Build Stage 3 Images
-    needs: [detect_changes, stage_2]
-    if: always() && needs.detect_changes.outputs.stage_3 != ''
+    needs: [collect, stage2]
+    if: always() && needs.collect.outputs.builderMatrixStage3 != ''
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: ghcr.io
       username: nikleberg
-      images: ${{needs.detect_changes.outputs.stage_3}}
-      push: ${{github.ref_name == 'main'}}
+      release: ${{github.ref_name == 'main'}}
+      builderMatrix: ${{needs.collect.outputs.builderMatrixStage3}}
     secrets:
       password: ${{secrets.GITHUB_TOKEN}}
 
@@ -93,7 +71,7 @@ jobs:
     # See: https://github.com/actions/runner/issues/491
     name: Summarize
     runs-on: ubuntu-22.04
-    needs: [stage_1, stage_2, stage_3]
+    needs: [collect, stage1, stage2, stage3]
     if: always()
     steps:
       - name: Successful builds?
