@@ -2,7 +2,7 @@
     {
         "name": "quartus",
         "tag": "22.1",
-        "dockerfile": "Dockerfile",
+        "dockerfile": "base.dockerfile",
         "platforms": [
             "linux/amd64"
         ],

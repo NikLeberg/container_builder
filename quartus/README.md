@@ -1,21 +1,27 @@
 # quartus
-> This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
+> These images are part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
 > For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
 
-This container contains a continerized version of `Quartus Prime Version 22.1std.2 Build 922 07/20/2023 SC Lite Edition`.
+These images contain a continerized version of `Quartus Prime <Version> Lite Edition` in various versions and supported devices.
 
-Quartus is a part of [Intel Quartus Prime Lite](https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html). To reduce the size of the image the tools of Quartus have been split up into two images:
- - `quartus`, tools to synthesize HDL for Intel FPGAs (this one here)
+Quartus is a part of [Intel Quartus Prime Lite](https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html). To reduce the size of the images the tools of Quartus have been split up into two image groups:
+ - `quartus`, tools to synthesize HDL for Intel FPGAs (these one here)
  - [`questasim`](../questasim/README.md), tools to simulate HDL
 
-WARNING: To further reduce the size, only the device support files for _Cyclone IV_ FPGA family is installed. Installing support for additional devices is very trivial though (i.e. mount them).
+## Tags
+| Tag | Quartus Version | Device Support | Note |
+|---|---|---|---|
+| `18.1-cycloneiv` | 18.1 | Cyclone IV | Quartus GUI non functional with WSLg (only window borders), use [`VcXsrv`](https://github.com/marchaesen/vcxsrv). |
+| `22.1-cycloneiv` | 22.1 | Cyclone IV | - |
 
-But even with the split and only Cycline IV devices, the image is still very big (~9.1 GB). The large _installation step_ image layer is split up into multiple smaller layers to help speed up image pull / download and make it more robust.
+Feel free to open an issue to request other versions or additional device support.
 
 ## Usage
+> Please note that using Quartus implies acceptance of [Intel FPGA's EULA](http://fpgasoftware.intel.com/eula/) for the appropriate version(s) you use.
+
 The image has `quartus_sh` set as `ENTRYPOINT`. Simply running a container without arguments will invoke `quartus_sh` with the default `CMD` argument `-version` and print the Quartus version:
 ```
-$ docker run ghcr.io/nikleberg/quartus
+$ docker run ghcr.io/nikleberg/quartus:22.1-cycloneiv
 > Quartus Prime Shell
   Version 22.1std.2 Build 922 07/20/2023 SC Lite Edition
   Copyright (C) 2022  Intel Corporation. All rights reserved.
@@ -23,7 +29,7 @@ $ docker run ghcr.io/nikleberg/quartus
 
 For an actual usage you want to override the `CMD` by giving additional arguments to the `docker run` command. For example to run a tcl script you could run:
 ```
-$ docker run ghcr.io/nikleberg/quartus -t <script>.tcl
+$ docker run ghcr.io/nikleberg/quartus:22.1-cycloneiv -t <script>.tcl
 > Info: *******************************************************************
   Info: Running Quartus Prime Shell
       Info: Version 22.1std.2 Build 922 07/20/2023 SC Lite Edition
@@ -33,7 +39,7 @@ $ docker run ghcr.io/nikleberg/quartus -t <script>.tcl
   ...
 ```
 
-Quartus knows many CLI programs, `quartus_sh` is just the common entrypoint ot run tcl scripts with (and which I use the most). An incomplete selection of additional CLIs:
+Quartus knows many CLI programs, `quartus_sh` is just the common entrypoint to run tcl scripts with (and which I use the most). An incomplete selection of additional CLIs:
  - `quartus_asm` - Assembler
  - `quartus_fit` - Fitter
  - `quartus_map` - Analysis & Synthesis
@@ -50,6 +56,7 @@ For improved functionality and ease-of-use you may want to add some of these arg
  - `--rm`: Removes the container after the command is finished, your disk will thank you.
  - `--workdir $(pwd)`: Sets the working directory inside the container to the current shell path.
  - `--volumes-from $(cat /proc/self/cgroup | head -n 1 | cut -d '/' -f3)`: If the container is started in the DooD environment provided by [`dev-base`](../dev-base/README.md) in Devcontainers, then this forwards the required volumes from the base container to the _quartus_ tool container. This is required to access any path in `/workspaces`. 
+ - `--volume=/dev:/dev --privileged`: Allows USB/JTAG access to FPGAs for programming.
  - `--env=DISPLAY=:0 --volume=/tmp/.X11-unix/:/tmp/.X11-unix/`: Forwards your X11 configuration (this works in WSLg!). With this, starting the GUI with the command `quartus` opens the GUI on your docker host.
 
 ### Alias
@@ -71,7 +78,7 @@ function command_not_found_handle () {
     if [[ $1 =~ ^quartus.*$ ]]; then
         quartus_args="--hostname quartus --entrypoint $1 $(get_common_args)"
         shift
-        docker run $quartus_args ghcr.io/nikleberg/quartus $*
+        docker run $quartus_args ghcr.io/nikleberg/quartus:22.1-cycloneiv $*
         return
     fi
     return 127 # not a quartus command
@@ -79,7 +86,7 @@ function command_not_found_handle () {
 export -f command_not_found_handle
 function quartus_bash () {
     quartus_args="--hostname quartus --entrypoint bash $(get_common_args)"
-    docker run $quartus_args ghcr.io/nikleberg/quartus $*
+    docker run $quartus_args ghcr.io/nikleberg/quartus:22.1-cycloneiv $*
 }
 export -f quartus_bash
 ```
