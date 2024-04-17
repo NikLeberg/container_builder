@@ -33,16 +33,13 @@ EOF
 ENV QUARTUS_ROOTDIR="/opt/intelFPGA_lite/$QUARTUS_VERSION"
 RUN <<EOF
     set -e
-    mkdir quartus-tmp
-    cd quartus-tmp
     wget --progress=dot:giga $QUARTUS_URL -O QuartusLiteSetup-linux.run
     echo "$QUARTUS_SHA *QuartusLiteSetup-linux.run" | sha1sum --check --strict -
     chmod +x QuartusLiteSetup-linux.run
     ./QuartusLiteSetup-linux.run \
-        --mode unattended --unattendedmodeui minimal --accept_eula 1 \
-        --installdir $QUARTUS_ROOTDIR
-    cd ..
-    rm -r quartus-tmp
+        --mode unattended --accept_eula 1 --installdir $QUARTUS_ROOTDIR
+    cat $QUARTUS_ROOTDIR/logs/quartus-*.log
+    rm QuartusLiteSetup-linux.run
     rm -r $QUARTUS_ROOTDIR/uninstall
     rm -r $QUARTUS_ROOTDIR/logs
 EOF
@@ -70,6 +67,32 @@ RUN <<EOF
     ./tarsplitter -i quartus_dir.tar -p 5
     rm quartus_dir.tar tarsplitter
 EOF
+
+
+# Fix Quartus malloc/free issues in docker environment.
+# Source: https://community.intel.com/t5/Intel-Quartus-Prime-Software/quartus-map-crash-possibly-due-to-shared-library-shenanigans/m-p/1285186
+FROM ubuntu:jammy AS dlopen_hack
+
+RUN <<EOF
+    set -e
+    apt-get -q -y update
+    apt-get -q -y install --no-install-recommends gcc libc-dev
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
+EOF
+
+COPY <<dlopen_hack.c /
+#define _GNU_SOURCE 1
+#include <dlfcn.h>
+static void *(*orig_dlopen)(char const *, int) = 0;
+void *dlopen(char const *name, int flags) {
+    if(!orig_dlopen)
+        orig_dlopen = dlsym(RTLD_NEXT, "dlopen");
+    flags &= ~RTLD_DEEPBIND;
+    return orig_dlopen(name, flags);
+}
+dlopen_hack.c
+RUN gcc -shared -o dlopen_hack.so dlopen_hack.c -ldl
 
 
 FROM ubuntu:jammy AS base
@@ -104,6 +127,34 @@ EOF
 # Add Quartus to path
 ENV QUARTUS_ROOTDIR="/opt/intelFPGA_lite/$QUARTUS_VERSION"
 ENV PATH="$QUARTUS_ROOTDIR/quartus/bin:${PATH}"
+
+# Fixup Quartus quirks in version 18.1 that prevent loading the executables
+# alltogether or end up in crashes in quartus_map with some errors like:
+#  - missing libpng12
+#  => install from ppa
+#  - Inconsistency detected by ld.so: dl-close.c: 811: _dl_close: Assertion `map->l_init_called' failed!
+#  => delete corrupt library libccl_curl_drl.so bundled with quartus
+#  - invalid command name "vsyscall" / invalid command name "realloc():"
+#  - munmap invalid pointer
+#  => use dlopen_hack, see above
+# Source: https://community.intel.com/t5/Intel-Quartus-Prime-Software/Quartus-failed-to-run-inside-Docker-Linux/td-p/241058?profile.language=en
+RUN --mount=type=bind,from=dlopen_hack,target=/dlopen_hack <<EOF
+    set -e
+    if [ "$QUARTUS_VERSION" = "18.1" ]; then
+        apt-get -q -y update
+        apt-get -q -y install --no-install-recommends \
+            gnupg software-properties-common
+        add-apt-repository ppa:linuxuprising/libpng12
+        apt-get -q -y install --no-install-recommends libpng12-0
+        apt-get -q -y remove gnupg software-properties-common
+        apt-get -q -y autoremove
+        apt-get clean
+        rm -rf /var/lib/apt/lists/*
+        rm $QUARTUS_ROOTDIR/quartus/linux64/libccl_curl_drl.so
+        cp /dlopen_hack/dlopen_hack.so $QUARTUS_ROOTDIR/quartus/linux64/
+        echo 'export LD_PRELOAD=$QUARTUS_BINDIR/dlopen_hack.so:$LD_PRELOAD' >> $QUARTUS_ROOTDIR/quartus/adm/qenv.sh
+    fi
+EOF
 
 # Quartus asks at first startup if we have a license. We can skip this by
 # creating a specific file that quartus expects. What exactly the content is..

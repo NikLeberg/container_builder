@@ -37,7 +37,13 @@ testQuartusBase22_1 () {
 
 # Build a test design for the Cyclone IV device family.
 testQuartusCyclone () {
-    docker build --build-arg IMAGE_TAG=$1 --file device.test.dockerfile .
+    docker build -f - . <<EOF
+FROM ghcr.io/nikleberg/quartus:$1-staging
+ADD test_design.tar.bz2 /tmp/test_design
+RUN cd /tmp/test_design/geni/quartus \
+    && quartus_sh -t ../scripts/quartus_project.tcl \
+    && quartus_sh -t ../scripts/quartus_compile.tcl
+EOF
 }
 
 # Choose test depending on the given tag of the container/image.
