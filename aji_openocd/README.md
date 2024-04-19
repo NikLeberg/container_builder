@@ -1,20 +1,24 @@
-# quartus-prime-aji
-Extenstion to the [`quartus-prime`](../quartus-prime/README.md) image with AJI virtual JTAG infrastructure and OpenOCD. It allows to use this virtual JTAG system with OpenOCD for example to debug IP Cores in the FPGA.
+# aji_openocd
+> This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
+> For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
+Companion to the [`quartus`](../quartus/README.md) image with AJI virtual JTAG infrastructure and OpenOCD. It allows to use this virtual JTAG system with OpenOCD for example to debug IP Cores in the FPGA.
 
-This container contains the following:
-* Everything from `quartus-prime`
-* [OpenOCD](https://github.com/intel/aji_openocd) fork that enables aji
+This image contains a continerized version of the following [OpenOCD](https://github.com/intel/aji_openocd) fork from Intel that enables aji.
+
+## WIP
+This is a work-in-progress. To do:
+ - document how to integrate with the dev-base style container images
+ - how to network forward the openocd sockets
+ - actually get it to work with NEORV32
 
 ## What is AJI?
 AJI stands for Altera Virtual JTAG Interface. It enables the extenstion of the physical JTAG chain with ore or multiple virtual JTAG chains inside the FPGA fabric. This is extensively used for Altera's own products like _Signal Tap Logic Analyzer_ or _NIOS II Debugger_. But by instanciating the [`sld_virtual_jtag`](https://cdrdv2-public.intel.com/666577/ug_virtualjtag-683705-666577.pdf) entity one can extend this with custom JTAG TAPs. The required System Level Debug (SLD) infrastructure is then automatically instantiated when synthesizing with quartus. See the excellent [blog](https://tomverbeure.github.io/2021/05/02/Intel-JTAG-UART.html#the-intels-virtual-jtag-system) of tomverbeure for more in depth explanation.
 
 ## Usage
-For general usage see [readme](../quartus-prime/README.md) of `quartus-prime` image.
-
 To access the _USB Blaster_ hardware we need to forward the USB tree to the docker container. We do this by mounting the full `/dev` tree and giving it privileged access. One could also only map the specific USB device but this would not survive a un-plug / re-plug.
 Forwarding can be done with the following run flags:
 ```shell
-docker run --privileged -v /dev/bus/usb:/dev/bus/usb ghcr.io/nikleberg/quartus-prime-aji
+docker run --privileged -v /dev/bus/usb:/dev/bus/usb ghcr.io/nikleberg/aji_openocd
 ```
 
 Inside the container you need to start the jtag server of quartus before you can connect with OpenOCD. The quartus programmer uses the same server, so either start the programmer after which the server will live on for about ~2 mins, or start the server manually with the below command. The server should stay around and allow every access from the local host (e.g. OpenOCD).
@@ -28,7 +32,7 @@ jtagconfig --enum
 ```
 It should output the detected cable name and the attached FPGA. Something like so:
 ```
-root@quartus-prime-aji:~# jtagconfig --enum
+root@aji_openocd:~# jtagconfig --enum
 1) USB-Blaster [1-1]
   020F20DD   10CL016(Y|Z)/EP3C16/EP4CE15
 ```

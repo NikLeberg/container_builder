@@ -1,0 +1,9 @@
+[
+    {
+        "name": "aji_openocd",
+        "tag": "22.4",
+        "args": [
+            "AJI_OPENOCD_CLONE_TAG=R22.4"
+        ]
+    }
+]
