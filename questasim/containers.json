@@ -1,0 +1,14 @@
+[
+    {
+        "name": "questasim",
+        "tag": "22.1",
+        "args": [
+            "QUESTA_VERSION=22.1.2",
+            "QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/22.1std.2/922/ib_installers/QuestaSetup-22.1std.2.922-linux.run",
+            "QUESTA_SHA=a25801f1180c017ccc2459bce2acd833012adf38"
+        ],
+        "maximizeBuildSpace": true,
+        "testScript": "tests.sh",
+        "dockleAcceptExt": "sdf"
+    }
+]
