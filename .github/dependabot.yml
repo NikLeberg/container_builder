@@ -25,10 +25,6 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
-    directory: "/quartus-prime"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "docker"
     directory: "/aji_openocd"
     schedule:
       interval: "weekly"
