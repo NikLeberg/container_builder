@@ -1,0 +1,7 @@
+[
+    {
+        "name": "tdd-platform",
+        "tag": "0.1",
+        "testScript": "tests.sh"
+    }
+]
