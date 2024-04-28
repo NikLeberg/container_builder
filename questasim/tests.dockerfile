@@ -1,5 +1,6 @@
-# Pull in the (probably) just built image and build an example design.
-FROM ghcr.io/nikleberg/questasim:staging
+# Pull in the just built image and simulate an example design.
+ARG IMAGE_TAG
+FROM ghcr.io/nikleberg/questasim:${IMAGE_TAG}-staging
 
 ADD test_design.tar.bz2 /tmp/test_design
 RUN cd /tmp/test_design/geni/modelsim \

@@ -9,12 +9,12 @@ on:
       username:
         required: true
         type: string
-      images:
-        required: true
-        type: string
-      push:
+      release:
         required: true
         type: boolean
+      builderMatrix:
+        required: true
+        type: string
     secrets:
       password:
         required: true
@@ -24,18 +24,13 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
-      matrix:
-        image: ${{fromJson(inputs.images)}}
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./${{matrix.image}}
+      matrix: ${{fromJson(inputs.builderMatrix)}}
     env:
-      base_tag: ${{inputs.registry}}/${{inputs.username}}/${{matrix.image}}
+      baseTag: ${{inputs.registry}}/${{inputs.username}}/${{matrix.name}}
     steps:
 
       - name: Maximize Build Space
-        working-directory: .
+        if: ${{matrix.maximizeBuildSpace}}
         run: |
           echo "Available storage (pre cleanup):"
           df -h
@@ -46,6 +41,7 @@ jobs:
           sudo rm -rf /opt/ghc
           sudo rm -rf /usr/local/.ghcup
           sudo rm -rf /usr/share/swift
+          docker system prune -a -f --filter "until=10m"
           echo "Available storage (after cleanup):"
           df -h
 
@@ -62,63 +58,62 @@ jobs:
         run: |
           echo ${{secrets.password}} | docker login ${{inputs.registry}} -u ${{inputs.username}} --password-stdin
 
-      - name: Run pre_build Script
-        id: pre_build
-        run: |
-          if [ -e ./pre_build.sh ]
-          then
-            ./pre_build.sh
-          fi
-
       - name: Build and Push as Staging
         uses: docker/build-push-action@v5
         with:
-          context: ./${{matrix.image}}
-          push: true
-          tags: ${{env.base_tag}}:staging
+          context: ./${{matrix.name}}
+          file: ./${{matrix.name}}/${{matrix.dockerfile}}
+          tags: ${{env.baseTag}}:${{matrix.tag}}-staging
+          platforms: ${{matrix.platforms}}
+          build-args: ${{matrix.args}}
+          push: true # staging is always pushed
+          load: true # make available for tests
           cache-from: type=gha
-          cache-to: type=gha,mode=max   
+          cache-to: type=gha,mode=max
+
+      - name: Run Test Script
+        if: ${{matrix.testScript != ''}}
+        working-directory: ./${{matrix.name}}
+        shell: bash
+        run: ./${{matrix.testScript}} ${{matrix.tag}}
 
       - name: Scan Container with Trivy
-        if: steps.pre_build.outputs.trivy_skip != 'skip'
+        if: ${{!matrix.trivySkip}}
         uses: aquasecurity/trivy-action@master
         with:
           scanners: vuln
-          image-ref: ${{env.base_tag}}:staging
+          image-ref: ${{env.baseTag}}:${{matrix.tag}}-staging
           ignore-unfixed: true
           format: sarif
           output: trivy-results.sarif
           timeout: 20m0s
 
       - name: Scan Container with Dockle
-        if: steps.pre_build.outputs.dockle_skip != 'skip'
+        if: ${{!matrix.dockleSkip}}
         uses: erzz/dockle-action@v1.4.0
         with:
-          image: ${{env.base_tag}}:staging
+          image: ${{env.baseTag}}:${{matrix.tag}}-staging
           failure-threshold: FATAL
           timeout: 20m
-          accept-extensions: ${{steps.pre_build.outputs.dockle_accept_extensions}}
+          accept-extensions: ${{matrix.dockleAcceptExt}}
+          report-format: sarif
 
       - name: Upload Scan Results
-        if: steps.pre_build.outputs.trivy_skip != 'skip'
+        if: ${{!matrix.trivySkip || !matrix.dockleSkip}}
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: .
 
-      - name: Run post_build Script
-        run: |
-          if [ -e ./post_build.sh ]
-          then
-            ./post_build.sh
-          fi
-
-      - name: Push Container as Latest
-        if: inputs.push
+      - name: Push Container as Released
+        if: ${{inputs.release && !matrix.intermediate}}
         uses: docker/build-push-action@v5
         with:
-          context: ./${{matrix.image}}
+          context: ./${{matrix.name}}
+          file: ./${{matrix.name}}/${{matrix.dockerfile}}
+          tags: ${{env.baseTag}}:${{matrix.tag}}
+          platforms: ${{matrix.platforms}}
+          build-args: ${{matrix.args}}
           push: true
-          tags: ${{env.base_tag}}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

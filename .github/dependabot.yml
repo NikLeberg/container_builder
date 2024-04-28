@@ -21,23 +21,11 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
-    directory: "/vhdl_rpn-ci"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "docker"
     directory: "/tdd-platform"
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
-    directory: "/quartus-prime"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "docker"
-    directory: "/quartus-prime-aji"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "docker"
-    directory: "/neorv32_soc"
+    directory: "/aji_openocd"
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
@@ -54,10 +42,6 @@ updates:
       interval: "weekly"
   - package-ecosystem: "docker"
     directory: "/riscv-gcc"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "docker"
-    directory: "/ghdl"
     schedule:
       interval: "weekly"
   

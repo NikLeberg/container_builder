@@ -10,6 +10,13 @@ Questa is a part of [Intel Quartus Prime Lite](https://www.intel.de/content/www/
 
 But even with this split, the image is still very big (~4.6 GB). The large _installation step_ image layer is split up into multiple smaller layers to help speed up image pull / download and make it more robust.
 
+## Tags
+| Tag | Questa Version | Note |
+|---|---|---|
+| `22.1` | 22.1 | - |
+
+Feel free to open an issue to request other versions. Note that previous to version 21.1, Intel bundled ModelSim instead of QuestaSim.
+
 ## Usage
 The image has `vsim` set as `ENTRYPOINT`. Simply running a container without arguments will invoke `vsim` with the default `CMD` argument `-version` and print the Questa version:
 ```shell
@@ -69,13 +76,45 @@ export -f vsim_bash
 Note the additional `vsim_bash` alias. It overwrites the entrypoint in the image and lets you more easily debug problems by dropping you into a bash shell inside the container.
 
 ### License File
-Since v21.1 of Quartus, ModelSim was replaced by QuestaSim. It requires a valid license that can be obtained from [intel](https://licensing.intel.com/). For ease of use a valid license is already included. But it is bound to a specific NIC id i.e. MAC address `00:ab:ab:ab:ab:ab`.
-
-If you want to use this license you have to set the MAC address for the docker contrainer with the `--mac-address=00:ab:ab:ab:ab:ab` argument when starting the container with `docker run`.
+Since v21.1 of Quartus, ModelSim was replaced by QuestaSim. It requires a valid license that can be obtained from [Intel](https://licensing.intel.com/). For ease of use a valid license is already included. But it is bound to a specific NIC id i.e. MAC address `00:ab:ab:ab:ab:ab`.
 
 Alternatively you may [aquire your own license file](https://licensing.intel.com/). To use it you have to:
  - mount the license file into the container with `--volume /path/on/host/license:/path/on/container/license`
  - set the environment variable `LM_LICENSE_FILE` such that `vsim` finds it with: `--env=LM_LICENSE_FILE=/path/on/container/license`
+
+If you want to use the included license you have to set the MAC address for the docker container differently depending on where you use it:
+
+#### Local
+To use the container locally just add the `mac-address` option to the docker run command:
+```shell
+docker run --mac-address=00:ab:ab:ab:ab:ab ghcr.io/nikleberg/questasim:22.1
+```
+
+#### GitHub Action
+For using this container as image in the CI environment of GitHub Actions add the `mac-address` option to `jobs.<job_id>.container.options` in the yaml:
+```yaml
+jobs:
+  example:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/nikleberg/questasim:22.1
+      options: --mac-address=00:ab:ab:ab:ab:ab
+    steps:
+    - ...
+```
+
+#### GitLab CI
+The GitLab CI yaml syntax i.e. its docker runner has [currently](https://gitlab.com/gitlab-org/gitlab-runner/-/issues/2344) no capability to set additional docker run options. But if the runner has the `CAP_NET` capability then one can change the MAC address within the container itself. For example with `ifconfig`:
+```yaml
+example:
+  image: ghcr.io/nikleberg/questasim:22.1
+  before_script: |
+    apt-get -q -y update && apt-get -q -y install net-tools
+    ifconfig eth0 down
+    ifconfig eth0 hw ether "00:ab:ab:ab:ab:ab"
+    ifconfig eth0 up
+  script: ...
+```
 
 ## License
 [MIT](../LICENSE) © [NikLeberg](https://github.com/NikLeberg).

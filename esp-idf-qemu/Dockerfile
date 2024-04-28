@@ -6,8 +6,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=C.UTF-8
 
 # Install espressif QEMU fork https://github.com/espressif/qemu
-ENV QEMU_REL=esp-develop-20220203
-ENV QEMU_SHA256=c83e483e3290f48a563c2a376b7413cd94a8692d8c7308b119f4268ca6d164b6
+ARG QEMU_REL
+ARG QEMU_SHA256
 ENV QEMU_DIST=qemu-${QEMU_REL}.tar.bz2
 ENV QEMU_URL=https://github.com/espressif/qemu/releases/download/${QEMU_REL}/${QEMU_DIST}
 RUN wget --no-verbose ${QEMU_URL} \

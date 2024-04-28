@@ -1,0 +1,56 @@
+[
+    {
+        "name": "quartus",
+        "tag": "18.1",
+        "dockerfile": "base.dockerfile",
+        "args": [
+            "QUARTUS_VERSION=18.1",
+            "QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/18.1std/625/ib_installers/QuartusLiteSetup-18.1.0.625-linux.run",
+            "QUARTUS_SHA=3cc0e856c0c203ed47d6eaca05a85c2f29b7bd01"
+        ],
+        "intermediate": true,
+        "maximizeBuildSpace": true,
+        "testScript": "tests.sh"
+    },
+    {
+        "name": "quartus",
+        "tag": "22.1",
+        "dockerfile": "base.dockerfile",
+        "args": [
+            "QUARTUS_VERSION=22.1.2",
+            "QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/22.1std.2/922/ib_installers/QuartusLiteSetup-22.1std.2.922-linux.run",
+            "QUARTUS_SHA=9fbb3a3721c3cb94706c2d9532a8213f120f5c56"
+        ],
+        "intermediate": true,
+        "maximizeBuildSpace": true,
+        "testScript": "tests.sh"
+    },
+    {
+        "name": "quartus",
+        "tag": "18.1-cycloneiv",
+        "dockerfile": "device.dockerfile",
+        "args": [
+            "BASE_IMAGE_TAG=18.1",
+            "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/18.1std/625/ib_installers/cyclone-18.1.0.625.qdz",
+            "DEVICE_SHA=0063923ed4b3e12f706a5fb95ddce71fbb89d833",
+            "DEVICE_FILE=cyclone-18.1.0.625.qdz"
+        ],
+        "dependsOn": "quartus:18.1",
+        "maximizeBuildSpace": true,
+        "testScript": "tests.sh"
+    },
+    {
+        "name": "quartus",
+        "tag": "22.1-cycloneiv",
+        "dockerfile": "device.dockerfile",
+        "args": [
+            "BASE_IMAGE_TAG=22.1",
+            "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/22.1std.2/922/ib_installers/cyclone-22.1std.2.922.qdz",
+            "DEVICE_SHA=97163542d8dd846703fc1912ea0c844bc9359a2e",
+            "DEVICE_FILE=cyclone-22.1std.2.922.qdz"
+        ],
+        "dependsOn": "quartus:22.1",
+        "maximizeBuildSpace": true,
+        "testScript": "tests.sh"
+    }
+]

@@ -51,10 +51,8 @@ RUN git clone $AJI_OPENOCD_CLONE_URL -b $AJI_OPENOCD_CLONE_TAG --depth 1 \
     && sed -i 's/CCLD = \$(CC)/CCLD = g++/g' ./Makefile \
     && make
 
-# Import built openocd into quartus prime container. Use staging tag to depend
-# on just build image from previous CI stage. For releases this is equivalent to
-# latest tag.
-FROM ghcr.io/nikleberg/quartus-prime:staging
+# Import built openocd into clean container.
+FROM ubuntu:jammy
 COPY --from=openocd_builder /aji_openocd/src/openocd /opt/aji_openocd/
 COPY --from=openocd_builder /aji_openocd/tcl /opt/aji_openocd/tcl
 
