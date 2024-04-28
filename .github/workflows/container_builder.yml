@@ -27,6 +27,7 @@ jobs:
       matrix: ${{fromJson(inputs.builderMatrix)}}
     env:
       baseTag: ${{inputs.registry}}/${{inputs.username}}/${{matrix.name}}
+    name: ${{matrix.name}}:${{matrix.tag}}
     steps:
 
       - name: Maximize Build Space
