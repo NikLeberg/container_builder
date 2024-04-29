@@ -170,7 +170,7 @@ def reduceStagesToChangedAndDependencies(stages: list, changedContainers: list) 
 
 # Build the GHA (GitHub Actions) matrix definitions for the containers.
 def buildGHAMatrices(stages: list) -> list:
-    return [{"include": [c.getGHAMatrix() for c in stage]} for stage in stages]
+    return [{"include": [c.getGHAMatrix() for c in s]} for s in stages if s]
 
 # Set step output for GHA, prints to STDIO if not in CI.
 def setGHAOutput(matrices: list) -> None:
