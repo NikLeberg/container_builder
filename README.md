@@ -120,7 +120,7 @@ To build your image for `amd64` and also `riscv64` add to your `containers.json`
 ```
 
 ### Testing
-Testing you images is an important step in ensuring they do or contain what you actually intend them to do. For this specify `testScript` with a path inside your `<image_name_folder>`. The script is ran after the staging version of your image has been built, so the tag know by docker will be `ghcr.io/nikleberg/<image_name>:<image_tag>-staging`. The script is called with the `<image_tag>` as its first argument.
+Testing your images is an important step in ensuring they do or contain what you actually intend them to do. For this specify `testScript` with a path inside your `<image_name_folder>`. The script is ran after the staging version of your image has been built, so the tag know by docker will be `ghcr.io/nikleberg/<image_name>:<image_tag>-staging`. The script is called with the `<image_tag>` as its first argument.
 
 ```json
 [
