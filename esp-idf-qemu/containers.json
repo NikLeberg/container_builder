@@ -1,7 +1,10 @@
 [
     {
         "name": "esp-idf-qemu",
-        "tag": "20220203",
+        "tags": [
+            "20220203",
+            "latest"
+        ],
         "args": [
             "QEMU_REL=esp-develop-20220203",
             "QEMU_SHA256=c83e483e3290f48a563c2a376b7413cd94a8692d8c7308b119f4268ca6d164b6"

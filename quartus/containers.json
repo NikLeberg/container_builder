@@ -1,7 +1,7 @@
 [
     {
         "name": "quartus",
-        "tag": "18.1",
+        "tags": "18.1",
         "dockerfile": "base.dockerfile",
         "args": [
             "QUARTUS_VERSION=18.1",
@@ -14,7 +14,7 @@
     },
     {
         "name": "quartus",
-        "tag": "22.1",
+        "tags": "22.1",
         "dockerfile": "base.dockerfile",
         "args": [
             "QUARTUS_VERSION=22.1.2",
@@ -27,7 +27,7 @@
     },
     {
         "name": "quartus",
-        "tag": "18.1-cycloneiv",
+        "tags": "18.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [
             "BASE_IMAGE_TAG=18.1",
@@ -41,7 +41,7 @@
     },
     {
         "name": "quartus",
-        "tag": "22.1-cycloneiv",
+        "tags": "22.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [
             "BASE_IMAGE_TAG=22.1",

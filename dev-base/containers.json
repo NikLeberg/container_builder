@@ -1,6 +1,9 @@
 [
     {
         "name": "dev-base",
-        "tag": "1.0"
+        "tags": [
+            "1.0",
+            "latest"
+        ]
     }
 ]

@@ -1,7 +1,10 @@
 [
     {
         "name": "questasim",
-        "tag": "22.1",
+        "tags": [
+            "22.1",
+            "latest"
+        ],
         "args": [
             "QUESTA_VERSION=22.1.2",
             "QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/22.1std.2/922/ib_installers/QuestaSetup-22.1std.2.922-linux.run",
