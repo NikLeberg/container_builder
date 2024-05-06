@@ -8,6 +8,7 @@ from pathlib import Path
 @dataclass
 class ContainerVariant:
     name: str
+    description: str
     tags: list
     dockerfile: str
     platforms: list
@@ -23,6 +24,7 @@ class ContainerVariant:
     @staticmethod
     def tryMapFromJson(json: dict):
         name = json.get("name")
+        description = json.get("description", "")
         tags = json.get("tags")
         if isinstance(tags, str):
             tags = [tags]
@@ -37,7 +39,7 @@ class ContainerVariant:
         dockleSkip = json.get("dockleSkip", False)
         dockleAcceptExt = json.get("dockleAcceptExt", "")
         if name and isinstance(name, str) and tags and isinstance(tags, list):
-            return ContainerVariant(name, tags, dockerfile, platforms, args, dependsOn, intermediate, maximizeBuildSpace, testScript, trivySkip, dockleSkip, dockleAcceptExt)
+            return ContainerVariant(name, description, tags, dockerfile, platforms, args, dependsOn, intermediate, maximizeBuildSpace, testScript, trivySkip, dockleSkip, dockleAcceptExt)
         else:
             print(f"Ill formed containers.json entry '{json}' is not valid. Ignoring.")
             return None
