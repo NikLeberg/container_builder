@@ -34,7 +34,7 @@ jobs:
   stage1:
     name: Build Stage 1 Images
     needs: collect
-    if: always() && needs.collect.outputs.builderMatrixStage1 != ''
+    if: ${{!cancelled() && needs.collect.outputs.builderMatrixStage1 != ''}}
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: ghcr.io
@@ -47,7 +47,7 @@ jobs:
   stage2:
     name: Build Stage 2 Images
     needs: [collect, stage1]
-    if: always() && needs.collect.outputs.builderMatrixStage2 != ''
+    if: ${{!cancelled() && needs.collect.outputs.builderMatrixStage2 != ''}}
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: ghcr.io
@@ -60,7 +60,7 @@ jobs:
   stage3:
     name: Build Stage 3 Images
     needs: [collect, stage2]
-    if: always() && needs.collect.outputs.builderMatrixStage3 != ''
+    if: ${{!cancelled() && needs.collect.outputs.builderMatrixStage3 != ''}}
     uses: ./.github/workflows/container_builder.yml
     with:
       registry: ghcr.io
@@ -77,7 +77,7 @@ jobs:
     name: Summarize
     runs-on: ubuntu-22.04
     needs: [collect, stage1, stage2, stage3]
-    if: always()
+    if: ${{always()}}
     steps:
       - name: Successful builds?
         run: |

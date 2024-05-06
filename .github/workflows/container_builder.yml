@@ -27,7 +27,7 @@ jobs:
       matrix: ${{fromJson(inputs.builderMatrix)}}
     env:
       baseTag: ${{inputs.registry}}/${{inputs.username}}/${{matrix.name}}
-    name: ${{matrix.name}}:${{matrix.tag}}
+    name: ${{matrix.name}}:${{matrix.mainTag}}
     steps:
 
       - name: Maximize Build Space
@@ -59,12 +59,21 @@ jobs:
         run: |
           echo ${{secrets.password}} | docker login ${{inputs.registry}} -u ${{inputs.username}} --password-stdin
 
+      - name: Generate Docker Staging Metadata
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{env.baseTag}}
+          flavor: |
+            latest=false
+            suffix=-staging,onlatest=true
+          tags: ${{matrix.tags}}
+
       - name: Build and Push as Staging
         uses: docker/build-push-action@v5
         with:
           context: ./${{matrix.name}}
           file: ./${{matrix.name}}/${{matrix.dockerfile}}
-          tags: ${{env.baseTag}}:${{matrix.tag}}-staging
+          tags: ${{env.DOCKER_METADATA_OUTPUT_TAGS}}
           platforms: ${{matrix.platforms}}
           build-args: ${{matrix.args}}
           push: true # staging is always pushed
@@ -76,14 +85,14 @@ jobs:
         if: ${{matrix.testScript != ''}}
         working-directory: ./${{matrix.name}}
         shell: bash
-        run: ./${{matrix.testScript}} ${{matrix.tag}}
+        run: ./${{matrix.testScript}} ${{matrix.mainTag}}
 
       - name: Scan Container with Trivy
         if: ${{!matrix.trivySkip}}
         uses: aquasecurity/trivy-action@master
         with:
           scanners: vuln
-          image-ref: ${{env.baseTag}}:${{matrix.tag}}-staging
+          image-ref: ${{env.baseTag}}:${{matrix.mainTag}}-staging
           ignore-unfixed: true
           format: sarif
           output: trivy-results.sarif
@@ -93,7 +102,7 @@ jobs:
         if: ${{!matrix.dockleSkip}}
         uses: erzz/dockle-action@v1.4.0
         with:
-          image: ${{env.baseTag}}:${{matrix.tag}}-staging
+          image: ${{env.baseTag}}:${{matrix.mainTag}}-staging
           failure-threshold: FATAL
           timeout: 20m
           accept-extensions: ${{matrix.dockleAcceptExt}}
@@ -105,13 +114,21 @@ jobs:
         with:
           sarif_file: .
 
+      - name: Generate Docker Release Metadata
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{env.baseTag}}
+          flavor: |
+            latest=false
+          tags: ${{matrix.tags}}
+
       - name: Push Container as Released
         if: ${{inputs.release && !matrix.intermediate}}
         uses: docker/build-push-action@v5
         with:
           context: ./${{matrix.name}}
           file: ./${{matrix.name}}/${{matrix.dockerfile}}
-          tags: ${{env.baseTag}}:${{matrix.tag}}
+          tags: ${{env.DOCKER_METADATA_OUTPUT_TAGS}}
           platforms: ${{matrix.platforms}}
           build-args: ${{matrix.args}}
           push: true
@@ -119,5 +136,5 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Logout from Registry
-        if: always()
+        if: ${{always()}}
         run: docker logout ${{inputs.registry}}

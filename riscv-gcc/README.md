@@ -2,13 +2,21 @@
 > This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
 > For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
 
-This container contains a continerized version of a RISC-V GCC cross-compiler toolchain in version `riscv32-unknown-elf-gcc () 13.2.0`.
+This container contains a continerized version of the RISC-V GCC cross-compiler toolchain in various versions, see [below](#tags).
 Additionally `make`, `openocd` and a host version of a `gcc` toolchain are installed as well.
+
+## Tags
+| Tag | Upstream `riscv-gnu-toolchain` tag | GCC version | ARCH | ABI | Note |
+|---|---|---|---|---|---|
+| `13.2-rv32imac` | 2024.04.12 | 13.2.0 | rv32imac | ilp32 | - |
+| `12.2-rv32imac` | 2023.10.06 | 12.2.0 | rv32imac | ilp32 | - |
+
+Feel free to open an issue to request other versions.
 
 ## Usage
 The image has `riscv32-unknown-elf-gcc` set as `ENTRYPOINT`. Simply running a container without arguments will invoke `riscv32-unknown-elf-gcc` with the default `CMD` argument `--version` and print the GCC version:
 ```
-$ docker run ghcr.io/nikleberg/riscv-gcc
+$ docker run ghcr.io/nikleberg/riscv-gcc:13.2-rv32imac
 > riscv32-unknown-elf-gcc () 13.2.0
   Copyright (C) 2023 Free Software Foundation, Inc.
   This is free software; see the source for copying conditions.  There is NO
@@ -17,7 +25,7 @@ $ docker run ghcr.io/nikleberg/riscv-gcc
 
 For an actual usage you want to override the `CMD` by giving additional arguments to the `docker run` command. For example to actually cross-compile code you could run:
 ```
-$ docker run ghcr.io/nikleberg/riscv-gcc main.c -I include/
+$ docker run ghcr.io/nikleberg/riscv-gcc:13.2-rv32imac main.c -I include/
 > ...
 ```
 
@@ -47,27 +55,27 @@ export -f get_common_args
 
 function make () {
     riscv_args="--hostname riscv-gcc --entrypoint make $(get_common_args)"
-    docker run $riscv_args ghcr.io/nikleberg/riscv-gcc $*
+    docker run $riscv_args ghcr.io/nikleberg/riscv-gcc:13.2-rv32imac $*
 }
 export -f make
 function riscv32-unknown-elf-gcc () {
     riscv_args="--hostname riscv-gcc --entrypoint riscv32-unknown-elf-gcc $(get_common_args)"
-    docker run $riscv_args ghcr.io/nikleberg/riscv-gcc $*
+    docker run $riscv_args ghcr.io/nikleberg/riscv-gcc:13.2-rv32imac $*
 }
 export -f riscv32-unknown-elf-gcc
 function gcc () {
     riscv_args="--hostname riscv-gcc --entrypoint gcc $(get_common_args)"
-    docker run $riscv_args ghcr.io/nikleberg/riscv-gcc $*
+    docker run $riscv_args ghcr.io/nikleberg/riscv-gcc:13.2-rv32imac $*
 }
 export -f gcc
 function openocd () {
     riscv_args="--hostname riscv-gcc --entrypoint openocd $(get_common_args)"
-    docker run $riscv_args ghcr.io/nikleberg/riscv-gcc $*
+    docker run $riscv_args ghcr.io/nikleberg/riscv-gcc:13.2-rv32imac $*
 }
 export -f openocd
 function riscv_bash () {
     riscv_args="--hostname riscv-gcc --entrypoint bash $(get_common_args)"
-    docker run $riscv_args ghcr.io/nikleberg/riscv-gcc $*
+    docker run $riscv_args ghcr.io/nikleberg/riscv-gcc:13.2-rv32imac $*
 }
 export -f riscv_bash
 ```
