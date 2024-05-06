@@ -1,6 +1,7 @@
 [
     {
         "name": "questasim",
+        "description": "QuestaSim / vsim as part of Intel Quartus Prime Lite version 22.1.",
         "tags": [
             "22.1",
             "latest"
