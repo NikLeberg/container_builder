@@ -136,5 +136,5 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Logout from Registry
-        if: always()
+        if: ${{always()}}
         run: docker logout ${{inputs.registry}}
