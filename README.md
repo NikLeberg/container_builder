@@ -13,13 +13,13 @@ Images are organised in subdirectories containing their respective files. To get
 [
     {
         "name": "<folder_name>",
-        "tag": "<image_tag>"
+        "tags": "<image_tag>"
     }
 ]
 ```
 This instructs the CI to build `<folder_name>/Dockerfile` as docker image, tag it as `ghcr.io/nikleberg/<folder_name>:<image_tag>` and push it to [ghcr.io](ghcr.io).
 
-CI can do much more though. It can build multiple variants / tags from your `Dockerfile`, can build for multiple platforms, scan for vulnerabilities and handle dependencies between image variants.
+CI can do much more though. It can build multiple variants and tags from your `Dockerfile`, can build for multiple platforms, scan for vulnerabilities and handle dependencies between image variants.
 
 ### Image Variants
 You may want to build an image in multiple variants. For example you may want to package `gcc` in different versions. For this you can define multiple image variants in the `containers.json` file:
@@ -27,14 +27,14 @@ You may want to build an image in multiple variants. For example you may want to
 [
     {
         "name": "gcc",
-        "tag": "13",
+        "tags": "13",
         "args": [
             "GCC_GIT_TAG=releases/gcc-13.2.0"
         ]
     },
     {
         "name": "gcc",
-        "tag": "10",
+        "tags": "10",
         "args": [
             "GCC_GIT_TAG=releases/gcc-10.5.0"
         ]
@@ -55,7 +55,7 @@ Example:
 [
     {
         "name": "foo",
-        "tag": "1.0"
+        "tags": "1.0"
     }
 ]
 ```
@@ -65,7 +65,7 @@ Example:
 [
     {
         "name": "bar",
-        "tag": "1.0",
+        "tags": "1.0",
         "dependsOn": "foo:1.0"
     }
 ]
@@ -78,7 +78,7 @@ In short:
 [
     {
         "name": "quartus",
-        "tag": "18.1",
+        "tags": "18.1",
         "dockerfile": "base.dockerfile",
         "args": [
             "QUARTUS_VERSION=18.1"
@@ -87,7 +87,7 @@ In short:
     },
     {
         "name": "quartus",
-        "tag": "18.1-cycloneiv",
+        "tags": "18.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [
             "BASE_IMAGE_TAG=18.1",
@@ -132,6 +132,24 @@ Testing your images is an important step in ensuring they do or contain what you
 ]
 ```
 
+### Multi Tagging
+You may want to tag one variant of your image with multiple different tags. For example you could do proper [semantic versioning](https://semver.org/) by tagging the version `1.2.3` also with `1.2` and `1` so that users of that tags will get the updates too. It can also be used to set the `latest` tag to one of the image variants. To do this, simply list the tags like so:
+```json
+[
+    {
+        ...
+        "tags": [
+            "1.2.3",
+            "1.2",
+            "1",
+            "latest"
+        ]
+        ...
+    }
+]
+```
+> Note: The `dependsOn` as described in [Image Dependencies](#image-dependencies) can use any of the given tags.
+
 ### CI Options
 If you build a huge image, GitHub Actions may run out of disk space. For these image you can set `"maximizeBuildSpace": true` and the CI will try to free up as much space as possible beforehand.
 
@@ -145,8 +163,8 @@ If you build a huge image, GitHub Actions may run out of disk space. For these i
         // required, must be identical to the folder this image is in
         "name": "name",
         // Tag of this image variant
-        // required
-        "tag": "1.2.3",
+        // required, either a string of one tag, or a list of multiple tags
+        "tags": "1.2.3", // or: "tags": ["1.2.3", "1.2", "1"]
         // Dockerfile to use for building
         // optional, defaults so "Dockerfile"
         "dockerfile": "Dockerfile",
