@@ -1,9 +1,9 @@
 [
     {
         "name": "riscv-gcc",
-        "tags": "rv32imac-20231012",
+        "tags": "12.2-rv32imac",
         "args": [
-            "RISCV_GNU_CLONE_TAG=2023.10.12",
+            "RISCV_GNU_CLONE_TAG=2023.10.06",
             "RISCV_ARCH=rv32imac",
             "RISCV_ABI=ilp32"
         ],
@@ -11,7 +11,7 @@
     },
     {
         "name": "riscv-gcc",
-        "tags": "rv32imac-20240412",
+        "tags": "13.2-rv32imac",
         "args": [
             "RISCV_GNU_CLONE_TAG=2024.04.12",
             "RISCV_ARCH=rv32imac",
