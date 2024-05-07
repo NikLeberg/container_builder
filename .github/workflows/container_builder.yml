@@ -67,7 +67,7 @@ jobs:
             latest=false
             suffix=-staging,onlatest=true
           tags: ${{matrix.tags}}
-          labels: |
+          annotations: |
             org.opencontainers.image.title=${{matrix.name}}
             org.opencontainers.image.description="DON'T USE THIS STAGING TAG!"
 
@@ -77,7 +77,7 @@ jobs:
           context: ./${{matrix.name}}
           file: ./${{matrix.name}}/${{matrix.dockerfile}}
           tags: ${{env.DOCKER_METADATA_OUTPUT_TAGS}}
-          labels: ${{env.DOCKER_METADATA_OUTPUT_LABELS}}
+          annotations: ${{env.DOCKER_METADATA_OUTPUT_ANNOTATIONS}}
           platforms: ${{matrix.platforms}}
           build-args: ${{matrix.args}}
           push: true # staging is always pushed
@@ -125,7 +125,7 @@ jobs:
           flavor: |
             latest=false
           tags: ${{matrix.tags}}
-          labels: |
+          annotations: |
             org.opencontainers.image.title=${{matrix.name}}
             org.opencontainers.image.description=${{matrix.description}}
             org.opencontainers.image.source=${{env.IMAGE_URL}}
@@ -140,7 +140,7 @@ jobs:
           context: ./${{matrix.name}}
           file: ./${{matrix.name}}/${{matrix.dockerfile}}
           tags: ${{env.DOCKER_METADATA_OUTPUT_TAGS}}
-          labels: ${{env.DOCKER_METADATA_OUTPUT_LABELS}}
+          annotations: ${{env.DOCKER_METADATA_OUTPUT_ANNOTATIONS}}
           platforms: ${{matrix.platforms}}
           build-args: ${{matrix.args}}
           push: true
