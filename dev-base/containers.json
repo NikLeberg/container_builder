@@ -1,6 +1,7 @@
 [
     {
         "name": "dev-base",
+        "description": "Basic devcontainer image with bootstraping tools for development and mainly Docker-outside-of-Docker (DooD) functionality.",
         "tags": [
             "1.0",
             "latest"

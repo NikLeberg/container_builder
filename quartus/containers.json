@@ -27,6 +27,7 @@
     },
     {
         "name": "quartus",
+        "description": "Intel Quartus Prime Lite in version 18.1 and with Cyclone IV device support files.",
         "tags": "18.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [
@@ -41,6 +42,7 @@
     },
     {
         "name": "quartus",
+        "description": "Intel Quartus Prime Lite in version 22.1 and with Cyclone IV device support files.",
         "tags": "22.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [

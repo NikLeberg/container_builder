@@ -1,6 +1,7 @@
 [
     {
         "name": "riscv-gcc",
+        "description": "RISC-V GCC (v12.2) cross-compiler toolchain with ARCH=rv32imac and ABI=ilp32.",
         "tags": "12.2-rv32imac",
         "args": [
             "RISCV_GNU_CLONE_TAG=2023.10.06",
@@ -11,6 +12,7 @@
     },
     {
         "name": "riscv-gcc",
+        "description": "RISC-V GCC (v13.2) cross-compiler toolchain with ARCH=rv32imac and ABI=ilp32.",
         "tags": "13.2-rv32imac",
         "args": [
             "RISCV_GNU_CLONE_TAG=2024.04.12",

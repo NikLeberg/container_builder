@@ -1,6 +1,7 @@
 [
     {
         "name": "aji_openocd",
+        "description": "OpenOCD fork of Intel with Altera Virtual JTAG Interface (AJI). Enables the extenstion of the physical JTAG chain with one or multiple virtual JTAG chains inside the FPGA fabric.",
         "tags": [
             "22.4",
             "latest"
