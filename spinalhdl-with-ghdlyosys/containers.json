@@ -1,0 +1,16 @@
+[
+    {
+        "name": "spinalhdl-with-ghdlyosys",
+        "description": "SpinalHDL developent image with additional GHDL Yosys plugin.",
+        "tags": "0.1-dev",
+        "args": [
+            "UBUNTU_VERSION=24.04",
+            "YOSYS_VERSION=yosys-0.41",
+            "SOLVERS_PATH=snapshot-20240212/ubuntu-22.04-X64-bin.zip",
+            "BOOLECTOR_VERSION=3.2.3",
+            "SYMBIYOSYS_VERSION=yosys-0.41",
+            "MILL_VERSION=0.11.7"
+        ],
+        "dockleSkip": true
+    }
+]
