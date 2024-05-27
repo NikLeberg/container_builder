@@ -14,14 +14,14 @@ ARG SBT_OPTS_DEFAULT="-Dsbt.override.build.repos=true -Dsbt.boot.directory=/sbt/
 ENV COURSIER_CACHE=$COURSIER_CACHE_DEFAULT
 ENV SBT_OPTS=$SBT_OPTS_DEFAULT
 
-ARG DEPS_RUNTIME="ca-certificates gnupg2 openjdk-17-jdk-headless ccache curl g++ gcc git libtcl8.6 python3 python3-pip python3-pip-whl libpython3-dev ssh locales make ghdl iverilog libboost1.74-dev"
+ARG DEPS_RUNTIME="ca-certificates gnupg2 openjdk-17-jdk-headless ccache curl g++ gcc git libtcl8.6 python3 python3-pip python3-pip-whl libpython3-dev ssh locales make iverilog libboost1.74-dev libgnat-13"
 RUN apt-get update && \
     apt-get install -y --no-install-recommends $DEPS_RUNTIME
 
 FROM base AS build-symbiyosys
 
 ENV PREFIX=/opt
-ARG DEPS_YOSYS="autoconf build-essential clang cmake libffi-dev libreadline-dev pkg-config tcl-dev unzip flex bison"
+ARG DEPS_YOSYS="autoconf build-essential clang cmake libffi-dev libreadline-dev pkg-config tcl-dev unzip flex bison gnat libz-dev"
 RUN apt-get install -y --no-install-recommends $DEPS_YOSYS
 
 ARG YOSYS_VERSION="yosys-0.28"
@@ -65,6 +65,26 @@ RUN git clone https://github.com/YosysHQ/sby.git SymbiYosys && \
     make PREFIX=$PREFIX -j$(nproc) install && \
     cd .. && \
     rm -Rf SymbiYosys
+
+ARG GHDL_VERSION="v4.1.0"
+RUN git clone https://github.com/ghdl/ghdl ghdl && \
+    cd ghdl && \
+    git checkout $GHDL_VERSION && \
+    mkdir build && \
+    cd build && \
+    ../configure --prefix=$PREFIX && \
+    make && \
+    make install && \
+    cd ../.. && \
+    rm -Rf ghdl
+
+ARG GHDL_PLUGIN_VERSION="0c4740a"
+RUN git clone https://github.com/ghdl/ghdl-yosys-plugin.git ghdl-yosys-plugin && \
+    cd ghdl-yosys-plugin && \
+    git reset $GHDL_PLUGIN_VERSION --hard && \
+    make YOSYS_PREFIX=$PREFIX install && \
+    cd .. && \
+    rm -Rf ghdl-yosys-plugin
 
 FROM base AS build-verilator
 
