@@ -9,7 +9,7 @@
             "SOLVERS_PATH=snapshot-20240212/ubuntu-22.04-X64-bin.zip",
             "BOOLECTOR_VERSION=3.2.3",
             "SYMBIYOSYS_VERSION=yosys-0.41",
-            "GHDL_VERSION=dab33f7",
+            "GHDL_VERSION=3b05281",
             "GHDL_PLUGIN_VERSION=0c4740a",
             "MILL_VERSION=0.11.7"
         ],
