@@ -44,4 +44,8 @@ updates:
     directory: "/riscv-gcc"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/spinalhdl-with-ghdlyosys"
+    schedule:
+      interval: "weekly"
   
