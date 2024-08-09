@@ -13,7 +13,7 @@
         "name": "riscv-gcc",
         "tags": "13.2-rv32imac",
         "args": [
-            "RISCV_GNU_CLONE_TAG=2024.04.12",
+            "RISCV_GNU_CLONE_TAG=2024.08.06",
             "RISCV_ARCH=rv32imac",
             "RISCV_ABI=ilp32"
         ],
