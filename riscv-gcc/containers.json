@@ -18,5 +18,15 @@
             "RISCV_ABI=ilp32"
         ],
         "maximizeBuildSpace": true
+    },
+    {
+        "name": "riscv-gcc",
+        "tags": "13.2-rv32i",
+        "args": [
+            "RISCV_GNU_CLONE_TAG=2024.08.06",
+            "RISCV_ARCH=rv32i",
+            "RISCV_ABI=ilp32"
+        ],
+        "maximizeBuildSpace": true
     }
 ]
