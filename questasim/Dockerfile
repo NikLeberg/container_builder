@@ -101,18 +101,6 @@ RUN <<EOF
     rm -rf /var/lib/apt/lists/*
 EOF
 
-# Install necessary tools and dependencies
-# https://yoloh3.github.io/linux/2016/12/24/install-modelsim-in-linux/
-RUN <<EOF
-    set -e
-    apt-get -q -y update
-    apt-get -q -y install --no-install-recommends \
-        libncurses6 libxtst6 libxft2 libstdc++6 libc6 lib32z1 libbz2-1.0 \
-        libpng16-16 libqt5xml5 libx11-xcb1 libsm6 libdbus-1-3
-    apt-get clean
-    rm -rf /var/lib/apt/lists/*
-EOF
-
 # Add Questa to path
 ENV QUESTA_ROOTDIR="/opt/QuestaSim/$QUESTA_VERSION"
 ENV PATH="$QUESTA_ROOTDIR/questa_fse/bin:${PATH}"

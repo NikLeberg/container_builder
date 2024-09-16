@@ -1,6 +1,7 @@
 [
     {
         "name": "esp-idf-qemu",
+        "description": "Espressif 'esp-idf' container with integrated ESP32 QEMU emulator.",
         "tags": [
             "20220203",
             "latest"

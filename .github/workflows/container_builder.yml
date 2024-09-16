@@ -67,6 +67,9 @@ jobs:
             latest=false
             suffix=-staging,onlatest=true
           tags: ${{matrix.tags}}
+          annotations: |
+            org.opencontainers.image.title=${{matrix.name}}
+            org.opencontainers.image.description="DON'T USE THIS STAGING TAG!"
 
       - name: Build and Push as Staging
         uses: docker/build-push-action@v6
@@ -74,6 +77,7 @@ jobs:
           context: ./${{matrix.name}}
           file: ./${{matrix.name}}/${{matrix.dockerfile}}
           tags: ${{env.DOCKER_METADATA_OUTPUT_TAGS}}
+          annotations: ${{env.DOCKER_METADATA_OUTPUT_ANNOTATIONS}}
           platforms: ${{matrix.platforms}}
           build-args: ${{matrix.args}}
           push: true # staging is always pushed
@@ -121,6 +125,13 @@ jobs:
           flavor: |
             latest=false
           tags: ${{matrix.tags}}
+          annotations: |
+            org.opencontainers.image.title=${{matrix.name}}
+            org.opencontainers.image.description=${{matrix.description}}
+            org.opencontainers.image.source=${{env.IMAGE_URL}}
+            org.opencontainers.image.url=${{env.IMAGE_URL}}
+        env:
+          IMAGE_URL: ${{github.server_url}}/${{github.repository}}/tree/main/${{matrix.name}}
 
       - name: Push Container as Released
         if: ${{inputs.release && !matrix.intermediate}}
@@ -129,6 +140,7 @@ jobs:
           context: ./${{matrix.name}}
           file: ./${{matrix.name}}/${{matrix.dockerfile}}
           tags: ${{env.DOCKER_METADATA_OUTPUT_TAGS}}
+          annotations: ${{env.DOCKER_METADATA_OUTPUT_ANNOTATIONS}}
           platforms: ${{matrix.platforms}}
           build-args: ${{matrix.args}}
           push: true
