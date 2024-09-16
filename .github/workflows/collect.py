@@ -151,7 +151,6 @@ def getChangedFiles():
     else:
         # On a branch, compare with latest main
         changedFiles = run(["git", "diff", "--name-only", latestMainCommit, currentCommit]).split("\n")
-    changedFiles = [f for f in changedFiles if not "quartus" in f] # test
     print(f"  Changed files: {changedFiles}")
     return changedFiles
 
