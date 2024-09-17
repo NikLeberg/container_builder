@@ -15,6 +15,18 @@ testQuestaExe22_1 () {
     fi
 }
 
+# Check the Questa Executable is available.
+testQuestaExe23_1 () {
+    cmd="docker run ghcr.io/nikleberg/questasim:23.1-staging"
+    echo "Running command '$cmd'."
+    $cmd | tee out.log
+
+    if ! test $(grep -c "Questa Intel Starter FPGA Edition-64 vsim 2023.3 Simulator 2023.07 Jul 17 2023" out.log) -eq 1; then
+        echo "Incorrect version of Questa did start."
+        exit 1
+    fi
+}
+
 # Simulate a test design.
 # We need to set the container MAC address while building the tests.dockerfile.
 # For this we start a dummy alpine container with the needed MAC address and
@@ -32,6 +44,9 @@ testQuestaDesign () {
 case $1 in
     22.1)
         testQuestaExe22_1
+        testQuestaDesign $1;;
+    23.1)
+        testQuestaExe23_1
         testQuestaDesign $1;;
     *)
         echo "Unknown image tag to test against. Aborting."
