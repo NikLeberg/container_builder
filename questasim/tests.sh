@@ -3,6 +3,18 @@
 # Fail on nonzero return
 set -e
 
+# Check the ModelSim Executable is available.
+testModelsimExe18_1 () {
+    cmd="docker run ghcr.io/nikleberg/questasim:18.1-staging"
+    echo "Running command '$cmd'."
+    $cmd | tee out.log
+
+    if ! test $(grep -c "Model Technology ModelSim ALTERA STARTER EDITION vsim 10.5b Simulator 2016.10 Oct  5 2016" out.log) -eq 1; then
+        echo "Incorrect version of ModelSim did start."
+        exit 1
+    fi
+}
+
 # Check the Questa Executable is available.
 testQuestaExe22_1 () {
     cmd="docker run ghcr.io/nikleberg/questasim:22.1-staging"
@@ -42,6 +54,9 @@ testQuestaDesign () {
 
 # Choose test depending on the given tag of the container/image.
 case $1 in
+    18.1)
+        testModelsimExe18_1
+        testQuestaDesign $1;;
     22.1)
         testQuestaExe22_1
         testQuestaDesign $1;;

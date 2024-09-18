@@ -1,9 +1,21 @@
 [
     {
         "name": "questasim",
-        "tags": [
-            "22.1"
+        "tags": "18.1",
+        "dockerfile": "modelsim.dockerfile",
+        "args": [
+            "MODELSIM_VERSION=18.1",
+            "MODELSIM_URL=https://downloads.intel.com/akdlm/software/acdsinst/18.1std/625/ib_installers/ModelSimSetup-18.1.0.625-linux.run",
+            "MODELSIM_SHA=128f18e1fe798786176108cbca3a21791d37f7ba"
         ],
+        "maximizeBuildSpace": true,
+        "testScript": "tests.sh",
+        "dockleAcceptExt": "sdf"
+    },
+    {
+        "name": "questasim",
+        "tags": "22.1",
+        "dockerfile": "questa.dockerfile",
         "args": [
             "QUESTA_VERSION=22.1.2",
             "QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/22.1std.2/922/ib_installers/QuestaSetup-22.1std.2.922-linux.run",
@@ -19,6 +31,7 @@
             "23.1",
             "latest"
         ],
+        "dockerfile": "questa.dockerfile",
         "args": [
             "QUESTA_VERSION=23.1.2",
             "QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/QuestaSetup-23.1std.1.993-linux.run",
