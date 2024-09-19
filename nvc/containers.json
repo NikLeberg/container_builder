@@ -1,0 +1,15 @@
+[
+    {
+        "name": "nvc",
+        "tags": [
+            "1.13.3",
+            "latest"
+        ],
+        "args": [
+            "NVC_VERSION=1.13.3",
+            "NVC_SIG_KEY=BCDB295F74319F1A",
+            "LLVM_VERSION=14"
+        ],
+        "testScript": "tests.sh"
+    }
+]
