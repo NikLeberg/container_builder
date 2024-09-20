@@ -15,6 +15,18 @@ testExe () {
     fi
 }
 
+# Check the NVC executable in git master version is available.
+testMasterExe () {
+    cmd="docker run ghcr.io/nikleberg/nvc:master-staging"
+    echo "Running command '$cmd'."
+    $cmd | tee out.log
+
+    if ! test $(grep -c "nvc .*-devel" out.log) -eq 1; then
+        echo "Incorrect version of NVC did start."
+        exit 1
+    fi
+}
+
 # Simulate a test design.
 testDesign () {
     cmd="docker build --build-arg IMAGE_TAG=$1 --progress plain -f tests.dockerfile ."
@@ -31,6 +43,9 @@ testDesign () {
 case $1 in
     1.13.3)
         testExe $1
+        testDesign $1;;
+    master)
+        testMasterExe
         testDesign $1;;
     *)
         echo "Unknown image tag to test against. Aborting."

@@ -11,5 +11,14 @@
             "LLVM_VERSION=14"
         ],
         "testScript": "tests.sh"
+    },
+    {
+        "name": "nvc",
+        "tags": "master",
+        "args": [
+            "NVC_VERSION=master",
+            "LLVM_VERSION=14"
+        ],
+        "testScript": "tests.sh"
     }
 ]
