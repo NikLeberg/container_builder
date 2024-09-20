@@ -156,7 +156,13 @@ def getChangedFiles():
     # Check if git commit log contains "[ci::ignore_workflow_change]" directive.
     # When it exists, then changed files in .github/workflows do not force
     # rebuild of all containers.
-    gitLogs = run(["git", "log", "--ancestry-path", f"{latestMainCommit}..{currentCommit}"]).split("\n")
+    gitLogs = []
+    if latestMainCommit == currentCommit:
+        # On main, compare with previous (merge-)commit
+        gitLogs = run(["git", "log", "--ancestry-path", f"{latestMainCommit}~..{currentCommit}"]).split("\n")
+    else:
+        # On a branch, compare with latest main
+        gitLogs = run(["git", "log", "--ancestry-path", f"{latestMainCommit}..{currentCommit}"]).split("\n")
     if any(["[ci::ignore_workflow_change]" in line for line in gitLogs]):
         print("  Directive '[ci::ignore_workflow_change]' found.")
         print("  Filtering out all changes to '.github/workflows'.")
