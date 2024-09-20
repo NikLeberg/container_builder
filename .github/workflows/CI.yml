@@ -6,6 +6,11 @@ on:
       - main
   pull_request:
   workflow_dispatch:
+    inputs:
+      image_tag:
+        description: Image(s) and tag to be rebuilt as '<container>:<tag>[,...]'.
+        type: string
+        required: true
 
 permissions:
   contents: read
@@ -29,7 +34,7 @@ jobs:
 
       - name: Detect changes and build GHA matrices
         id: collect
-        run: .github/workflows/collect.py
+        run: .github/workflows/collect.py ${{inputs.image_tag}}
 
   stage1:
     name: Build Stage 1 Images
