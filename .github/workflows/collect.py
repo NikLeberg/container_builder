@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import os, subprocess, json
+import sys, os, subprocess, json
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -185,6 +185,17 @@ def getChangedContainers(containers: list, changedFiles: list) -> list:
 
     return changedContainers
 
+def getForcedContainers(containers: list, forceInput: str) -> list:
+    forcedContainers = []
+    print("Containers forced to be manually rebuilt:")
+    for c in containers:
+        variant = c.getVariantName()
+        if variant in forceInput:
+            forcedContainers.append(c)
+            print(f"  {variant}")
+    
+    return forcedContainers
+
 def reduceStagesToChangedAndDependencies(stages: list, changedContainers: list) -> None:
     for i, stage in enumerate(stages):
         toKeep = []
@@ -222,8 +233,13 @@ def main():
     stages = resolveContainerDependencies(containers)
     printStages(stages)
 
-    changedFiles = getChangedFiles()
-    changedContainers = getChangedContainers(containers, changedFiles)
+    changedContainers = list()
+    if len(sys.argv) > 1:
+        forceInput = sys.argv[1] # <container>:<tag>[,...]
+        changedContainers = getForcedContainers(containers, forceInput)
+    else:
+        changedFiles = getChangedFiles()
+        changedContainers = getChangedContainers(containers, changedFiles)
 
     reduceStagesToChangedAndDependencies(stages, changedContainers)
     printStages(stages)

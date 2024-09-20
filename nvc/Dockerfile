@@ -15,6 +15,7 @@ RUN <<EOF
     set -e
     apt-get -q -y update
     apt-get -q -y install \
+        git \
         wget \
         gpg \
         automake \
@@ -36,15 +37,23 @@ EOF
 
 # Build from signed tarball.
 ARG NV_TARBALL=nvc-$NVC_VERSION.tar.gz
-ARG NVC_TARBALL_URL=https://github.com/nickg/nvc/releases/download/r$NVC_VERSION/$NV_TARBALL
-ARG NVC_SIG_URL=https://github.com/nickg/nvc/releases/download/r$NVC_VERSION/$NV_TARBALL.sig
+ARG NVC_GIT_URL=https://github.com/nickg/nvc
+ARG NVC_TARBALL_URL=$NVC_GIT_URL/releases/download/r$NVC_VERSION/$NV_TARBALL
+ARG NVC_SIG_URL=$NVC_GIT_URL/releases/download/r$NVC_VERSION/$NV_TARBALL.sig
 RUN <<EOF
     set -e
-    wget --progress=dot $NVC_TARBALL_URL
-    wget --progress=dot $NVC_SIG_URL
-    gpg --keyserver keyserver.ubuntu.com --recv-keys $NVC_SIG_KEY
-    gpg --verify $NV_TARBALL.sig $NV_TARBALL
-    tar xvzf $NV_TARBALL
+    if [ $NVC_VERSION = "master" ]; then
+        git clone $NVC_GIT_URL --depth 1 ./nvc-$NVC_VERSION
+        cd ./nvc-$NVC_VERSION
+        ./autogen.sh
+        cd ..
+    else
+        wget --progress=dot $NVC_TARBALL_URL
+        wget --progress=dot $NVC_SIG_URL
+        gpg --keyserver keyserver.ubuntu.com --recv-keys $NVC_SIG_KEY
+        gpg --verify $NV_TARBALL.sig $NV_TARBALL
+        tar xvzf $NV_TARBALL
+    fi
     mkdir ./nvc-$NVC_VERSION/build
     cd ./nvc-$NVC_VERSION/build
     ../configure \
