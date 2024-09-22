@@ -78,8 +78,8 @@ jobs:
           build-args: ${{matrix.args}}
           push: true # staging is always pushed
           load: true # make available for tests
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: ${{matrix.cache && 'type=gha' || ''}}
+          cache-to: ${{matrix.cache && 'type=gha,mode=max' || ''}}
 
       - name: Run Test Script
         if: ${{matrix.testScript != ''}}
@@ -132,8 +132,8 @@ jobs:
           platforms: ${{matrix.platforms}}
           build-args: ${{matrix.args}}
           push: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: ${{matrix.cache && 'type=gha' || ''}}
+          cache-to: ${{matrix.cache && 'type=gha,mode=max' || ''}}
 
       - name: Logout from Registry
         if: ${{always()}}
