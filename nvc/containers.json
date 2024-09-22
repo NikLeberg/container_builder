@@ -19,6 +19,7 @@
             "NVC_VERSION=master",
             "LLVM_VERSION=14"
         ],
-        "testScript": "tests.sh"
+        "testScript": "tests.sh",
+        "cache": false
     }
 ]
