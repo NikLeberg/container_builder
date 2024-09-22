@@ -195,7 +195,10 @@ If you build a huge image, GitHub Actions may run out of disk space. For these i
         "dockleSkip": false,
         // White-List file extensions for dockle
         // optional, defaults to ""
-        "dockleAcceptExt": ""
+        "dockleAcceptExt": "",
+        // Use GHA cache of previous CI runs of same branch
+        // optional, defaults to "true"
+        "cache": true
     },
     {
         ... // additional image variants / tags

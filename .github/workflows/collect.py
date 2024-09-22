@@ -19,6 +19,7 @@ class ContainerVariant:
     trivySkip: bool
     dockleSkip: bool
     dockleAcceptExt: str
+    cache: bool
 
     @staticmethod
     def tryMapFromJson(json: dict):
@@ -36,8 +37,9 @@ class ContainerVariant:
         trivySkip = json.get("trivySkip", False)
         dockleSkip = json.get("dockleSkip", False)
         dockleAcceptExt = json.get("dockleAcceptExt", "")
+        cache = json.get("cache", True)
         if name and isinstance(name, str) and tags and isinstance(tags, list):
-            return ContainerVariant(name, tags, dockerfile, platforms, args, dependsOn, intermediate, maximizeBuildSpace, testScript, trivySkip, dockleSkip, dockleAcceptExt)
+            return ContainerVariant(name, tags, dockerfile, platforms, args, dependsOn, intermediate, maximizeBuildSpace, testScript, trivySkip, dockleSkip, dockleAcceptExt, cache)
         else:
             print(f"Ill formed containers.json entry '{json}' is not valid. Ignoring.")
             return None
@@ -174,11 +176,12 @@ def getChangedContainers(containers: list, changedFiles: list) -> list:
     changedContainers = []
     folderNames = set([c.name for c in containers])
     for file in changedFiles:
-        folder = Path(file).parts[0]
-        if folder in folderNames:
-            for c in containers:
-                if c.name == folder:
-                    changedContainers.append(c)
+        if file:
+            folder = Path(file).parts[0]
+            if folder in folderNames:
+                for c in containers:
+                    if c.name == folder:
+                        changedContainers.append(c)
 
     print("Containers with changes:")
     for c in changedContainers:
