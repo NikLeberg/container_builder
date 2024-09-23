@@ -17,11 +17,12 @@ testExe () {
 
 # Check the NVC executable in git master version is available.
 testMasterExe () {
+    sha=`curl -s https://api.github.com/repos/nickg/nvc/commits/master | jq -r .sha | cut -c1-7`
     cmd="docker run ghcr.io/nikleberg/nvc:master-staging"
     echo "Running command '$cmd'."
     $cmd | tee out.log
 
-    if ! test $(grep -c "nvc .*-devel" out.log) -eq 1; then
+    if ! test $(grep -c "nvc .*$sha" out.log) -eq 1; then
         echo "Incorrect version of NVC did start."
         exit 1
     fi
@@ -41,7 +42,7 @@ testDesign () {
 
 # Choose test depending on the given tag of the container/image.
 case $1 in
-    1.13.3)
+    1.14)
         testExe $1
         testDesign $1;;
     master)
