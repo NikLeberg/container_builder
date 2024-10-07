@@ -1,4 +1,4 @@
-FROM espressif/idf:release-v5.3
+FROM espressif/idf:release-v5.4
 
 WORKDIR /
 
