@@ -1,27 +1,27 @@
 ﻿# Intel Corporation Software and/or Intellectual Property License File
-# Issued 09 October 2023
+# Issued 08 October 2024
 # Upgrade to these products will no longer be available after the Maintenance Expiration  
 # date unless licenses are renewed.  
 # Fixed Node License
-# Primary Machine Name-docker-image3
-# Primary Machine ID-NIC ID 00ababababab
+# Primary Machine Name-QuestaSim-Docker
+# Primary Machine ID-NIC ID 00ABABABABAB
 # Companion ID-N/A
 # Companion ID 2-N/A
 # Product License Summary:
-# 2 Questa*-Intel® FPGA Starter Edition (License: SW-QUESTA), 1 Seat(s)
-# - Maintenance Expiration of 2023.10
-# - License Expires 08-Oct-2024
+# 3 Questa*-Intel® FPGA Starter Edition (License: SW-QUESTA), 1 Seat(s)
+# - Maintenance Expiration of 2025.10
+# - License Expires 08-Oct-2025
 ################################################################################ 
 # FEATURE START 
 # This is license file for Questasim*-Intel FPGA Starter Edition 
 # Number of seat licenses is 1 
-# License Expires 08-Oct-2024 
-INCREMENT intelqsimstarter mgcld 2024.01 8-oct-2024 uncounted \
-  EF7782293BCC13EFC151 \
-    VENDOR_STRING=62C5A525 HOSTID=00ababababab ISSUER=Intel SN=287837015 \
-    SIGN2="07B0 1D6E A213 0C55 3C7E 4F8A 970D 3626 2C61 FFBE 0063 D44E \
-    DE06 36D7 F7D6 0DF1 94EC C5B5 8D6D 18CD 8BC3 0B5F 945E 5BD2 C82D DAFE \
-    CCFE 2DF0 9839 0A5C"
+# License Expires 08-Oct-2025 
+DAEMON mgcld path_to_mgcld
+INCREMENT intelqsimstarter mgcld 2025.10 08-oct-2025 uncounted \
+    EF2962E8E8450ABF31C5 VENDOR_STRING=0EFC9264 HOSTID=00ababababab \
+    ISSUER=Intel SN=193866422 SIGN2="0D9C F6C1 2668 AB92 B24A E669 C0A6 \
+    37EF 1434 4579 D94D 63E5 E105 8CB0 EF21 0025 DB02 ED27 7899 64E6 E0DE \
+    8497 52CB F61D 4179 399C 08A4 82A0 AE71 0411"
 # FEATURE END 
 ################################################################################
-# End of Intel Corporation Software and/or Intellectual Property License File. Issued 10/09/2023
+# End of Intel Corporation Software and/or Intellectual Property License File. Issued 10/08/2024
