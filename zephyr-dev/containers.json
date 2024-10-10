@@ -1,0 +1,52 @@
+[
+    {
+        "name": "zephyr-dev",
+        "tags": "3.7.0",
+        "dockerfile": "base.dockerfile",
+        "args": [
+            "ZEPHYR_VERSION=v3.7.0"
+        ],
+        "intermediate": true,
+        "maximizeBuildSpace": true,
+        "dockleAcceptExt": "py"
+    },
+    {
+        "name": "zephyr-dev",
+        "tags": "3.7.0-riscv",
+        "dockerfile": "tool.dockerfile",
+        "args": [
+            "BASE_IMAGE_TAG=3.7.0",
+            "ZEPHYR_SDK_VERSION=0.16.8",
+            "ZEPHYR_TOOLCHAIN=riscv64-zephyr-elf"
+        ],
+        "dependsOn": "zephyr-dev:3.7.0",
+        "maximizeBuildSpace": true,
+        "testScript": "test.sh",
+        "dockleAcceptExt": "py"
+    },
+    {
+        "name": "zephyr-dev",
+        "tags": "main",
+        "dockerfile": "base.dockerfile",
+        "args": [
+            "ZEPHYR_VERSION=main"
+        ],
+        "intermediate": true,
+        "maximizeBuildSpace": true,
+        "dockleAcceptExt": "py"
+    },
+    {
+        "name": "zephyr-dev",
+        "tags": "main-riscv",
+        "dockerfile": "tool.dockerfile",
+        "args": [
+            "BASE_IMAGE_TAG=main",
+            "ZEPHYR_SDK_VERSION=0.16.8",
+            "ZEPHYR_TOOLCHAIN=riscv64-zephyr-elf"
+        ],
+        "dependsOn": "zephyr-dev:main",
+        "maximizeBuildSpace": true,
+        "testScript": "test.sh",
+        "dockleAcceptExt": "py"
+    }
+]

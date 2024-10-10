@@ -48,4 +48,8 @@ updates:
     directory: "/nvc"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/zephyr-dev"
+    schedule:
+      interval: "weekly"
   
