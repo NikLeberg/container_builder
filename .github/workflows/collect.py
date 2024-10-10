@@ -237,7 +237,7 @@ def setGHAOutput(matrices: list) -> None:
 def main():
     containers = loadAllContainersJson()
     if not containersValid(containers):
-        return
+        exit(1)
 
     stages = resolveContainerDependencies(containers)
     printStages(stages)
