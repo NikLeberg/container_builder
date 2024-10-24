@@ -7,7 +7,7 @@
 #  - Split the tar at file boundaries into multiple tars.
 #  - The split tars are then imported in multiple layers in the second stage.
 
-FROM ubuntu:jammy AS builder
+FROM ubuntu:22.04 AS builder
 
 ARG QUESTA_VERSION
 ARG QUESTA_URL
@@ -72,7 +72,7 @@ RUN <<EOF
 EOF
 
 
-FROM ubuntu:jammy AS base
+FROM ubuntu:22.04 AS base
 
 ARG QUESTA_VERSION
 

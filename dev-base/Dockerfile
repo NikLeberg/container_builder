@@ -7,7 +7,7 @@
 #  - https://github.com/devcontainers/images/blob/main/src/universal/.devcontainer/Dockerfile
 #  - https://github.com/devcontainers/features/blob/main/src/docker-outside-of-docker/install.sh
 
-FROM ubuntu:jammy
+FROM ubuntu:22.04
 
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8

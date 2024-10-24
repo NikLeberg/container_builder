@@ -52,7 +52,7 @@ RUN git clone $AJI_OPENOCD_CLONE_URL -b $AJI_OPENOCD_CLONE_TAG --depth 1 \
     && make
 
 # Import built openocd into clean container.
-FROM ubuntu:jammy
+FROM ubuntu:22.04
 COPY --from=openocd_builder /aji_openocd/src/openocd /opt/aji_openocd/
 COPY --from=openocd_builder /aji_openocd/tcl /opt/aji_openocd/tcl
 
