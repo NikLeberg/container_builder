@@ -7,7 +7,7 @@
 #  - Split the tar at file boundaries into multiple tars.
 #  - The split tars are then imported in multiple layers in the second stage.
 
-FROM ubuntu:jammy AS builder
+FROM ubuntu:22.04 AS builder
 
 ARG QUARTUS_VERSION
 ARG QUARTUS_URL
@@ -71,7 +71,7 @@ EOF
 
 # Fix Quartus malloc/free issues in docker environment.
 # Source: https://community.intel.com/t5/Intel-Quartus-Prime-Software/quartus-map-crash-possibly-due-to-shared-library-shenanigans/m-p/1285186
-FROM ubuntu:jammy AS dlopen_hack
+FROM ubuntu:22.04 AS dlopen_hack
 
 RUN <<EOF
     set -e
@@ -95,7 +95,7 @@ dlopen_hack.c
 RUN gcc -shared -o dlopen_hack.so dlopen_hack.c -ldl
 
 
-FROM ubuntu:jammy AS base
+FROM ubuntu:22.04 AS base
 
 ARG QUARTUS_VERSION
 
