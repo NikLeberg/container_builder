@@ -1,5 +1,5 @@
 # Based off https://github.com/hdl/containers/blob/main/debian-bullseye/nvc/Dockerfile
-FROM ubuntu:22.04 AS builder
+FROM ubuntu:24.04 AS builder
 
 ARG NVC_VERSION
 ARG NVC_SIG_KEY
@@ -64,7 +64,7 @@ RUN <<EOF
 EOF
 
 # Import built NVC into clean container.
-FROM ubuntu:22.04 AS base
+FROM ubuntu:24.04 AS base
 
 ARG LLVM_VERSION
 
