@@ -47,14 +47,11 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
 
 # Install packages for Python support
 RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
-        python3=3.10* \
+        python3 \
         python3-pip \
+        python-is-python3 \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && update-alternatives --install \
-        /usr/bin/python python /usr/bin/python3.10 1 \
-    && update-alternatives --set \
-        python /usr/bin/python3.10
+    && rm -rf /var/lib/apt/lists/*
 
 # Install packages for KLEE symbolic execution support.
 ARG STP_CLONE_URL=https://github.com/stp/stp.git
