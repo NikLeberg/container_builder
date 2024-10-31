@@ -55,7 +55,7 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
 
 # Install packages for KLEE symbolic execution support.
 ARG STP_CLONE_URL=https://github.com/stp/stp.git
-ARG STP_CLONE_TAG=2.3.3
+ARG STP_CLONE_TAG=2.3.4
 ARG KLEE_CLONE_URL=https://github.com/klee/klee.git
 ARG KLEE_CLONE_TAG=master
 
