@@ -8,7 +8,7 @@ RUN apt-get -q -y update \
     && apt-get -q -y upgrade \
     && apt-get -q -y install \
         git wget make python3 python3-pip \
-        cpio libncurses5 openocd gdb \
+        cpio libncurses6 openocd gdb \
         cppcheck doxygen graphviz \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
