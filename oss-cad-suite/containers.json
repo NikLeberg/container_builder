@@ -1,0 +1,12 @@
+[
+    {
+        "name": "oss-cad-suite",
+        "tags": [
+            "2025-04-05",
+            "latest"
+        ],
+        "args": [
+            "OSS_VERSION=2025-04-05"
+        ]
+    }
+]
