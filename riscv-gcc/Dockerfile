@@ -1,6 +1,6 @@
 # Build risc-v gcc compiler in separate docker builder.
 # Process as described in: https://github.com/riscv-collab/riscv-gnu-toolchain
-FROM ubuntu:24.04 as riscv_gcc_builder
+FROM ubuntu:24.04 AS riscv_gcc_builder
 
 # Install prerequisites.
 RUN <<EOF
