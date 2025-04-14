@@ -2,11 +2,12 @@
     {
         "name": "oss-cad-suite",
         "tags": [
-            "2025-04-05",
+            "2025-04-14",
             "latest"
         ],
         "args": [
-            "OSS_VERSION=2025-04-05"
+            "OSS_VERSION=2025-04-14",
+            "OSS_SHA=ed94c3ed85d82417628a38bd1d9192566ab7ccb0"
         ]
     }
 ]

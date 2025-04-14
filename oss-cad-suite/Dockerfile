@@ -1,6 +1,7 @@
 FROM ubuntu:24.04 AS builder
 
 ARG OSS_VERSION
+ARG OSS_SHA
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -21,11 +22,13 @@ EOF
 
 # Download and extract release package.
 ARG OSS_VERSION_SHORT=${OSS_VERSION//-/}
+ARG OSS_URL=https://github.com/YosysHQ/oss-cad-suite-build/releases/download/${OSS_VERSION}/oss-cad-suite-linux-x64-${OSS_VERSION_SHORT}.tgz
 RUN <<EOF
     set -e
-    wget --progress=dot:giga https://github.com/YosysHQ/oss-cad-suite-build/releases/download/${OSS_VERSION}/oss-cad-suite-linux-arm64-${OSS_VERSION_SHORT}.tgz
-    tar -xzhf oss-cad-suite-linux-arm64-${OSS_VERSION_SHORT}.tgz -C /opt
-    rm oss-cad-suite-linux-arm64-${OSS_VERSION_SHORT}.tgz
+    wget --progress=dot:giga $OSS_URL -O oss-cad-suite.tgz
+    echo "$OSS_SHA *oss-cad-suite.tgz" | sha1sum --check --strict -
+    tar -xzhf oss-cad-suite.tgz -C /opt
+    rm oss-cad-suite.tgz
 EOF
 
 ENV PATH="/opt/oss-cad-suite/bin:${PATH}"
