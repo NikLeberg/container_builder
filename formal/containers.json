@@ -1,0 +1,15 @@
+[
+    {
+        "name": "formal",
+        "tags": [
+            "2025-04-17",
+            "latest"
+        ],
+        "args": [
+            "YOSYS_VERSION=v0.52",
+            "GHDL_VERSION=v5.0.1",
+            "PLUGIN_VERSION=8c29f2c",
+            "SBY_VERSION=v0.52"
+        ]
+    }
+]
