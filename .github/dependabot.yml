@@ -48,4 +48,12 @@ updates:
     directory: "/nvc"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/oss-cad-suite"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/formal"
+    schedule:
+      interval: "weekly"
   
