@@ -70,6 +70,7 @@ RUN <<EOF
     cd ghdl/build
     ../configure --prefix=/opt/ghdl \
         --with-llvm-config \
+        --with-llvm-jit \
         --enable-checks \
         --enable-libghdl \
         --enable-synth
