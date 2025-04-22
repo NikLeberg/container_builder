@@ -1,9 +1,12 @@
 FROM ubuntu:24.04 AS builder
 
-ARG YOSYS_VERSION=v0.51
+ARG YOSYS_VERSION=v0.52
 ARG GHDL_VERSION=v5.0.1
-ARG PLUGIN_VERSION=4ea20ad
-ARG SBY_VERSION=v0.51
+ARG PLUGIN_VERSION=8c29f2c
+ARG SBY_VERSION=v0.52
+ARG Z3_VERSION=4.14.1
+ARG Z3_SHA=8e9a168be395a1591e005d6346f7f45fbc77e305
+ARG YICES2_VERSION=2.6.5
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -45,6 +48,17 @@ RUN <<EOF
     apt-get -q -y install \
         python3 \
         python3-click
+    ## z3
+    apt-get -q -y install \
+        wget \
+        unzip
+    ## yices2
+    apt-get -q -y install \
+        clang \
+        gperf \
+        libgmp10-dev \
+        autoconf \
+        make
     apt-get clean
     rm -rf /var/lib/apt/lists/*
 EOF
@@ -99,6 +113,29 @@ RUN <<EOF
     make DESTDIR=/opt/sby install
 EOF
 
+## Download Z3 theorem solver.
+ARG Z3_RELEASE_URL=https://github.com/Z3Prover/z3/releases/download/z3-$Z3_VERSION/z3-$Z3_VERSION-x64-glibc-2.35.zip
+RUN <<EOF
+    set -e
+    wget --progress=dot:giga $Z3_RELEASE_URL -O z3.zip
+    echo "$Z3_SHA *z3.zip" | sha1sum --check --strict -
+    unzip z3.zip -d /opt/z3
+    mv /opt/z3/z3-*/* /opt/z3/
+    rm -r /opt/z3/z3-*
+EOF
+
+## Build Yices2 theorem solver.
+ARG YICES2_GIT_URL=https://github.com/SRI-CSL/yices2.git
+RUN <<EOF
+    set -e
+    git clone $YICES2_GIT_URL -b Yices-$YICES2_VERSION --depth 1
+    cd yices2
+    autoconf
+    ./configure --prefix=/opt/yices2
+    make
+    make install
+EOF
+
 
 FROM ubuntu:24.04 AS formal
 
@@ -123,6 +160,9 @@ RUN <<EOF
     apt-get -q -y install \
         python3 \
         python3-click
+    ## yices2
+    apt-get -q -y install \
+        libgmp10
     ## utils
     apt-get -q -y install \
         make \
@@ -135,5 +175,7 @@ COPY --from=builder /opt/yosys/ /
 COPY --from=builder /opt/ghdl/ /usr
 COPY --from=builder /opt/plugin/ /
 COPY --from=builder /opt/sby/ /
+COPY --from=builder /opt/z3/ /usr/local
+COPY --from=builder /opt/yices2/ /usr/local
 
 ENV GHDL_PREFIX=/usr/lib/ghdl
