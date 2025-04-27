@@ -9,9 +9,9 @@
 
 FROM ubuntu:22.04 AS builder
 
-ARG QUARTUS_VERSION
-ARG QUARTUS_URL
-ARG QUARTUS_SHA
+ARG QUARTUS_VERSION=23.1.1
+ARG QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/QuartusLiteSetup-23.1std.1.993-linux.run
+ARG QUARTUS_SHA=bbca0986c79ca4b367838fca31b061ed87bfe50e
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -97,7 +97,7 @@ RUN gcc -shared -o dlopen_hack.so dlopen_hack.c -ldl
 
 FROM ubuntu:22.04 AS base
 
-ARG QUARTUS_VERSION
+ARG QUARTUS_VERSION=23.1.1
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \

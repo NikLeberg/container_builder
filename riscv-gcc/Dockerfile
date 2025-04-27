@@ -17,13 +17,13 @@ EOF
 
 # Get the sources.
 ARG RISCV_GNU_CLONE_URL=https://github.com/riscv/riscv-gnu-toolchain
-ARG RISCV_GNU_CLONE_TAG
+ARG RISCV_GNU_CLONE_TAG=2024.08.06
 RUN git clone $RISCV_GNU_CLONE_URL -b $RISCV_GNU_CLONE_TAG --depth 1
 
 # Build with newlib cross-compiler
 ARG RISCV_TOOLCHAIN_PATH=/opt/riscv
-ARG RISCV_ARCH
-ARG RISCV_ABI
+ARG RISCV_ARCH=rv32imac
+ARG RISCV_ABI=ilp32
 ENV PATH="$RISCV_TOOLCHAIN_PATH/bin:${PATH}"
 RUN <<EOF
     set -e

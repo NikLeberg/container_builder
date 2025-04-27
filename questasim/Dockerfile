@@ -9,9 +9,9 @@
 
 FROM ubuntu:24.04 AS builder
 
-ARG QUESTA_VERSION
-ARG QUESTA_URL
-ARG QUESTA_SHA
+ARG QUESTA_VERSION=23.1.2
+ARG QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/QuestaSetup-23.1std.1.993-linux.run
+ARG QUESTA_SHA=88622812c4318d8e9d09c547b7315b1ea94e76db
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -74,7 +74,7 @@ EOF
 
 FROM ubuntu:24.04 AS base
 
-ARG QUESTA_VERSION
+ARG QUESTA_VERSION=23.1.2
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
