@@ -1,9 +1,14 @@
 # Based off https://github.com/hdl/containers/blob/main/debian-bullseye/nvc/Dockerfile
-FROM ubuntu:24.04 AS builder
 
 ARG NVC_VERSION=1.14.0
 ARG NVC_SIG_KEY=BCDB295F74319F1A
 ARG LLVM_VERSION=14
+
+FROM ubuntu:24.04 AS builder
+
+ARG NVC_VERSION
+ARG NVC_SIG_KEY
+ARG LLVM_VERSION
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -62,6 +67,7 @@ RUN <<EOF
     make -j$(nproc)
     make DESTDIR=/opt/nvc install
 EOF
+
 
 # Import built NVC into clean container.
 FROM ubuntu:24.04 AS base
