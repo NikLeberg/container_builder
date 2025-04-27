@@ -36,7 +36,13 @@ testQuestaExe23_1 () {
 testQuestaDesign () {
     export DOCKER_BUILDKIT=0
     docker run --name=mac00ababababab --mac-address=00:ab:ab:ab:ab:ab -d alpine tail -f /dev/null
-    docker build --build-arg IMAGE_TAG=$1 --network=container:mac00ababababab -f tests.dockerfile .
+    docker build --network=container:mac00ababababab -f - . <<EOF
+FROM ghcr.io/nikleberg/questasim:$1-staging
+ADD test_design.tar.bz2 /tmp/test_design
+RUN cd /tmp/test_design/geni/modelsim \
+    && vsim -c -do ./../scripts/modelsim_compile.tcl \
+    && vsim -c -do ./../scripts/modelsim_test.tcl
+EOF
     docker rm --force mac00ababababab
 }
 
