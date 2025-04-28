@@ -1,9 +1,9 @@
 ARG BASE_IMAGE_TAG
 FROM ghcr.io/nikleberg/quartus:${BASE_IMAGE_TAG}-staging
 
-ARG DEVICE_URL
-ARG DEVICE_SHA
-ARG DEVICE_FILE
+ARG DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/cyclone-23.1std.1.993.qdz
+ARG DEVICE_SHA=4c260c32282032c477d5520a84ebd1200d01ecf0
+ARG DEVICE_FILE=cyclone-23.1std.1.993.qdz
 
 ARG DEBIAN_FRONTEND=noninteractive
 

@@ -7,6 +7,10 @@
 #  - Split the tar at file boundaries into multiple tars.
 #  - The split tars are then imported in multiple layers in the second stage.
 
+ARG QUESTA_VERSION=23.1.2
+ARG QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/QuestaSetup-23.1std.1.993-linux.run
+ARG QUESTA_SHA=88622812c4318d8e9d09c547b7315b1ea94e76db
+
 FROM ubuntu:24.04 AS builder
 
 ARG QUESTA_VERSION
