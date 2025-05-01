@@ -1,4 +1,4 @@
-ARG BASE_IMAGE_TAG
+ARG BASE_IMAGE_TAG=23.1
 FROM ghcr.io/nikleberg/quartus:${BASE_IMAGE_TAG}-staging
 
 ARG DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/cyclone-23.1std.1.993.qdz
