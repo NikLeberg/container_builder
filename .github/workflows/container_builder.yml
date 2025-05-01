@@ -113,7 +113,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: .
-          matrix: '{"name":"${{matrix.mainTag}}"}'
+          matrix: '{"name":"${{matrix.name}}:${{matrix.mainTag}}"}'
 
       - name: Generate Docker Release Metadata
         uses: docker/metadata-action@v5
