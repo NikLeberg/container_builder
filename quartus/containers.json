@@ -40,6 +40,19 @@
     },
     {
         "name": "quartus",
+        "tags": "24.1",
+        "dockerfile": "base.dockerfile",
+        "args": [
+            "QUARTUS_VERSION=24.1",
+            "QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/QuartusLiteSetup-24.1std.0.1077-linux.run",
+            "QUARTUS_SHA=62a899e695d4ea478bc51850867cf6222d9589cf"
+        ],
+        "intermediate": true,
+        "maximizeBuildSpace": true,
+        "testScript": "tests.sh"
+    },
+    {
+        "name": "quartus",
         "tags": "18.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [
@@ -77,6 +90,20 @@
             "DEVICE_FILE=cyclone-23.1std.1.993.qdz"
         ],
         "dependsOn": "quartus:23.1",
+        "maximizeBuildSpace": true,
+        "testScript": "tests.sh"
+    },
+    {
+        "name": "quartus",
+        "tags": "24.1-cycloneiv",
+        "dockerfile": "device.dockerfile",
+        "args": [
+            "BASE_IMAGE_TAG=24.1",
+            "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/cyclone-24.1std.0.1077.qdz",
+            "DEVICE_SHA=176c1f54c7da0623555a02864d3eb144fe6c00d3",
+            "DEVICE_FILE=cyclone-24.1std.0.1077.qdz"
+        ],
+        "dependsOn": "quartus:24.1",
         "maximizeBuildSpace": true,
         "testScript": "tests.sh"
     }

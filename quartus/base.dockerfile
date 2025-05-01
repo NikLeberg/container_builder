@@ -7,9 +7,9 @@
 #  - Split the tar at file boundaries into multiple tars.
 #  - The split tars are then imported in multiple layers in the second stage.
 
-ARG QUARTUS_VERSION=23.1.1
-ARG QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/QuartusLiteSetup-23.1std.1.993-linux.run
-ARG QUARTUS_SHA=bbca0986c79ca4b367838fca31b061ed87bfe50e
+ARG QUARTUS_VERSION=24.1
+ARG QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/QuartusLiteSetup-24.1std.0.1077-linux.run
+ARG QUARTUS_SHA=62a899e695d4ea478bc51850867cf6222d9589cf
 
 FROM ubuntu:22.04 AS builder
 

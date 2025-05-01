@@ -51,6 +51,22 @@ testQuartusBase23_1 () {
     fi
 }
 
+# Check the basic Quartus Shell is available.
+testQuartusBase24_1 () {
+    cmd="docker run ghcr.io/nikleberg/quartus:24.1-staging"
+    echo "Running command '$cmd'."
+    $cmd | tee out.log
+
+    if ! test $(grep -c "Quartus Prime Shell" out.log) -eq 1; then
+        echo "No Quartus Prime Shell did start."
+        exit 1
+    fi
+    if ! test $(grep -c "Version 24.1std.0 Build 1077 03/04/2025 SC Lite Edition" out.log) -eq 1; then
+        echo "Incorrect version of Quartus Prime Shell did start."
+        exit 1
+    fi
+}
+
 # Build a test design for the Cyclone IV device family.
 testQuartusCyclone () {
     docker build -f - . <<EOF
@@ -70,7 +86,9 @@ case $1 in
         testQuartusBase22_1;;
     23.1)
         testQuartusBase23_1;;
-    18.1-cycloneiv | 22.1-cycloneiv | 23.1-cycloneiv)
+    24.1)
+        testQuartusBase24_1;;
+    18.1-cycloneiv | 22.1-cycloneiv | 23.1-cycloneiv | 24.1-cycloneiv)
         testQuartusCyclone $1;;
     *)
         echo "Unknown image tag to test against. Aborting."
