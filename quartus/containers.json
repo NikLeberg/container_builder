@@ -4,6 +4,7 @@
         "tags": "18.1",
         "dockerfile": "base.dockerfile",
         "args": [
+            "UBUNTU_VERSION=22.04",
             "QUARTUS_VERSION=18.1",
             "QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/18.1std/625/ib_installers/QuartusLiteSetup-18.1.0.625-linux.run",
             "QUARTUS_SHA=3cc0e856c0c203ed47d6eaca05a85c2f29b7bd01"
