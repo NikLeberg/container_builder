@@ -1,5 +1,5 @@
 # Pull in the just built image and simulate an example design.
-ARG IMAGE_TAG
+ARG IMAGE_TAG=latest
 FROM ghcr.io/nikleberg/nvc:${IMAGE_TAG}-staging
 
 COPY <<EOF test.vhd

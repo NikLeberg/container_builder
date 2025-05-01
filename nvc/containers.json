@@ -2,13 +2,27 @@
     {
         "name": "nvc",
         "tags": [
-            "1.14",
+            "1.16",
             "latest"
         ],
         "args": [
-            "NVC_VERSION=1.14.0",
-            "NVC_SIG_KEY=BCDB295F74319F1A",
-            "LLVM_VERSION=14"
+            "NVC_VERSION=1.16.0"
+        ],
+        "testScript": "tests.sh"
+    },
+    {
+        "name": "nvc",
+        "tags": "1.15",
+        "args": [
+            "NVC_VERSION=1.15.2"
+        ],
+        "testScript": "tests.sh"
+    },
+    {
+        "name": "nvc",
+        "tags": "1.14",
+        "args": [
+            "NVC_VERSION=1.14.2"
         ],
         "testScript": "tests.sh"
     },
@@ -16,8 +30,7 @@
         "name": "nvc",
         "tags": "master",
         "args": [
-            "NVC_VERSION=master",
-            "LLVM_VERSION=14"
+            "NVC_VERSION=master"
         ],
         "testScript": "tests.sh",
         "cache": false
