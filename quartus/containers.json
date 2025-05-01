@@ -76,7 +76,7 @@
             "DEVICE_SHA=4c260c32282032c477d5520a84ebd1200d01ecf0",
             "DEVICE_FILE=cyclone-23.1std.1.993.qdz"
         ],
-        "dependsOn": "quartus:22.1",
+        "dependsOn": "quartus:23.1",
         "maximizeBuildSpace": true,
         "testScript": "tests.sh"
     }
