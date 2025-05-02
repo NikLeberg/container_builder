@@ -179,7 +179,6 @@ quartus2.qreg
 
 # Entrypoint is the quartus shell.
 ENTRYPOINT ["quartus_sh"]
-# With args "-c -do <script.tcl>" an arbirtrary TCL script can be run.
-# Without the "-c" flag vsim starts in GUI mode.
+# With args "-t <script.tcl>" an arbirtrary TCL script can be run.
 # As default do nothing and just print the version.
 CMD ["-version"]
