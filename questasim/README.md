@@ -2,10 +2,10 @@
 > This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
 > For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
 
-This container contains a continerized version of `Questa  Intel Starter FPGA Edition-64 vsim 2021.2 Simulator 2021.04 Apr 14 2021`.
+This container contains a continerized version of `Questa Intel Starter FPGA Edition-64 vsim <version`.
 
 Questa is a part of [Intel Quartus Prime Lite](https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html). To reduce the size of the image the tools of Quartus have been split up into two images:
- - [`quartus`](../quartus/README.md), tools to synthesize HDL for Intel FPGAs
+ - [`quartus`](../quartus/README.md), tools to synthesize HDL for Intel/Altera FPGAs
  - `questasim`, tools to simulate HDL (this one here)
 
 But even with this split, the image is still very big (~4.6 GB). The large _installation step_ image layer is split up into multiple smaller layers to help speed up image pull / download and make it more robust.
@@ -13,7 +13,9 @@ But even with this split, the image is still very big (~4.6 GB). The large _inst
 ## Tags
 | Tag | Questa Version | Note |
 |---|---|---|
-| `22.1` `latest` | 22.1 | - |
+| `22.1` | 22.1 | - |
+| `23.1` | 22.1 | - |
+| `24.1` `latest` | 22.1 | - |
 
 Feel free to open an issue to request other versions. Note that previous to version 21.1, Intel bundled ModelSim instead of QuestaSim.
 
