@@ -7,11 +7,12 @@
 #  - Split the tar at file boundaries into multiple tars.
 #  - The split tars are then imported in multiple layers in the second stage.
 
-ARG QUARTUS_VERSION=23.1.1
-ARG QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/QuartusLiteSetup-23.1std.1.993-linux.run
-ARG QUARTUS_SHA=bbca0986c79ca4b367838fca31b061ed87bfe50e
+ARG UBUNTU_VERSION=24.04
+ARG QUARTUS_VERSION=24.1
+ARG QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/QuartusLiteSetup-24.1std.0.1077-linux.run
+ARG QUARTUS_SHA=62a899e695d4ea478bc51850867cf6222d9589cf
 
-FROM ubuntu:22.04 AS builder
+FROM ubuntu:$UBUNTU_VERSION AS builder
 
 ARG QUARTUS_VERSION
 ARG QUARTUS_URL
@@ -23,17 +24,19 @@ ENV LANG=C.UTF-8 \
     LC_CTYPE=C.UTF-8
 
 # Install wget so we can download quartus installer.
+# Install rdfind to remove install duplicates.
 RUN <<EOF
     set -e
     apt-get -q -y update
     apt-get -q -y install --no-install-recommends \
-        wget ca-certificates
+        wget ca-certificates rdfind
     apt-get clean
     rm -rf /var/lib/apt/lists/*
 EOF
 
 # Install Quartus (without device support files) for Intel FPGAs from:
 # https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html
+# This also post-processes the install dir to remove duplicates.
 ENV QUARTUS_ROOTDIR="/opt/intelFPGA_lite/$QUARTUS_VERSION"
 RUN <<EOF
     set -e
@@ -46,17 +49,7 @@ RUN <<EOF
     rm QuartusLiteSetup-linux.run
     rm -r $QUARTUS_ROOTDIR/uninstall
     rm -r $QUARTUS_ROOTDIR/logs
-EOF
-
-# Post process the install dir and remove duplicates.
-RUN <<EOF
-    set -e
-    apt-get -q -y update
-    apt-get -q -y install --no-install-recommends \
-        rdfind
     rdfind -makehardlinks true $QUARTUS_ROOTDIR
-    apt-get clean
-    rm -rf /var/lib/apt/lists/*
 EOF
 
 # Package the install dir into ~500MB tar-ed chunks at file boundaries.
@@ -75,7 +68,7 @@ EOF
 
 # Fix Quartus malloc/free issues in docker environment.
 # Source: https://community.intel.com/t5/Intel-Quartus-Prime-Software/quartus-map-crash-possibly-due-to-shared-library-shenanigans/m-p/1285186
-FROM ubuntu:22.04 AS dlopen_hack
+FROM ubuntu:$UBUNTU_VERSION AS dlopen_hack
 
 RUN <<EOF
     set -e
@@ -99,7 +92,7 @@ dlopen_hack.c
 RUN gcc -shared -o dlopen_hack.so dlopen_hack.c -ldl
 
 
-FROM ubuntu:22.04 AS base
+FROM ubuntu:$UBUNTU_VERSION AS base
 
 ARG QUARTUS_VERSION
 
@@ -135,7 +128,7 @@ ENV PATH="$QUARTUS_ROOTDIR/quartus/bin:${PATH}"
 # Fixup Quartus quirks in version 18.1 that prevent loading the executables
 # alltogether or end up in crashes in quartus_map with some errors like:
 #  - missing libpng12
-#  => install from ppa
+#  => install from ppa (not yet available for 24.04)
 #  - Inconsistency detected by ld.so: dl-close.c: 811: _dl_close: Assertion `map->l_init_called' failed!
 #  => delete corrupt library libccl_curl_drl.so bundled with quartus
 #  - invalid command name "vsyscall" / invalid command name "realloc():"
@@ -178,7 +171,6 @@ quartus2.qreg
 
 # Entrypoint is the quartus shell.
 ENTRYPOINT ["quartus_sh"]
-# With args "-c -do <script.tcl>" an arbirtrary TCL script can be run.
-# Without the "-c" flag vsim starts in GUI mode.
+# With args "-t <script.tcl>" an arbirtrary TCL script can be run.
 # As default do nothing and just print the version.
 CMD ["-version"]

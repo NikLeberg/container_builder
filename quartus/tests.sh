@@ -4,8 +4,8 @@
 set -e
 
 # Check the basic Quartus Shell is available.
-testQuartusBase18_1 () {
-    cmd="docker run ghcr.io/nikleberg/quartus:18.1-staging"
+testQuartusBase () {
+    cmd="docker run ghcr.io/nikleberg/quartus:$1-staging"
     echo "Running command '$cmd'."
     $cmd | tee out.log
 
@@ -13,39 +13,7 @@ testQuartusBase18_1 () {
         echo "No Quartus Prime Shell did start."
         exit 1
     fi
-    if ! test $(grep -c "Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition" out.log) -eq 1; then
-        echo "Incorrect version of Quartus Prime Shell did start."
-        exit 1
-    fi
-}
-
-# Check the basic Quartus Shell is available.
-testQuartusBase22_1 () {
-    cmd="docker run ghcr.io/nikleberg/quartus:22.1-staging"
-    echo "Running command '$cmd'."
-    $cmd | tee out.log
-
-    if ! test $(grep -c "Quartus Prime Shell" out.log) -eq 1; then
-        echo "No Quartus Prime Shell did start."
-        exit 1
-    fi
-    if ! test $(grep -c "Version 22.1std.2 Build 922 07/20/2023 SC Lite Edition" out.log) -eq 1; then
-        echo "Incorrect version of Quartus Prime Shell did start."
-        exit 1
-    fi
-}
-
-# Check the basic Quartus Shell is available.
-testQuartusBase23_1 () {
-    cmd="docker run ghcr.io/nikleberg/quartus:23.1-staging"
-    echo "Running command '$cmd'."
-    $cmd | tee out.log
-
-    if ! test $(grep -c "Quartus Prime Shell" out.log) -eq 1; then
-        echo "No Quartus Prime Shell did start."
-        exit 1
-    fi
-    if ! test $(grep -c "Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition" out.log) -eq 1; then
+    if ! test $(grep -c "Version $2 Lite Edition" out.log) -eq 1; then
         echo "Incorrect version of Quartus Prime Shell did start."
         exit 1
     fi
@@ -65,12 +33,14 @@ EOF
 # Choose test depending on the given tag of the container/image.
 case $1 in
     18.1)
-        testQuartusBase18_1;;
+        testQuartusBase "18.1" "18.1.0 Build 625 09/12/2018 SJ";;
     22.1)
-        testQuartusBase22_1;;
+        testQuartusBase "22.1" "22.1std.2 Build 922 07/20/2023 SC";;
     23.1)
-        testQuartusBase23_1;;
-    18.1-cycloneiv | 22.1-cycloneiv | 23.1-cycloneiv)
+        testQuartusBase "23.1" "23.1std.1 Build 993 05/14/2024 SC";;
+    24.1)
+        testQuartusBase "24.1" "24.1std.0 Build 1077 03/04/2025 SC";;
+    18.1-cycloneiv | 22.1-cycloneiv | 23.1-cycloneiv | 24.1-cycloneiv)
         testQuartusCyclone $1;;
     *)
         echo "Unknown image tag to test against. Aborting."
