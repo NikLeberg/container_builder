@@ -24,17 +24,19 @@ ENV LANG=C.UTF-8 \
     LC_CTYPE=C.UTF-8
 
 # Install wget so we can download quartus installer.
+# Install rdfind to remove install duplicates.
 RUN <<EOF
     set -e
     apt-get -q -y update
     apt-get -q -y install --no-install-recommends \
-        wget ca-certificates
+        wget ca-certificates rdfind
     apt-get clean
     rm -rf /var/lib/apt/lists/*
 EOF
 
 # Install Quartus (without device support files) for Intel FPGAs from:
 # https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html
+# This also post-processes the install dir to remove duplicates.
 ENV QUARTUS_ROOTDIR="/opt/intelFPGA_lite/$QUARTUS_VERSION"
 RUN <<EOF
     set -e
@@ -47,17 +49,7 @@ RUN <<EOF
     rm QuartusLiteSetup-linux.run
     rm -r $QUARTUS_ROOTDIR/uninstall
     rm -r $QUARTUS_ROOTDIR/logs
-EOF
-
-# Post process the install dir and remove duplicates.
-RUN <<EOF
-    set -e
-    apt-get -q -y update
-    apt-get -q -y install --no-install-recommends \
-        rdfind
     rdfind -makehardlinks true $QUARTUS_ROOTDIR
-    apt-get clean
-    rm -rf /var/lib/apt/lists/*
 EOF
 
 # Package the install dir into ~500MB tar-ed chunks at file boundaries.
