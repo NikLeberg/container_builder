@@ -4,24 +4,12 @@
 set -e
 
 # Check the Questa Executable is available.
-testQuestaExe22_1 () {
-    cmd="docker run ghcr.io/nikleberg/questasim:22.1-staging"
+testQuestaExe () {
+    cmd="docker run ghcr.io/nikleberg/questasim:$1-staging"
     echo "Running command '$cmd'."
     $cmd | tee out.log
 
-    if ! test $(grep -c "Questa  Intel Starter FPGA Edition-64 vsim 2021.2 Simulator 2021.04 Apr 14 2021" out.log) -eq 1; then
-        echo "Incorrect version of Questa did start."
-        exit 1
-    fi
-}
-
-# Check the Questa Executable is available.
-testQuestaExe23_1 () {
-    cmd="docker run ghcr.io/nikleberg/questasim:23.1-staging"
-    echo "Running command '$cmd'."
-    $cmd | tee out.log
-
-    if ! test $(grep -c "Questa Intel Starter FPGA Edition-64 vsim 2023.3 Simulator 2023.07 Jul 17 2023" out.log) -eq 1; then
+    if ! test $(grep -c "$2" out.log) -eq 1; then
         echo "Incorrect version of Questa did start."
         exit 1
     fi
@@ -49,10 +37,13 @@ EOF
 # Choose test depending on the given tag of the container/image.
 case $1 in
     22.1)
-        testQuestaExe22_1
+        testQuestaExe "22.1" "Questa  Intel Starter FPGA Edition-64 vsim 2021.2 Simulator 2021.04 Apr 14 2021"
         testQuestaDesign $1;;
     23.1)
-        testQuestaExe23_1
+        testQuestaExe "23.1" "Questa Intel Starter FPGA Edition-64 vsim 2023.3 Simulator 2023.07 Jul 17 2023"
+        testQuestaDesign $1;;
+    24.1)
+        testQuestaExe "24.1" "Questa Intel Starter FPGA Edition-64 vsim 2024.3 Simulator 2024.09 Sep 10 2024"
         testQuestaDesign $1;;
     *)
         echo "Unknown image tag to test against. Aborting."

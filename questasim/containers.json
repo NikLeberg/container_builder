@@ -15,14 +15,26 @@
     },
     {
         "name": "questasim",
+        "tags": "23.1",
+        "args": [
+            "QUESTA_VERSION=23.1.1",
+            "QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/QuestaSetup-23.1std.1.993-linux.run",
+            "QUESTA_SHA=88622812c4318d8e9d09c547b7315b1ea94e76db"
+        ],
+        "maximizeBuildSpace": true,
+        "testScript": "tests.sh",
+        "dockleAcceptExt": "sdf"
+    },
+    {
+        "name": "questasim",
         "tags": [
-            "23.1",
+            "24.1",
             "latest"
         ],
         "args": [
-            "QUESTA_VERSION=23.1.2",
-            "QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/QuestaSetup-23.1std.1.993-linux.run",
-            "QUESTA_SHA=88622812c4318d8e9d09c547b7315b1ea94e76db"
+            "QUESTA_VERSION=24.1",
+            "QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/QuestaSetup-24.1std.0.1077-linux.run",
+            "QUESTA_SHA=3bc55724807c4792e6bc71dfe454378474b9a4a1"
         ],
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
