@@ -1,0 +1,11 @@
+[
+    {
+        "name": "dpi_openocd",
+        "tags": "latest",
+        "args": [
+            "OPENOCD_CLONE_URL=https://git.code.sf.net/p/openocd/code",
+            "OPENOCD_CLONE_TAG=master",
+            "OPENOCD_PATCH=dpi_fix_d9e9591.patch"
+        ]
+    }
+]
