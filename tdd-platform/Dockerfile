@@ -105,8 +105,6 @@ RUN pip install poetry \
     && make -C GraphFuzz/build install \
     && cd ./GraphFuzz/cli \
     && poetry build \
-    && poetry export > dist/requirements.txt \
-    && pip install -r dist/requirements.txt \
     && pip install ./dist/gfuzz-*.whl \
     && cd ../../ \
     && rm -rf GraphFuzz
