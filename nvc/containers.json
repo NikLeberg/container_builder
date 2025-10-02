@@ -6,7 +6,7 @@
             "latest"
         ],
         "args": [
-            "NVC_VERSION=1.17.1"
+            "NVC_VERSION=1.17.2"
         ],
         "testScript": "tests.sh"
     },
