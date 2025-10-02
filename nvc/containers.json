@@ -28,14 +28,6 @@
     },
     {
         "name": "nvc",
-        "tags": "1.14",
-        "args": [
-            "NVC_VERSION=1.14.2"
-        ],
-        "testScript": "tests.sh"
-    },
-    {
-        "name": "nvc",
         "tags": "master",
         "args": [
             "NVC_VERSION=master"

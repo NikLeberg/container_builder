@@ -51,9 +51,6 @@ case $1 in
     1.15)
         testExe $1
         testDesign $1;;
-    1.14)
-        testExe $1
-        testDesign $1;;
     master)
         testMasterExe
         testDesign $1;;
