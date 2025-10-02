@@ -2,9 +2,17 @@
     {
         "name": "nvc",
         "tags": [
-            "1.17",
+            "1.18",
             "latest"
         ],
+        "args": [
+            "NVC_VERSION=1.18.0"
+        ],
+        "testScript": "tests.sh"
+    },
+    {
+        "name": "nvc",
+        "tags": "1.17",
         "args": [
             "NVC_VERSION=1.17.2"
         ],
