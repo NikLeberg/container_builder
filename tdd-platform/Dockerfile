@@ -117,7 +117,7 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
 
 # Install esp-idf for ESP32 support
 ARG ESP32_CLONE_URL=https://github.com/espressif/esp-idf.git
-ARG ESP32_CLONE_TAG=v4.4
+ARG ESP32_CLONE_TAG=v4.4.8
 
 RUN mkdir -p ~/.espressif \
     && cd ~/.espressif \
