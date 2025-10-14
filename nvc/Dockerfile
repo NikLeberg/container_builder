@@ -1,13 +1,13 @@
 # Based off https://github.com/hdl/containers/blob/main/debian-bullseye/nvc/Dockerfile
 
 ARG NVC_VERSION=1.16.0
-ARG NVC_SIG_KEY=BCDB295F74319F1A
+ARG NVC_SIG_PUBLIC_KEY=BCDB295F74319F1A
 ARG LLVM_VERSION=14
 
 FROM ubuntu:24.04 AS builder
 
 ARG NVC_VERSION
-ARG NVC_SIG_KEY
+ARG NVC_SIG_PUBLIC_KEY
 ARG LLVM_VERSION
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -55,7 +55,7 @@ RUN <<EOF
     else
         wget --progress=dot $NVC_TARBALL_URL
         wget --progress=dot $NVC_SIG_URL
-        gpg --keyserver keyserver.ubuntu.com --recv-keys $NVC_SIG_KEY
+        gpg --keyserver keyserver.ubuntu.com --recv-keys $NVC_SIG_PUBLIC_KEY
         gpg --verify $NV_TARBALL.sig $NV_TARBALL
         tar xvzf $NV_TARBALL
     fi
