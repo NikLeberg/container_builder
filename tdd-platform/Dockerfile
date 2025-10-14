@@ -138,9 +138,12 @@ ARG ESP8266_CLONE_TAG=v3.4
 
 RUN mkdir -p ~/.espressif \
     && cd ~/.espressif \
-    && git clone $ESP8266_CLONE_URL -b $ESP8266_CLONE_TAG --depth 1 \
-    && ./ESP8266_RTOS_SDK/install.sh \
+    && git clone $ESP8266_CLONE_URL -b $ESP8266_CLONE_TAG \
+    && cd ESP8266_RTOS_SDK \
+    && git cherry-pick -n b4665fc \
+    && ./install.sh \
     && rm -rf ~/.espressif/dist
+# Cherry-pick commit b4665fc: "chore(coap): Modify libcoap URL from github to jihulab"
 
 # Install packages for CARME-M4 support (see: https://askubuntu.com/a/1243405)
 # https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/downloads
