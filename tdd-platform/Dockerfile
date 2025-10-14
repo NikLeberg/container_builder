@@ -105,8 +105,6 @@ RUN pip install poetry \
     && make -C GraphFuzz/build install \
     && cd ./GraphFuzz/cli \
     && poetry build \
-    && poetry export > dist/requirements.txt \
-    && pip install -r dist/requirements.txt \
     && pip install ./dist/gfuzz-*.whl \
     && cd ../../ \
     && rm -rf GraphFuzz
@@ -119,7 +117,7 @@ RUN apt-get -q -y update && apt-get -q -y install --no-install-recommends \
 
 # Install esp-idf for ESP32 support
 ARG ESP32_CLONE_URL=https://github.com/espressif/esp-idf.git
-ARG ESP32_CLONE_TAG=v4.4
+ARG ESP32_CLONE_TAG=v4.4.8
 
 RUN mkdir -p ~/.espressif \
     && cd ~/.espressif \
@@ -140,9 +138,12 @@ ARG ESP8266_CLONE_TAG=v3.4
 
 RUN mkdir -p ~/.espressif \
     && cd ~/.espressif \
-    && git clone $ESP8266_CLONE_URL -b $ESP8266_CLONE_TAG --depth 1 \
-    && ./ESP8266_RTOS_SDK/install.sh \
+    && git clone $ESP8266_CLONE_URL -b $ESP8266_CLONE_TAG \
+    && cd ESP8266_RTOS_SDK \
+    && git cherry-pick -n b4665fc \
+    && ./install.sh \
     && rm -rf ~/.espressif/dist
+# Cherry-pick commit b4665fc: "chore(coap): Modify libcoap URL from github to jihulab"
 
 # Install packages for CARME-M4 support (see: https://askubuntu.com/a/1243405)
 # https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/downloads
