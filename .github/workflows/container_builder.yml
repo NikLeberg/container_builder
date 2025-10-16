@@ -110,7 +110,7 @@ jobs:
 
       - name: Upload Scan Results
         if: ${{!matrix.trivySkip || !matrix.dockleSkip}}
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: .
           matrix: '{"name":"${{matrix.name}}:${{matrix.mainTag}}"}'
