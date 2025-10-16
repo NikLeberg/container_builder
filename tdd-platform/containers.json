@@ -5,6 +5,7 @@
             "0.1",
             "latest"
         ],
+        "maximizeBuildSpace": true,
         "testScript": "tests.sh"
     }
 ]
