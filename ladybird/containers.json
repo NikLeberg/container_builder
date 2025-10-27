@@ -1,0 +1,9 @@
+[
+    {
+        "name": "ladybird",
+        "tags": "latest",
+        "args": [
+            "LADYBIRD_CLONE_TAG=master"
+        ]
+    }
+]
