@@ -34,5 +34,5 @@ RUN <<EOF
     set -e
     git clone $LADYBIRD_CLONE_URL -b $LADYBIRD_CLONE_TAG --depth 1
     cd ladybird
-    ./Meta/ladybird.py run
+    CMAKE_INSTALL_PREFIX=/opt/ladybird ./Meta/ladybird.py build
 EOF
