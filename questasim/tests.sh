@@ -45,6 +45,9 @@ case $1 in
     24.1)
         testQuestaExe "24.1" "Questa Intel Starter FPGA Edition-64 vsim 2024.3 Simulator 2024.09 Sep 10 2024"
         testQuestaDesign $1;;
+    25.1)
+        testQuestaExe "25.1" "Questa Altera Starter FPGA Edition-64 vsim 2025.2 Simulator 2025.05 May 31 2025"
+        testQuestaDesign $1;;
     *)
         echo "Unknown image tag to test against. Aborting."
         exit 1;;
