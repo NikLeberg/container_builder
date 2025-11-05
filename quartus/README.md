@@ -15,6 +15,7 @@ Quartus is a part of [Intel Quartus Prime Lite](https://www.intel.de/content/www
 | `22.1-cycloneiv` | 22.1.2 | Cyclone IV | - |
 | `23.1-cycloneiv` | 23.1.1 | Cyclone IV | - |
 | `24.1-cycloneiv` | 24.1.0 | Cyclone IV | Very slow. ~2x slowdown compared to older versions. Regardless if GUI or scripts are used. |
+| `25.1-cycloneiv` | 25.1.0 | Cyclone IV | - |
 
 Feel free to open an issue to request other versions or additional device support.
 

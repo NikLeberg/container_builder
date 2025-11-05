@@ -40,7 +40,9 @@ case $1 in
         testQuartusBase "23.1" "23.1std.1 Build 993 05/14/2024 SC";;
     24.1)
         testQuartusBase "24.1" "24.1std.0 Build 1077 03/04/2025 SC";;
-    18.1-cycloneiv | 22.1-cycloneiv | 23.1-cycloneiv | 24.1-cycloneiv)
+    25.1)
+        testQuartusBase "25.1" "25.1std.0 Build 1129 10/21/2025 SC";;
+    18.1-cycloneiv | 22.1-cycloneiv | 23.1-cycloneiv | 24.1-cycloneiv | 25.1-cycloneiv)
         testQuartusCyclone $1;;
     *)
         echo "Unknown image tag to test against. Aborting."

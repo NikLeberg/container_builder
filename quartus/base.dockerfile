@@ -8,9 +8,9 @@
 #  - The split tars are then imported in multiple layers in the second stage.
 
 ARG UBUNTU_VERSION=24.04
-ARG QUARTUS_VERSION=24.1
-ARG QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/QuartusLiteSetup-24.1std.0.1077-linux.run
-ARG QUARTUS_SHA=62a899e695d4ea478bc51850867cf6222d9589cf
+ARG QUARTUS_VERSION=25.1
+ARG QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1129/ib_installers/QuartusLiteSetup-25.1std.0.1129-linux.run
+ARG QUARTUS_SHA=ce0773469eacab5b7035c175484625f4ec3737d1
 
 FROM ubuntu:$UBUNTU_VERSION AS builder
 
