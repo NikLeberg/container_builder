@@ -1,12 +1,13 @@
 FROM ubuntu:24.04 AS builder
 
-ARG YOSYS_VERSION=v0.52
-ARG GHDL_VERSION=v5.0.1
-ARG PLUGIN_VERSION=8c29f2c
-ARG SBY_VERSION=v0.52
-ARG Z3_VERSION=4.14.1
-ARG Z3_SHA=8e9a168be395a1591e005d6346f7f45fbc77e305
-ARG YICES2_VERSION=2.6.5
+ARG YOSYS_VERSION=v0.58
+ARG GHDL_VERSION=v5.1.1
+ARG PLUGIN_VERSION=ad5be74
+ARG SBY_VERSION=v0.58
+ARG Z3_VERSION=4.15.4
+ARG Z3_GLIBC_VERSION=2.39
+ARG Z3_SHA=f64ebcc1affea0276184ec52d2985134cb912bb1
+ARG YICES2_VERSION=yices-2.7.0
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -114,7 +115,7 @@ RUN <<EOF
 EOF
 
 ## Download Z3 theorem solver.
-ARG Z3_RELEASE_URL=https://github.com/Z3Prover/z3/releases/download/z3-$Z3_VERSION/z3-$Z3_VERSION-x64-glibc-2.35.zip
+ARG Z3_RELEASE_URL=https://github.com/Z3Prover/z3/releases/download/z3-$Z3_VERSION/z3-$Z3_VERSION-x64-glibc-$Z3_GLIBC_VERSION.zip
 RUN <<EOF
     set -e
     wget --progress=dot:giga $Z3_RELEASE_URL -O z3.zip
@@ -128,7 +129,7 @@ EOF
 ARG YICES2_GIT_URL=https://github.com/SRI-CSL/yices2.git
 RUN <<EOF
     set -e
-    git clone $YICES2_GIT_URL -b Yices-$YICES2_VERSION --depth 1
+    git clone $YICES2_GIT_URL -b $YICES2_VERSION --depth 1
     cd yices2
     autoconf
     ./configure --prefix=/opt/yices2
