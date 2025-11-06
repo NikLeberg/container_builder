@@ -8,7 +8,10 @@ Additionally `make`, `openocd` and a host version of a `gcc` toolchain are insta
 ## Tags
 | Tag | Upstream `riscv-gnu-toolchain` tag | GCC version | ARCH | ABI | Note |
 |---|---|---|---|---|---|
+| `15.1-rv32imac` | 2025.11.04 | 15.1.0 | rv32imac | ilp32 | - |
+| `15.1-rv32i`    | 2025.11.04 | 15.1.0 | rv32i    | ilp32 | - |
 | `13.2-rv32imac` | 2024.04.12 | 13.2.0 | rv32imac | ilp32 | - |
+| `13.2-rv32i`    | 2024.04.12 | 13.2.0 | rv32i    | ilp32 | - |
 | `12.2-rv32imac` | 2023.10.06 | 12.2.0 | rv32imac | ilp32 | - |
 
 Feel free to open an issue to request other versions.
