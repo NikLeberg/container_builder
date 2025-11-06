@@ -14,8 +14,9 @@ But even with this split, the image is still very big (~4.6 GB). The large _inst
 | Tag | Questa Version | Note |
 |---|---|---|
 | `22.1` | 22.1 | - |
-| `23.1` | 22.1 | - |
-| `24.1` `latest` | 22.1 | - |
+| `23.1` | 23.1 | - |
+| `24.1` | 24.1 | - |
+| `25.1` `latest` | 25.1 | - |
 
 Feel free to open an issue to request other versions. Note that previous to version 21.1, Intel bundled ModelSim instead of QuestaSim.
 

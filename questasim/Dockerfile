@@ -7,9 +7,9 @@
 #  - Split the tar at file boundaries into multiple tars.
 #  - The split tars are then imported in multiple layers in the second stage.
 
-ARG QUESTA_VERSION=23.1.2
-ARG QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/QuestaSetup-23.1std.1.993-linux.run
-ARG QUESTA_SHA=88622812c4318d8e9d09c547b7315b1ea94e76db
+ARG QUESTA_VERSION=25.1
+ARG QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/QuestaSetup-25.1std.0.1129-linux.run
+ARG QUESTA_SHA=149fe1e1cf253f2929804582c6cb658bca941dd5
 
 FROM ubuntu:24.04 AS builder
 
@@ -125,6 +125,7 @@ ENV PATH="$QUESTA_ROOTDIR/questa_fse/bin:${PATH}"
 # manually crafted host / NIC / MAC id of 00:ab:ab:ab:ab:ab. To use this set the
 # mac address in the docker run command with --mac-address="00:ab:ab:ab:ab:ab"
 ENV LM_LICENSE_FILE=$QUESTA_ROOTDIR/licenses/license.dat
+ENV SALT_LICENSE_SERVER=$LM_LICENSE_FILE
 COPY license.dat $LM_LICENSE_FILE
 # Some documenting breadcrumbs:
 # flexlm allows for any host id that is displayed with the "lmhostid" tool. For
