@@ -220,18 +220,26 @@ def reduceStagesToChangedAndDependencies(stages: list, changedContainers: list) 
 def buildGHAMatrices(stages: list) -> list:
     return [{"include": [c.getGHAMatrix() for c in s]} for s in stages if s]
 
-# Set step output for GHA, prints to STDIO if not in CI.
+# Set step output for GHA.
 def setGHAOutput(matrices: list) -> None:
-    if "GITHUB_OUTPUT" in os.environ:
-        with open(os.environ["GITHUB_OUTPUT"], "a") as ghOutput:
-            for i, matrix in enumerate(matrices):
-                matrixJson = json.JSONEncoder().encode(matrix)
-                print(f"builderMatrixStage{i+1}={matrixJson}", file=ghOutput)
-    else:
+    with open(os.environ["GITHUB_OUTPUT"], "a") as ghOutput:
         for i, matrix in enumerate(matrices):
-            print(f"Stage {i+1} matrix:")
-            matrixJson = json.JSONEncoder(indent="  ").encode(matrix)
-            print(matrixJson)
+            matrixJson = json.JSONEncoder().encode(matrix)
+            print(f"builderMatrixStage{i+1}={matrixJson}", file=ghOutput)
+
+# Print manual "docker build" command(s).
+def printCLIOutput(stages: list) -> None:
+    n = "\\\n\t\t"
+    for i, containers in enumerate(stages):
+        print(f"Stage {i+1} commands:")
+        for j, container in enumerate(containers):
+            # build docker build command
+            command  = [f"\tdocker build --file {container.name}/{container.dockerfile}"]
+            command += [f"{n}--tag {container.name}:{t}" for t in container.tags]
+            command += [f"{n}--platform", ",".join(container.platforms)]
+            command += [f"{n}--build-arg {a}" for a in container.args]
+            command += [f"{n}{container.name}"]
+            print(" ".join(command))
 
 
 def main():
@@ -254,7 +262,11 @@ def main():
     printStages(stages)
 
     matrices = buildGHAMatrices(stages)
-    setGHAOutput(matrices)
+
+    if "GITHUB_OUTPUT" in os.environ:
+        setGHAOutput(matrices)
+    else:
+        printCLIOutput(stages)
 
 
 if __name__ == "__main__":
