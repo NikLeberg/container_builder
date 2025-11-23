@@ -126,14 +126,17 @@ Testing your images is an important step in ensuring they do or contain what you
 [
     {
         ...
-        "testScript": "tests.sh"
+        "testScript": "tests.sh",
+        "testArtifact": "results.tar"
         ...
     }
 ]
 ```
 
+Additionally you may want to access test results (of probably failed builds). Be it logs or generated files, specify `testArtifact` to be a path or file relative to your `<image_name_folder>`. The artifact will be uploaded (even on failing builds) to Github Actions with a name of `<image_name>_<image_tag>`. Due to a limitation of the underlying `actions/upload-artifact` you may only define exactly one path or file, not multiple.
+
 ### Multi Tagging
-You may want to tag one variant of your image with multiple different tags. For example you could do proper [semantic versioning](https://semver.org/) by tagging the version `1.2.3` also with `1.2` and `1` so that users of that tags will get the updates too. It can also be used to set the `latest` tag to one of the image variants. To do this, simply list the tags like so:
+You may want to tag one variant of your image with multiple different tags. For example you could do proper [semantic versioning](https://semver.org/) by tagging the version `1.2.3` also with `1.2` and `1` so that users of those tags will get the updates too. It can also be used to set the `latest` tag to one of the image variants. To do this, simply list the tags like so:
 ```json
 [
     {
@@ -187,6 +190,9 @@ If you build a huge image, GitHub Actions may run out of disk space. For these i
         // Test script ran after build
         // optional, gets called with <tag> as first argument to run tests on the just built image
         "testScript": "tests.sh",
+        // Test artifact uploaded after test script did run (also on failure)
+        // optional, will be uploaded as "<name>_<tag>" artifact
+        "testArtifact": "results.tar",
         // Skip Trivy vulnerability scanner in CI
         // optional, defaults to "false"
         "trivySkip": false,
