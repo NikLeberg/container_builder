@@ -13,7 +13,8 @@
         ],
         "intermediate": true,
         "maximizeBuildSpace": true,
-        "testScript": "tests.sh"
+        "testScript": "tests.sh",
+        "testArtifact": "test/artifact.tar"
     },
     {
         "name": "quartus",
@@ -28,7 +29,8 @@
         ],
         "intermediate": true,
         "maximizeBuildSpace": true,
-        "testScript": "tests.sh"
+        "testScript": "tests.sh",
+        "testArtifact": "test/artifact.tar"
     },
     {
         "name": "quartus",
@@ -43,7 +45,8 @@
         ],
         "intermediate": true,
         "maximizeBuildSpace": true,
-        "testScript": "tests.sh"
+        "testScript": "tests.sh",
+        "testArtifact": "test/artifact.tar"
     },
     {
         "name": "quartus",
@@ -59,7 +62,8 @@
         ],
         "intermediate": true,
         "maximizeBuildSpace": true,
-        "testScript": "tests.sh"
+        "testScript": "tests.sh",
+        "testArtifact": "test/artifact.tar"
     },
     {
         "name": "quartus",
@@ -74,7 +78,8 @@
         ],
         "intermediate": true,
         "maximizeBuildSpace": true,
-        "testScript": "tests.sh"
+        "testScript": "tests.sh",
+        "testArtifact": "test/artifact.tar"
     },
     {
         "name": "quartus",
@@ -88,7 +93,8 @@
         ],
         "dependsOn": "quartus:18.1",
         "maximizeBuildSpace": true,
-        "testScript": "tests.sh"
+        "testScript": "tests.sh",
+        "testArtifact": "test/artifact.tar"
     },
     {
         "name": "quartus",
@@ -102,7 +108,8 @@
         ],
         "dependsOn": "quartus:22.1",
         "maximizeBuildSpace": true,
-        "testScript": "tests.sh"
+        "testScript": "tests.sh",
+        "testArtifact": "test/artifact.tar"
     },
     {
         "name": "quartus",
@@ -116,7 +123,8 @@
         ],
         "dependsOn": "quartus:23.1",
         "maximizeBuildSpace": true,
-        "testScript": "tests.sh"
+        "testScript": "tests.sh",
+        "testArtifact": "test/artifact.tar"
     },
     {
         "name": "quartus",
@@ -130,7 +138,8 @@
         ],
         "dependsOn": "quartus:24.1",
         "maximizeBuildSpace": true,
-        "testScript": "tests.sh"
+        "testScript": "tests.sh",
+        "testArtifact": "test/artifact.tar"
     },
     {
         "name": "quartus",
@@ -144,6 +153,7 @@
         ],
         "dependsOn": "quartus:25.1",
         "maximizeBuildSpace": true,
-        "testScript": "tests.sh"
+        "testScript": "tests.sh",
+        "testArtifact": "test/artifact.tar"
     }
 ]
