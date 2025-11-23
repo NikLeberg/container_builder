@@ -11,6 +11,8 @@ ARG UBUNTU_VERSION=24.04
 ARG QUARTUS_VERSION=25.1
 ARG QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1129/ib_installers/QuartusLiteSetup-25.1std.0.1129-linux.run
 ARG QUARTUS_SHA=ce0773469eacab5b7035c175484625f4ec3737d1
+ARG SHIZZOLATOR_NAME=i3q6bSoc4a0
+ARG SHIZZOLATOR_DATA=e37e9f21a65ee0df
 
 FROM ubuntu:$UBUNTU_VERSION AS builder
 
@@ -95,6 +97,8 @@ RUN gcc -shared -o dlopen_hack.so dlopen_hack.c -ldl
 FROM ubuntu:$UBUNTU_VERSION AS base
 
 ARG QUARTUS_VERSION
+ARG SHIZZOLATOR_NAME
+ARG SHIZZOLATOR_DATA
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -154,20 +158,19 @@ RUN --mount=type=bind,from=dlopen_hack,target=/dlopen_hack <<EOF
 EOF
 
 # Quartus asks at first startup if we have a license. We can skip this by
-# creating a specific file that quartus expects. What exactly the content is..
-# no clue. It changes everytime quartus is started for the first time. The
-# following values were observed: 47b262d9285cf37e, b3b88ae373d98a4f,
-# 5aa8417559ca6424, bfa7fb05de703e01, f7fcb7797c7d8b54, c00a2ee0c5154f94.
-# We also tell it to not show the "are you trusting this project" dialog.
-COPY <<.5NoREgoqh7Y <<.iV72V2fdjta <<quartus2.qreg /root/.altera.quartus/
-c00a2ee0c5154f94
-.5NoREgoqh7Y
-1c35b4094c56f765
-.iV72V2fdjta
+# creating a specific file, internally referenced as "shizzolator" (ask Altera
+# what that is supposed to mean). Each version of Quartus looks for a different
+# file and file content based on a custom DES encryption. Values were manually
+# obtained from the various Quartus versions.
+# Additionally, we make it not show the "are you trusting this project" dialog.
+COPY <<EOF /root/.altera.quartus/.$SHIZZOLATOR_NAME
+$SHIZZOLATOR_DATA
+EOF
+COPY <<EOF /root/.altera.quartus/quartus2.qreg
 [22.1]
 General\\show_project_open_security_prompt=false
 Registry_version=27
-quartus2.qreg
+EOF
 
 # Entrypoint is the quartus shell.
 ENTRYPOINT ["quartus_sh"]

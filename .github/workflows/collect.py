@@ -16,6 +16,7 @@ class ContainerVariant:
     intermediate: bool
     maximizeBuildSpace: bool
     testScript: str
+    testArtifact: str
     trivySkip: bool
     dockleSkip: bool
     dockleAcceptExt: str
@@ -34,12 +35,13 @@ class ContainerVariant:
         intermediate = json.get("intermediate", False)
         maximizeBuildSpace = json.get("maximizeBuildSpace", False)
         testScript = json.get("testScript", "")
+        testArtifact = json.get("testArtifact", "")
         trivySkip = json.get("trivySkip", False)
         dockleSkip = json.get("dockleSkip", False)
         dockleAcceptExt = json.get("dockleAcceptExt", "")
         cache = json.get("cache", True)
         if name and isinstance(name, str) and tags and isinstance(tags, list):
-            return ContainerVariant(name, tags, dockerfile, platforms, args, dependsOn, intermediate, maximizeBuildSpace, testScript, trivySkip, dockleSkip, dockleAcceptExt, cache)
+            return ContainerVariant(name, tags, dockerfile, platforms, args, dependsOn, intermediate, maximizeBuildSpace, testScript, testArtifact, trivySkip, dockleSkip, dockleAcceptExt, cache)
         else:
             print(f"Ill formed containers.json entry '{json}' is not valid. Ignoring.")
             return None

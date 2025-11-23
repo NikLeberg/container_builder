@@ -87,6 +87,13 @@ jobs:
         shell: bash
         run: ./${{matrix.testScript}} ${{matrix.mainTag}}
 
+      - name: Save Test Artifact
+        if: ${{always() && matrix.testArtifact != ''}}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{matrix.name}}_${{matrix.mainTag}}
+          path: ${{matrix.name}}/${{matrix.testArtifact}}
+
       - name: Scan Container with Trivy
         if: ${{!matrix.trivySkip}}
         uses: aquasecurity/trivy-action@master
