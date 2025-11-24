@@ -11,7 +11,8 @@
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/capture.png",
-        "dockleAcceptExt": "sdf"
+        "dockleAcceptExt": "sdf",
+        "cache": false
     },
     {
         "name": "questasim",
@@ -25,7 +26,8 @@
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/capture.png",
-        "dockleAcceptExt": "sdf"
+        "dockleAcceptExt": "sdf",
+        "cache": false
     },
     {
         "name": "questasim",
@@ -39,7 +41,8 @@
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/capture.png",
-        "dockleAcceptExt": "sdf"
+        "dockleAcceptExt": "sdf",
+        "cache": false
     },
     {
         "name": "questasim",
@@ -56,6 +59,7 @@
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/capture.png",
-        "dockleAcceptExt": "sdf"
+        "dockleAcceptExt": "sdf",
+        "cache": false
     }
 ]
