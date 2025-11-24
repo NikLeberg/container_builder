@@ -10,6 +10,7 @@
 ARG QUESTA_VERSION=25.1
 ARG QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/QuestaSetup-25.1std.0.1129-linux.run
 ARG QUESTA_SHA=149fe1e1cf253f2929804582c6cb658bca941dd5
+ARG VSIM_VERSION=2025.2
 
 FROM ubuntu:24.04 AS builder
 
@@ -79,6 +80,7 @@ EOF
 FROM ubuntu:24.04 AS base
 
 ARG QUESTA_VERSION
+ARG VSIM_VERSION
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -132,6 +134,12 @@ COPY license.dat $LM_LICENSE_FILE
 # servers this could be the "real" hostid as in /etc/hostid. But with a server
 # based license a daemon needs to be running and also the hostname needs to be
 # fixed. So alternatively use the NIC based host id that is just the MAC addess.
+
+# Silence the GUI startup welcome dialog.
+COPY <<EOF /root/.modelsim
+[modelsim]
+noWelcomeVersion = $VSIM_VERSION
+EOF
 
 # Install additional development tools.
 RUN <<EOF

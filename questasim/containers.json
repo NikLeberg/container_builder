@@ -5,11 +5,14 @@
         "args": [
             "QUESTA_VERSION=22.1.2",
             "QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/22.1std.2/922/ib_installers/QuestaSetup-22.1std.2.922-linux.run",
-            "QUESTA_SHA=a25801f1180c017ccc2459bce2acd833012adf38"
+            "QUESTA_SHA=a25801f1180c017ccc2459bce2acd833012adf38",
+            "VSIM_VERSION=2021.2"
         ],
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
-        "dockleAcceptExt": "sdf"
+        "testArtifact": "test/capture.png",
+        "dockleAcceptExt": "sdf",
+        "cache": false
     },
     {
         "name": "questasim",
@@ -17,11 +20,14 @@
         "args": [
             "QUESTA_VERSION=23.1.1",
             "QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/QuestaSetup-23.1std.1.993-linux.run",
-            "QUESTA_SHA=88622812c4318d8e9d09c547b7315b1ea94e76db"
+            "QUESTA_SHA=88622812c4318d8e9d09c547b7315b1ea94e76db",
+            "VSIM_VERSION=2023.3"
         ],
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
-        "dockleAcceptExt": "sdf"
+        "testArtifact": "test/capture.png",
+        "dockleAcceptExt": "sdf",
+        "cache": false
     },
     {
         "name": "questasim",
@@ -29,11 +35,14 @@
         "args": [
             "QUESTA_VERSION=24.1",
             "QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/QuestaSetup-24.1std.0.1077-linux.run",
-            "QUESTA_SHA=3bc55724807c4792e6bc71dfe454378474b9a4a1"
+            "QUESTA_SHA=3bc55724807c4792e6bc71dfe454378474b9a4a1",
+            "VSIM_VERSION=2024.3"
         ],
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
-        "dockleAcceptExt": "sdf"
+        "testArtifact": "test/capture.png",
+        "dockleAcceptExt": "sdf",
+        "cache": false
     },
     {
         "name": "questasim",
@@ -44,10 +53,13 @@
         "args": [
             "QUESTA_VERSION=25.1",
             "QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/QuestaSetup-25.1std.0.1129-linux.run",
-            "QUESTA_SHA=149fe1e1cf253f2929804582c6cb658bca941dd5"
+            "QUESTA_SHA=149fe1e1cf253f2929804582c6cb658bca941dd5",
+            "VSIM_VERSION=2025.2"
         ],
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
-        "dockleAcceptExt": "sdf"
+        "testArtifact": "test/capture.png",
+        "dockleAcceptExt": "sdf",
+        "cache": false
     }
 ]
