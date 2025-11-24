@@ -89,7 +89,7 @@ jobs:
 
       - name: Save Test Artifact
         if: ${{always() && matrix.testArtifact != ''}}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{matrix.name}}_${{matrix.mainTag}}
           path: ${{matrix.name}}/${{matrix.testArtifact}}
