@@ -19,13 +19,10 @@ EOF
 
 ARG OPENOCD_CLONE_URL
 ARG OPENOCD_CLONE_TAG
-ARG OPENOCD_PATCH
-COPY $OPENOCD_PATCH patch.patch
 RUN <<EOF
     set -e
     git clone $OPENOCD_CLONE_URL -b $OPENOCD_CLONE_TAG --depth 1 openocd
     cd openocd
-    git apply ../patch.patch
     ./bootstrap
     ./configure --enable-jtag-dpi
     make -j$(nproc)
