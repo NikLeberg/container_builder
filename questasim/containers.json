@@ -10,6 +10,7 @@
         ],
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
+        "testArtifact": "test/capture.png",
         "dockleAcceptExt": "sdf"
     },
     {
@@ -23,6 +24,7 @@
         ],
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
+        "testArtifact": "test/capture.png",
         "dockleAcceptExt": "sdf"
     },
     {
@@ -36,6 +38,7 @@
         ],
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
+        "testArtifact": "test/capture.png",
         "dockleAcceptExt": "sdf"
     },
     {
@@ -52,6 +55,7 @@
         ],
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
+        "testArtifact": "test/capture.png",
         "dockleAcceptExt": "sdf"
     }
 ]
