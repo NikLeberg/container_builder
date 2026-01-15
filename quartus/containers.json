@@ -165,5 +165,24 @@
         "testScript": "tests.sh",
         "testArtifact": "test/artifact.tar",
         "cache": false
+    },
+    {
+        "name": "quartus",
+        "tags": "23.1-cyclonev",
+        "dockerfile": "device.dockerfile",
+        "args": [
+            "BASE_IMAGE_TAG=23.1",
+            "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/cyclonev-23.1std.1.993.qdz",
+            "DEVICE_SHA=4d849516eac750c95eaa5848d22573d60e5cca26",
+            "DEVICE_FILE=cyclonev-23.1std.1.993.qdz",
+            "ADDON_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/RiscFreeSetup-23.1std.1.993-linux.run",
+            "ADDON_SHA=8c8406ab25d9a8b5855c3a589413508b75515ab2",
+            "ADDON_FILE=RiscFreeSetup-23.1std.1.993-linux.run"
+        ],
+        "dependsOn": "quartus:23.1",
+        "maximizeBuildSpace": true,
+        "testScript": "tests.sh",
+        "testArtifact": "test/artifact.tar",
+        "cache": false
     }
 ]
