@@ -69,6 +69,8 @@ case $1 in
     18.1-cycloneiv | 22.1-cycloneiv | 23.1-cycloneiv | 24.1-cycloneiv | 25.1-cycloneiv)
         testQuartusCyclone $1
         testQuartusGUI     $1;;
+    23.1-cyclonev)
+        testQuartusGUI $1;;
     *)
         echo "Unknown image tag to test against. Aborting."
         exit 1;;
