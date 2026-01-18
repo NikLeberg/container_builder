@@ -9,7 +9,7 @@
 
 ARG UBUNTU_VERSION=24.04
 ARG QUARTUS_VERSION=25.1
-ARG QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1129/ib_installers/QuartusLiteSetup-25.1std.0.1129-linux.run
+ARG QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/QuartusLiteSetup-25.1std.0.1129-linux.run
 ARG QUARTUS_SHA=ce0773469eacab5b7035c175484625f4ec3737d1
 ARG SHIZZOLATOR_NAME=i3q6bSoc4a0
 ARG SHIZZOLATOR_DATA=e37e9f21a65ee0df
