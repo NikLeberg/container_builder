@@ -13,12 +13,14 @@ ARG QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129
 ARG QUARTUS_SHA=ce0773469eacab5b7035c175484625f4ec3737d1
 ARG SHIZZOLATOR_NAME=i3q6bSoc4a0
 ARG SHIZZOLATOR_DATA=e37e9f21a65ee0df
+ARG QUARTUS_ROOTDIR="/opt/quartus_lite"
 
 FROM ubuntu:$UBUNTU_VERSION AS builder
 
 ARG QUARTUS_VERSION
 ARG QUARTUS_URL
 ARG QUARTUS_SHA
+ARG QUARTUS_ROOTDIR
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -39,7 +41,6 @@ EOF
 # Install Quartus (without device support files) for Intel FPGAs from:
 # https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html
 # This also post-processes the install dir to remove duplicates.
-ENV QUARTUS_ROOTDIR="/opt/intelFPGA_lite/$QUARTUS_VERSION"
 RUN <<EOF
     set -e
     wget --progress=dot:giga $QUARTUS_URL -O QuartusLiteSetup-linux.run
@@ -99,6 +100,7 @@ FROM ubuntu:$UBUNTU_VERSION AS base
 ARG QUARTUS_VERSION
 ARG SHIZZOLATOR_NAME
 ARG SHIZZOLATOR_DATA
+ARG QUARTUS_ROOTDIR
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -126,7 +128,7 @@ RUN <<EOF
 EOF
 
 # Add Quartus to path
-ENV QUARTUS_ROOTDIR="/opt/intelFPGA_lite/$QUARTUS_VERSION"
+ENV QUARTUS_ROOTDIR=$QUARTUS_ROOTDIR
 ENV PATH="$QUARTUS_ROOTDIR/quartus/bin:${PATH}"
 
 # Fixup Quartus quirks in version 18.1 that prevent loading the executables
