@@ -11,7 +11,6 @@
             "SHIZZOLATOR_NAME=iV72V2fdjta",
             "SHIZZOLATOR_DATA=1c35b4094c56f765"
         ],
-        "intermediate": true,
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/artifact.tar",
@@ -28,7 +27,6 @@
             "SHIZZOLATOR_NAME=5NoREgoqh7Y",
             "SHIZZOLATOR_DATA=1c35b4094c56f765"
         ],
-        "intermediate": true,
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/artifact.tar",
@@ -45,7 +43,6 @@
             "SHIZZOLATOR_NAME=hKDOGI1VsW1",
             "SHIZZOLATOR_DATA=97a0bdcdcd0d4604"
         ],
-        "intermediate": true,
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/artifact.tar",
@@ -63,7 +60,6 @@
             "SHIZZOLATOR_DATA=7010d412b97a9deb"
 
         ],
-        "intermediate": true,
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/artifact.tar",
@@ -80,7 +76,6 @@
             "SHIZZOLATOR_NAME=i3q6bSoc4a0",
             "SHIZZOLATOR_DATA=e37e9f21a65ee0df"
         ],
-        "intermediate": true,
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/artifact.tar",
@@ -91,15 +86,14 @@
         "tags": "18.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [
-            "BASE_IMAGE_TAG=18.1",
             "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/18.1std/625/ib_installers/cyclone-18.1.0.625.qdz",
             "DEVICE_SHA=0063923ed4b3e12f706a5fb95ddce71fbb89d833",
             "DEVICE_FILE=cyclone-18.1.0.625.qdz"
         ],
-        "dependsOn": "quartus:18.1",
-        "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/artifact.tar",
+        "trivySkip": true,
+        "dockleSkip": true,
         "cache": false
     },
     {
@@ -107,15 +101,14 @@
         "tags": "22.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [
-            "BASE_IMAGE_TAG=22.1",
             "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/22.1std.2/922/ib_installers/cyclone-22.1std.2.922.qdz",
             "DEVICE_SHA=97163542d8dd846703fc1912ea0c844bc9359a2e",
             "DEVICE_FILE=cyclone-22.1std.2.922.qdz"
         ],
-        "dependsOn": "quartus:22.1",
-        "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/artifact.tar",
+        "trivySkip": true,
+        "dockleSkip": true,
         "cache": false
     },
     {
@@ -123,15 +116,14 @@
         "tags": "23.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [
-            "BASE_IMAGE_TAG=23.1",
             "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/cyclone-23.1std.1.993.qdz",
             "DEVICE_SHA=4c260c32282032c477d5520a84ebd1200d01ecf0",
             "DEVICE_FILE=cyclone-23.1std.1.993.qdz"
         ],
-        "dependsOn": "quartus:23.1",
-        "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/artifact.tar",
+        "trivySkip": true,
+        "dockleSkip": true,
         "cache": false
     },
     {
@@ -139,15 +131,14 @@
         "tags": "24.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [
-            "BASE_IMAGE_TAG=24.1",
             "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/cyclone-24.1std.0.1077.qdz",
             "DEVICE_SHA=176c1f54c7da0623555a02864d3eb144fe6c00d3",
             "DEVICE_FILE=cyclone-24.1std.0.1077.qdz"
         ],
-        "dependsOn": "quartus:24.1",
-        "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/artifact.tar",
+        "trivySkip": true,
+        "dockleSkip": true,
         "cache": false
     },
     {
@@ -155,15 +146,14 @@
         "tags": "25.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [
-            "BASE_IMAGE_TAG=25.1",
             "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/cyclone-25.1std.0.1129.qdz",
             "DEVICE_SHA=835d2b1732549294eed625b692d044135499b5e8",
             "DEVICE_FILE=cyclone-25.1std.0.1129.qdz"
         ],
-        "dependsOn": "quartus:25.1",
-        "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/artifact.tar",
+        "trivySkip": true,
+        "dockleSkip": true,
         "cache": false
     },
     {
@@ -171,7 +161,6 @@
         "tags": "23.1-cyclonev",
         "dockerfile": "device.dockerfile",
         "args": [
-            "BASE_IMAGE_TAG=23.1",
             "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/cyclonev-23.1std.1.993.qdz",
             "DEVICE_SHA=4d849516eac750c95eaa5848d22573d60e5cca26",
             "DEVICE_FILE=cyclonev-23.1std.1.993.qdz",
@@ -179,10 +168,10 @@
             "ADDON_SHA=8c8406ab25d9a8b5855c3a589413508b75515ab2",
             "ADDON_FILE=RiscFreeSetup-23.1std.1.993-linux.run"
         ],
-        "dependsOn": "quartus:23.1",
-        "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/artifact.tar",
+        "trivySkip": true,
+        "dockleSkip": true,
         "cache": false
     }
 ]

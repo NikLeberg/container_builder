@@ -19,21 +19,75 @@ testQuartusBase () {
     fi
 }
 
+# Setup device info from data-only docker image.
+setupDevinfoCycloneIV () {
+    if docker ps -a --format '{{.Names}}' | grep -q '^quartus-devinfo$'; then
+        docker rm quartus-devinfo
+    fi
+    docker create --name quartus-devinfo \
+        -v /opt/quartus_lite/quartus/common/devinfo/cycloneive \
+        -v /opt/quartus_lite/quartus/common/devinfo/cycloneivgx \
+        ghcr.io/nikleberg/quartus:$1-staging
+}
+
 # Build a test design for the Cyclone IV device family.
-testQuartusCyclone () {
-    docker build -f - . <<EOF
-FROM ghcr.io/nikleberg/quartus:$1-staging
-ADD test/design.tar.bz2 /tmp/test_design
-RUN cd /tmp/test_design/geni/quartus \
-    && quartus_sh -t ../scripts/quartus_project.tcl \
-    && quartus_sh -t ../scripts/quartus_compile.tcl
-EOF
+testQuartusCycloneIV () {
+    local version="${1%%-*}" # "25.1" part of "25.1-cycloneiv"
+    docker run --rm \
+        --volumes-from quartus-devinfo \
+        -v "./test/design.tar.bz2:/tmp/design.tar.bz2:ro" \
+        --entrypoint bash \
+        ghcr.io/nikleberg/quartus:${version}-staging -c "\
+            set -e; \
+            export DEBIAN_FRONTEND=noninteractive; \
+            apt-get -q -y update; \
+            apt-get -q -y install --no-install-recommends bzip2; \
+            cd /tmp; \
+            tar -xjf design.tar.bz2; \
+            ls -la; \
+            cd geni/quartus; \
+            quartus_sh -t ../scripts/quartus_project.tcl; \
+            quartus_sh -t ../scripts/quartus_compile.tcl"
+}
+
+# Setup device info from data-only docker image.
+setupDevinfoCycloneV () {
+    if docker ps -a --format '{{.Names}}' | grep -q '^quartus-devinfo$'; then
+        docker rm quartus-devinfo
+    fi
+    docker create --name quartus-devinfo \
+        -v /opt/quartus_lite/quartus/common/devinfo/cyclonev \
+        ghcr.io/nikleberg/quartus:$1-staging
+}
+
+# Build a test design for the Cyclone V device family.
+# TODO: synthesize an actual design.
+testQuartusCycloneV () {
+    local version="${1%%-*}" # "25.1" part of "25.1-cyclonev"
+    docker run --rm \
+        --volumes-from quartus-devinfo \
+        --entrypoint bash \
+        ghcr.io/nikleberg/quartus:${version}-staging -c "\
+            set -e; \
+            if [ ! -d '/opt/quartus_lite/quartus/common/devinfo/cyclonev' ]; then \
+                echo 'Error: Devinfo of Cyclone V not found!' >&2; \
+                exit 1; \
+            fi"
 }
 
 # Run the quartus GUI and verify that it started.
 testQuartusGUI () {
-    docker run --rm -v "$(pwd)/test:/test" -w /test \
-        --entrypoint bash ghcr.io/nikleberg/quartus:$1-staging -c "\
+    local version="${1%%-*}"
+    # optionally mount device info files
+    local devinfo_volumes=""
+    if docker inspect quartus-devinfo >/dev/null 2>&1; then
+        devinfo_volumes="--volumes-from quartus-devinfo"
+    fi
+    docker run --rm \
+        $devinfo_volumes \
+        -v "$(pwd)/test:/test" -w /test \
+        --entrypoint bash \
+        ghcr.io/nikleberg/quartus:${version}-staging -c "\
             set -e; \
             export DEBIAN_FRONTEND=noninteractive; \
             apt-get -q -y update; \
@@ -67,10 +121,13 @@ case $1 in
         testQuartusBase "25.1" "25.1std.0 Build 1129 10/21/2025 SC"
         testQuartusGUI  "25.1";;
     18.1-cycloneiv | 22.1-cycloneiv | 23.1-cycloneiv | 24.1-cycloneiv | 25.1-cycloneiv)
-        testQuartusCyclone $1
-        testQuartusGUI     $1;;
-    23.1-cyclonev)
-        testQuartusGUI $1;;
+        setupDevinfoCycloneIV $1
+        testQuartusCycloneIV  $1
+        testQuartusGUI        $1;;
+    18.1-cyclonev | 22.1-cyclonev | 23.1-cyclonev | 24.1-cyclonev | 25.1-cyclonev)
+        setupDevinfoCycloneV $1
+        testQuartusCycloneV  $1
+        testQuartusGUI       $1;;
     *)
         echo "Unknown image tag to test against. Aborting."
         exit 1;;
