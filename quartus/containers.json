@@ -173,6 +173,64 @@
     },
     {
         "name": "quartus",
+        "tags": "24.1-cyclonev",
+        "dockerfile": "device.dockerfile",
+        "args": [
+            "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/cyclonev-24.1std.0.1077.qdz",
+            "DEVICE_SHA=a361c6ab1aba00f6385fc8deb8b81045c3f9ad7c",
+            "DEVICE_FILE=cyclonev-24.1std.0.1077.qdz"
+        ],
+        "testScript": "tests.sh",
+        "testArtifact": "test/artifact.tar",
+        "trivySkip": true,
+        "dockleSkip": true,
+        "cache": false
+    },
+    {
+        "name": "quartus",
+        "tags": "25.1-cyclonev",
+        "dockerfile": "device.dockerfile",
+        "args": [
+            "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/cyclonev-25.1std.0.1129.qdz",
+            "DEVICE_SHA=a7225ec1bd36ccfd6826ea6273df5d21dd95633b",
+            "DEVICE_FILE=cyclonev-25.1std.0.1129.qdz"
+        ],
+        "testScript": "tests.sh",
+        "testArtifact": "test/artifact.tar",
+        "trivySkip": true,
+        "dockleSkip": true,
+        "cache": false
+    },
+    {
+        "name": "quartus",
+        "tags": "23.1-riscfree",
+        "dockerfile": "addon.dockerfile",
+        "args": [
+            "QUARTUS_VERSION=23.1",
+            "ADDON_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/RiscFreeSetup-23.1std.1.993-linux.run",
+            "ADDON_SHA=8c8406ab25d9a8b5855c3a589413508b75515ab2",
+            "ADDON_FILE=RiscFreeSetup-23.1std.1.993-linux.run"
+        ],
+        "dependsOn": "quartus:23.1",
+        "maximizeBuildSpace": true,
+        "cache": false
+    },
+    {
+        "name": "quartus",
+        "tags": "24.1-riscfree",
+        "dockerfile": "addon.dockerfile",
+        "args": [
+            "QUARTUS_VERSION=24.1",
+            "ADDON_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/RiscFreeSetup-24.1std.0.1077-linux.run",
+            "ADDON_SHA=60fb94c7d52fc4ca28166409210b32c2bd1c2ffd",
+            "ADDON_FILE=RiscFreeSetup-24.1std.0.1077-linux.run"
+        ],
+        "dependsOn": "quartus:24.1",
+        "maximizeBuildSpace": true,
+        "cache": false
+    },
+    {
+        "name": "quartus",
         "tags": "25.1-riscfree",
         "dockerfile": "addon.dockerfile",
         "args": [

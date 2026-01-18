@@ -79,6 +79,15 @@ $ docker create --name devinfo-cyclonev -v /opt/quartus_lite/quartus/common/devi
 $ docker run --volumes-from devinfo-cycloneive --volumes-from devinfo-cyclonev ghcr.io/nikleberg/quartus:24.1
 ```
 
+### Software Add-Ons
+To use a image with a pre-installed version of optional software, see following table for available options:
+
+| Tag | Add-On | Note |
+|---|---|---|
+| `<quartus version>-riscfree` | Ashling RiscFree IDE for FPGAs | Currently only packaged for Quartus versions `23.1` through `25.1`. |
+
+Feel free to open an issue to request other add-ons or additional versions.
+
 ### Additional `docker run` Arguments
 For improved functionality and ease-of-use you may want to add some of these arguments to the `docker run` command stated above:
  - Anything mentioned in [`dev-base`](../dev-base/README.md)
