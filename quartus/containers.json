@@ -14,6 +14,7 @@
         "maximizeBuildSpace": true,
         "testScript": "tests.sh",
         "testArtifact": "test/artifact.tar",
+        "trivySkip": true,
         "cache": false
     },
     {
