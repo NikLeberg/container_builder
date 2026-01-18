@@ -163,15 +163,26 @@
         "args": [
             "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/cyclonev-23.1std.1.993.qdz",
             "DEVICE_SHA=4d849516eac750c95eaa5848d22573d60e5cca26",
-            "DEVICE_FILE=cyclonev-23.1std.1.993.qdz",
-            "ADDON_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/RiscFreeSetup-23.1std.1.993-linux.run",
-            "ADDON_SHA=8c8406ab25d9a8b5855c3a589413508b75515ab2",
-            "ADDON_FILE=RiscFreeSetup-23.1std.1.993-linux.run"
+            "DEVICE_FILE=cyclonev-23.1std.1.993.qdz"
         ],
         "testScript": "tests.sh",
         "testArtifact": "test/artifact.tar",
         "trivySkip": true,
         "dockleSkip": true,
+        "cache": false
+    },
+    {
+        "name": "quartus",
+        "tags": "25.1-riscfree",
+        "dockerfile": "addon.dockerfile",
+        "args": [
+            "QUARTUS_VERSION=25.1",
+            "ADDON_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/RiscFreeSetup-25.1std.0.1129-linux.run",
+            "ADDON_SHA=2d457bd18bfbf32f8f4037266b6c04853caed8e8",
+            "ADDON_FILE=RiscFreeSetup-25.1std.0.1129-linux.run"
+        ],
+        "dependsOn": "quartus:25.1",
+        "maximizeBuildSpace": true,
         "cache": false
     }
 ]
