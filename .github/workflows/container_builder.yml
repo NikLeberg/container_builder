@@ -76,8 +76,7 @@ jobs:
           tags: ${{env.DOCKER_METADATA_OUTPUT_TAGS}}
           platforms: ${{matrix.platforms}}
           build-args: ${{matrix.args}}
-          push: true # staging is always pushed
-          load: true # make available for tests
+          push: true
           cache-from: ${{matrix.cache && 'type=gha' || ''}}
           cache-to: ${{matrix.cache && 'type=gha,mode=max' || ''}}
 
