@@ -214,6 +214,7 @@
         ],
         "dependsOn": "quartus:23.1",
         "maximizeBuildSpace": true,
+        "trivySkip": true,
         "cache": false
     },
     {
@@ -228,6 +229,7 @@
         ],
         "dependsOn": "quartus:24.1",
         "maximizeBuildSpace": true,
+        "trivySkip": true,
         "cache": false
     },
     {
@@ -242,6 +244,7 @@
         ],
         "dependsOn": "quartus:25.1",
         "maximizeBuildSpace": true,
+        "trivySkip": true,
         "cache": false
     }
 ]
