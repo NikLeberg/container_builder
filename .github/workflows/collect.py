@@ -237,7 +237,7 @@ def printCLIOutput(stages: list) -> None:
         for j, container in enumerate(containers):
             # build docker build command
             command  = [f"\tdocker build --file {container.name}/{container.dockerfile}"]
-            command += [f"{n}--tag {container.name}:{t}" for t in container.tags]
+            command += [f"{n}--tag ghcr.io/nikleberg/{container.name}:{t}" for t in container.tags]
             command += [f"{n}--platform", ",".join(container.platforms)]
             command += [f"{n}--build-arg {a}" for a in container.args]
             command += [f"{n}{container.name}"]
