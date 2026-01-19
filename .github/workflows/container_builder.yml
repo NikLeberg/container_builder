@@ -77,7 +77,6 @@ jobs:
           platforms: ${{matrix.platforms}}
           build-args: ${{matrix.args}}
           push: true # staging is always pushed
-          load: true # make available for tests
           cache-from: ${{matrix.cache && 'type=gha' || ''}}
           cache-to: ${{matrix.cache && 'type=gha,mode=max' || ''}}
 
