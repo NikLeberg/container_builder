@@ -1,0 +1,7 @@
+[
+    {
+        "name": "load-test",
+        "tags": "test-v1",
+        "testScript": "tests.sh"
+    }
+]
