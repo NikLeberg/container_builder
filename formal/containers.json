@@ -2,9 +2,23 @@
     {
         "name": "formal",
         "tags": [
-            "2025-11-05",
+            "2026-02-08",
             "latest"
         ],
+        "args": [
+            "YOSYS_VERSION=v0.62",
+            "GHDL_VERSION=v5.1.1",
+            "PLUGIN_VERSION=07a30ed",
+            "SBY_VERSION=v0.62",
+            "Z3_VERSION=4.15.5",
+            "Z3_GLIBC_VERSION=2.39",
+            "Z3_SHA=e70681818b7fcdf2be66c5931c8f5b0cdc2d3752",
+            "YICES2_VERSION=yices-2.7.0"
+        ]
+    },
+    {
+        "name": "formal",
+        "tags": "2025-11-05",
         "args": [
             "YOSYS_VERSION=v0.58",
             "GHDL_VERSION=v5.1.1",
