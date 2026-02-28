@@ -1,8 +1,11 @@
 # Based off https://github.com/hdl/containers/blob/main/debian-bullseye/nvc/Dockerfile
 
-ARG NVC_VERSION=1.18.1
+ARG NVC_VERSION=1.19.2
 ARG NVC_SIG_PUBLIC_KEY=BCDB295F74319F1A
-ARG LLVM_VERSION=14
+ARG LLVM_VERSION=20
+
+ARG USERNAME=ubuntu
+ARG USERHOME=/home/$USERNAME
 
 FROM ubuntu:24.04 AS builder
 
@@ -73,6 +76,8 @@ EOF
 FROM ubuntu:24.04 AS base
 
 ARG LLVM_VERSION
+ARG USERNAME
+ARG USERHOME
 
 COPY --from=builder /opt/nvc /
 
@@ -91,6 +96,9 @@ RUN <<EOF
     apt-get clean
     rm -rf /var/lib/apt/lists/*
 EOF
+
+USER $USERNAME
+WORKDIR $USERHOME
 
 # Entrypoint is the NVC executable.
 ENTRYPOINT ["nvc"]
