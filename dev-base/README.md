@@ -1,11 +1,11 @@
 # dev-base
-A basic devcontainer image with bootstraping tools for development.
+A basic devcontainer image with bootstrapping tools for development.
 
-Main goal is to provide Docker-outside-of-Docker (DooD) functionality to re-use the hosts docker environment to launch additional containers as needed.
+Main goal is to provide Docker-outside-of-Docker (DooD) functionality to re-use the hosts Docker environment to launch additional containers as needed.
 
-The idea is, that instead of requirng one huge image with every tool baked in, have only a simple base image where additional tools can be _installed_ in on-needed spun-up and self-contained docker containers.
+The idea is, that instead of requiring one huge image with every tool baked in, have only a simple base image where additional tools can be _installed_ in on-depand spun-up and self-contained docker containers.
 
-Targets for the decvontainer are GitHub Codespaces and VsCode (Linux or Windows with WSL).
+Targets for the devcontainer are GitHub Codespaces and VsCode (Linux or Windows with WSL).
 
 
 ## Usage
@@ -13,7 +13,7 @@ The image is meant to be used in a [`devcontainer.json`](https://containers.dev/
 
 ```json
 {
-    "image": "ghcr.io/nikleberg/dev-base:1.0",
+    "image": "ghcr.io/nikleberg/dev-base:2.0",
     "runArgs": [
         // forward docker socket to allow Docker-outside-of-Docker (DooD)
         "--volume=/var/run/docker.sock:/var/run/docker.sock"
@@ -21,16 +21,16 @@ The image is meant to be used in a [`devcontainer.json`](https://containers.dev/
 }
 ```
 
-Forwarding the docker socket is required for the _Docker-outside-of-Docker (DooD)_ functionality to work. This is what allows you to spin-up additional tools in on-needed containers from within this basic container. Re-using the docker installation on the host allows to reduce ressource usage and improve performance.
+Forwarding the docker socket is required for the _Docker-outside-of-Docker (DooD)_ functionality to work. This is what allows you to spin-up additional tools in on-needed containers from within this basic container. Re-using the docker installation on the host allows to reduce resource usage and improve performance.
 
-> Alternatively you could also start a fully fledged docker installation within a container. This would be called _Docker inside of Docker (DinD)_ but it is not supported here.
+> Alternatively you could also start a fully fledged Docker installation within a container. This would be called _Docker inside of Docker (DinD)_ but it is not supported here.
 
-I recommend adding `name: xyz` as key and setting a hostname with `--hostname xyz` for ease of use (and getting rid of cryptic sha's in our environments). With those a `devcontainer.json` file would look as follows:
+I recommend adding `name: xyz` as key and setting a hostname with `--hostname xyz` for ease of use (and getting rid of cryptic SHAs in our environments). With those a `devcontainer.json` file would look as follows:
 
 ```json
 {
     "name": "${localWorkspaceFolderBasename}",
-    "image": "ghcr.io/nikleberg/dev-base:1.0",
+    "image": "ghcr.io/nikleberg/dev-base:2.0",
     "runArgs": [
         // set a human friendly machine name for the container
         "--hostname=${localWorkspaceFolderBasename}",
@@ -46,11 +46,11 @@ A more fully-fledged `devcontainer.json` that is using this image can be seen in
 
 
 ### Alternative, _the CLI way_
-If you do not want to use _devcontainers_ ot simply prefer to work from the CLI, then you may also just start a container with:
+If you do not want to use _devcontainers_ or simply prefer to work from the CLI, then you may also just start a container with:
 ```bash
 docker run --volume=/var/run/docker.sock:/var/run/docker.sock ghcr.io/nikleberg/dev-base
 ```
-Note that this use-case is not tested. There might be some magic that VsCode and _devcontainers_ does behind the scenes to enable the wished for functionality of this image that a simply started container does not provide...
+Note that this use-case is not tested. There might be some magic that VsCode and _devcontainers_ does behind the scenes to enable the desired functionality of this image that a simply started container does not provide...
 
 
 ## Integrating additional Tools
@@ -60,13 +60,13 @@ I.e. inside the base container another tool specific container can be started wi
 
 For this to work some things have to be aligned:
  1. DooD functionality i.e. the docker socket must be available (this is fulfilled with the above mentioned `--volume` argument)
- 2. The dockerfile of the self-contained tool has to set [`ENTRYPOINT`](https://docs.docker.com/engine/reference/builder/#entrypoint) and [`CMD`](https://docs.docker.com/engine/reference/builder/#cmd).
- 3. Only ressources (files, folders, devices, etc.) from the host can be accessed/mapped directly. When the base container and the additional tool container need to share ressources this needs to be done via the host or via shared volumes.
+ 2. The Dockerfile of the self-contained tool has to set [`ENTRYPOINT`](https://docs.docker.com/engine/reference/builder/#entrypoint) and [`CMD`](https://docs.docker.com/engine/reference/builder/#cmd).
+ 3. Only resources (files, folders, devices, etc.) from the host can be accessed/mapped directly. When the base container and the additional tool container need to share resources this needs to be done via the host or via shared volumes.
  4. (optional) Setup of alias command(s) in base container that automatically spawn the tool container when needed.
 
 
 ### Dockerfile #1
-The tool image can set `ENTRYPOINT` and `CMD` in its `dockerfile`. For an example application `foo` that is started with argument `--bar` this might look like:
+The tool image can set `ENTRYPOINT` and `CMD` in its `Dockerfile`. For an example application `foo` that is started with argument `--bar` this might look like:
 
 ```dockerfile
 ENTRYPOINT ["foo"]
@@ -82,7 +82,7 @@ Note:
 ### Access to Project Files #2
 The tool container can't access the files and folders inside the base container directly. It can only do it via the host or with the use of shared volumes.
 
-Within decvontainers one generally should not store data. The project files are mounted into the devcontainer aka the base container. We can mount the same files and folders into the tool container with the `docker run` argument `--volumes-from $(cat /proc/self/cgroup | head -n 1 | cut -d '/' -f3)` [[source](https://stackoverflow.com/a/46586925)]. This looks up the container sha-id of the base container and mounts all volumes from it to the tool container.
+Within devcontainers one generally should not store data. The project files are mounted into the devcontainer aka the base container. We can mount the same files and folders into the tool container with the `docker run` argument `--volumes-from $(cat /proc/self/cgroup | head -n 1 | cut -d '/' -f3)` [[source](https://stackoverflow.com/a/46586925)]. This looks up the container sha-id of the base container and mounts all volumes from it to the tool container.
 
 
 ### Setup of Alias #3
@@ -118,7 +118,7 @@ Some tools may want to access the GUI. For this the X11 socket can simply be for
 I constructed this mainly for my own use-case in project [`neorv32_soc`](https://github.com/NikLeberg/neorv32_soc). There you will find a complete example of how this all comes together:
  - The [`devcontainer.json`](https://github.com/NikLeberg/neorv32_soc/blob/main/.devcontainer/devcontainer.json) that uses this `dev-base` image.
  - The [.env](https://github.com/NikLeberg/neorv32_soc/blob/main/.devcontainer/.env) that defines the environment and aliases for the different tools.
- - The [`tasks.json`](https://github.com/NikLeberg/neorv32_soc/blob/main/.vscode/tasks.json) that installs the aliases via `BASH_ENV` and uses the continerized tools in many tasks.
+ - The [`tasks.json`](https://github.com/NikLeberg/neorv32_soc/blob/main/.vscode/tasks.json) that installs the aliases via `BASH_ENV` and uses the containerized tools in many tasks.
 
 
 ## License

@@ -9,6 +9,9 @@
 
 FROM ubuntu:24.04
 
+ARG USERNAME=ubuntu
+ARG USERHOME=/home/$USERNAME
+
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 ARG DEBIAN_FRONTEND=noninteractive
@@ -38,3 +41,6 @@ RUN <<EOF
     apt-get clean
     rm -rf /var/lib/apt/lists/*
 EOF
+
+USER $USERNAME
+WORKDIR $USERHOME
