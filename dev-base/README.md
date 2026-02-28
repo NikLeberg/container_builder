@@ -13,7 +13,7 @@ The image is meant to be used in a [`devcontainer.json`](https://containers.dev/
 
 ```json
 {
-    "image": "ghcr.io/nikleberg/dev-base:1.0",
+    "image": "ghcr.io/nikleberg/dev-base:2.0",
     "runArgs": [
         // forward docker socket to allow Docker-outside-of-Docker (DooD)
         "--volume=/var/run/docker.sock:/var/run/docker.sock"
@@ -30,7 +30,7 @@ I recommend adding `name: xyz` as key and setting a hostname with `--hostname xy
 ```json
 {
     "name": "${localWorkspaceFolderBasename}",
-    "image": "ghcr.io/nikleberg/dev-base:1.0",
+    "image": "ghcr.io/nikleberg/dev-base:2.0",
     "runArgs": [
         // set a human friendly machine name for the container
         "--hostname=${localWorkspaceFolderBasename}",
