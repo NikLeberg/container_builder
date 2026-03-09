@@ -1,6 +1,6 @@
 # Based off https://github.com/hdl/containers/blob/main/debian-bullseye/nvc/Dockerfile
 
-ARG NVC_VERSION=1.19.2
+ARG NVC_VERSION=1.19.3
 ARG NVC_SIG_PUBLIC_KEY=BCDB295F74319F1A
 ARG LLVM_VERSION=20
 
