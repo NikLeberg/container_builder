@@ -60,7 +60,7 @@ jobs:
           echo ${{secrets.password}} | docker login ${{inputs.registry}} -u ${{inputs.username}} --password-stdin
 
       - name: Generate Docker Staging Metadata
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ${{env.baseTag}}
           flavor: |
@@ -122,7 +122,7 @@ jobs:
           matrix: '{"name":"${{matrix.name}}:${{matrix.mainTag}}"}'
 
       - name: Generate Docker Release Metadata
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ${{env.baseTag}}
           flavor: |
