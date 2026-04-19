@@ -8,7 +8,8 @@ This container contains a continerized version of `nvc` - _VHDL compiler and sim
 | Tag(s) | NVC Version | LLVM Version | Note |
 |---|---|---|---|
 | `master` | master | 20 | This uses the current nvc git master branch at time of build and may be unstable. |
-| `1.19` `latest` | 1.19.3 | 20 | - |
+| `1.20` `latest` | 1.20.0 | 20 | - |
+| `1.19` | 1.19.3 | 20 | - |
 | `1.18` | 1.18.2 | 20 | - |
 | `1.17` | 1.17.2 | 20 | - |
 | `1.16` | 1.16.2 | 20 | - |
@@ -20,7 +21,7 @@ Feel free to open an issue to request other versions.
 The image has `nvc` set as `ENTRYPOINT`. Simply running a container without arguments will invoke `nvc` with the default `CMD` argument `--version` and print the nvc version:
 ```shell
 $ docker run ghcr.io/nikleberg/nvc
-> nvc 1.19.3 (Using LLVM 20.1.2)
+> nvc 1.20.0 (Using LLVM 20.1.2)
 > Copyright (C) 2011-2026  Nick Gasson
 > This program comes with ABSOLUTELY NO WARRANTY. This is free software, and
 > you are welcome to redistribute it under certain conditions. See the GNU
