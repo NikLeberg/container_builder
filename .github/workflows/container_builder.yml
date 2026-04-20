@@ -106,7 +106,7 @@ jobs:
 
       - name: Scan Container with Dockle
         if: ${{!matrix.dockleSkip}}
-        uses: erzz/dockle-action@v1.4.0
+        uses: erzz/dockle-action@v1.4.1
         with:
           image: ${{env.baseTag}}:${{matrix.mainTag}}-staging
           failure-threshold: FATAL
