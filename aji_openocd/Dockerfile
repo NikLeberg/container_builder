@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 as openocd_builder
+FROM ubuntu:24.04 as openocd_builder
 
 # Install neccessary tools and dependencies, libaji_client and aji_openocd use
 # old compiler flags that are incompatible with gcc > 8.
@@ -52,7 +52,7 @@ RUN git clone $AJI_OPENOCD_CLONE_URL -b $AJI_OPENOCD_CLONE_TAG --depth 1 \
     && make
 
 # Import built openocd into clean container.
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 COPY --from=openocd_builder /aji_openocd/src/openocd /opt/aji_openocd/
 COPY --from=openocd_builder /aji_openocd/tcl /opt/aji_openocd/tcl
 
