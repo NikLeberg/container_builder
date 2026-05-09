@@ -8,7 +8,7 @@
         "args": [
             "YOSYS_VERSION=v0.64",
             "GHDL_VERSION=v6.0.0",
-            "PLUGIN_VERSION=9aba9af",
+            "PLUGIN_VERSION=07a30ed",
             "SBY_VERSION=v0.64",
             "Z3_VERSION=4.16.0",
             "Z3_GLIBC_VERSION=2.39",
