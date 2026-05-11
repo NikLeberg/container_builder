@@ -12,7 +12,7 @@ ARG QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/
 ARG QUESTA_SHA=149fe1e1cf253f2929804582c6cb658bca941dd5
 ARG VSIM_VERSION=2025.2
 
-FROM ubuntu:24.04 AS builder
+FROM ubuntu:26.04 AS builder
 
 ARG QUESTA_VERSION
 ARG QUESTA_URL
@@ -77,7 +77,7 @@ RUN <<EOF
 EOF
 
 
-FROM ubuntu:24.04 AS base
+FROM ubuntu:26.04 AS base
 
 ARG QUESTA_VERSION
 ARG VSIM_VERSION
