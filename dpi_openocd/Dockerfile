@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-FROM ubuntu:24.04 AS builder
+FROM ubuntu:26.04 AS builder
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -17,8 +17,8 @@ RUN <<EOF
     rm -rf /var/lib/apt/lists/*
 EOF
 
-ARG OPENOCD_CLONE_URL
-ARG OPENOCD_CLONE_TAG
+ARG OPENOCD_CLONE_URL=https://git.code.sf.net/p/openocd/code
+ARG OPENOCD_CLONE_TAG=master
 RUN <<EOF
     set -e
     git clone $OPENOCD_CLONE_URL -b $OPENOCD_CLONE_TAG --depth 1 openocd
