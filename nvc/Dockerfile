@@ -7,7 +7,7 @@ ARG LLVM_VERSION=20
 ARG USERNAME=ubuntu
 ARG USERHOME=/home/$USERNAME
 
-FROM ubuntu:24.04 AS builder
+FROM ubuntu:26.04 AS builder
 
 ARG NVC_VERSION
 ARG NVC_SIG_PUBLIC_KEY
@@ -73,7 +73,7 @@ EOF
 
 
 # Import built NVC into clean container.
-FROM ubuntu:24.04 AS base
+FROM ubuntu:26.04 AS base
 
 ARG LLVM_VERSION
 ARG USERNAME
