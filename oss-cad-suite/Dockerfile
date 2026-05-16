@@ -1,7 +1,7 @@
-FROM ubuntu:24.04 AS builder
+FROM ubuntu:26.04
 
-ARG OSS_VERSION=2025-04-14
-ARG OSS_SHA=ed94c3ed85d82417628a38bd1d9192566ab7ccb0
+ARG OSS_VERSION=2026-05-11
+ARG OSS_SHA=8607a037f6552c5008094e53e2c5f49974f6d1909231f2f86ea26b9dc4d7cfed
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -26,7 +26,7 @@ ARG OSS_URL=https://github.com/YosysHQ/oss-cad-suite-build/releases/download/${O
 RUN <<EOF
     set -e
     wget --progress=dot:giga $OSS_URL -O oss-cad-suite.tgz
-    echo "$OSS_SHA *oss-cad-suite.tgz" | sha1sum --check --strict -
+    echo "$OSS_SHA *oss-cad-suite.tgz" | sha256sum --check --strict -
     tar -xzhf oss-cad-suite.tgz -C /opt
     rm oss-cad-suite.tgz
 EOF

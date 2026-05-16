@@ -3,7 +3,6 @@
         "name": "dpi_openocd",
         "tags": "latest",
         "args": [
-            "OPENOCD_CLONE_URL=https://git.code.sf.net/p/openocd/code",
             "OPENOCD_CLONE_TAG=master"
         ]
     }

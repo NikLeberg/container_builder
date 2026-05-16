@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:26.04
 
 WORKDIR /
 
@@ -13,4 +13,4 @@ RUN apt-get -q -y update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install cppcheck-junit doxygen-junit
+RUN pip3 install --break-system-packages cppcheck-junit doxygen-junit

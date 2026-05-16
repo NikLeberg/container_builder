@@ -1,11 +1,10 @@
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=C.UTF-8
 
 # Update all packages and install neccessary tools and dependencies
 RUN apt-get -q -y update \
-    && apt-get -q -y upgrade \
     && apt-get -q -y install \
         git wget make python3 python3-pip \
         cpio libncurses6 openocd gdb \

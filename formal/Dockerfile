@@ -1,4 +1,4 @@
-FROM ubuntu:24.04 AS builder
+FROM ubuntu:26.04 AS builder
 
 ARG YOSYS_VERSION=v0.64
 ARG GHDL_VERSION=v6.0.0
@@ -138,7 +138,7 @@ RUN <<EOF
 EOF
 
 
-FROM ubuntu:24.04 AS formal
+FROM ubuntu:26.04 AS formal
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \

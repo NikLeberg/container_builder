@@ -7,7 +7,7 @@
 #  - https://github.com/devcontainers/images/blob/main/src/universal/.devcontainer/Dockerfile
 #  - https://github.com/devcontainers/features/blob/main/src/docker-outside-of-docker/install.sh
 
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 ARG USERNAME=ubuntu
 ARG USERHOME=/home/$USERNAME

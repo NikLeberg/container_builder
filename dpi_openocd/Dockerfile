@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-FROM ubuntu:24.04 AS builder
+FROM ubuntu:26.04 AS builder
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -17,25 +17,25 @@ RUN <<EOF
     rm -rf /var/lib/apt/lists/*
 EOF
 
-ARG OPENOCD_CLONE_URL
-ARG OPENOCD_CLONE_TAG
+ARG OPENOCD_CLONE_URL=https://git.code.sf.net/p/openocd/code
+ARG OPENOCD_CLONE_TAG=master
 RUN <<EOF
     set -e
     git clone $OPENOCD_CLONE_URL -b $OPENOCD_CLONE_TAG --depth 1 openocd
     cd openocd
     ./bootstrap
-    ./configure --enable-jtag-dpi
+    ./configure --enable-jtag-dpi --disable-werror
     make -j$(nproc)
 EOF
 
 
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 RUN <<EOF
     set -e
     apt-get -q -y update
     apt-get -q -y install --no-install-recommends \
-        libjim0.82
+        libjim0.83
     apt-get clean
     rm -rf /var/lib/apt/lists/*
 EOF
