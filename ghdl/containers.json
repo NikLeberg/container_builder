@@ -1,0 +1,21 @@
+[
+    {
+        "name": "ghdl",
+        "tags": "master",
+        "args": [
+            "GHDL_VERSION=master"
+        ],
+        "testScript": "tests.sh"
+    },
+    {
+        "name": "ghdl",
+        "tags": [
+            "6.0",
+            "latest"
+        ],
+        "args": [
+            "GHDL_VERSION=v6.0.0"
+        ],
+        "testScript": "tests.sh"
+    }
+]
