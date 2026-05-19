@@ -52,4 +52,8 @@ updates:
     directory: "/formal"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/ghdl"
+    schedule:
+      interval: "weekly"
   
