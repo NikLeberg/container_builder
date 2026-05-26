@@ -5,7 +5,8 @@
         "args": [
             "GHDL_VERSION=master"
         ],
-        "testScript": "tests.sh"
+        "testScript": "tests.sh",
+        "cache": false
     },
     {
         "name": "ghdl",
