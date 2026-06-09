@@ -176,6 +176,6 @@ EOF
 
 # Entrypoint is the quartus shell.
 ENTRYPOINT ["quartus_sh"]
-# With args "-t <script.tcl>" an arbirtrary TCL script can be run.
+# With args "-t <script.tcl>" an arbitrary TCL script can be run.
 # As default do nothing and just print the version.
 CMD ["-version"]

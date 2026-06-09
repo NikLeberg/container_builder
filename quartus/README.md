@@ -11,7 +11,7 @@ Quartus is a part of [Intel Quartus Prime Lite](https://www.intel.de/content/www
 ## Tags
 | Tag | Quartus Version | Device Support | Note |
 |---|---|---|---|
-| `18.1` | 18.1.0 | Cyclone IV | Quartus GUI non functional with WSLg (only window borders), use [`VcXsrv`](https://github.com/marchaesen/vcxsrv). |
+| `18.1` | 18.1.0 | Cyclone IV | To use the Quartus GUI set environment variable `QT_X11_NO_MITSHM=1`. Otherwise only window borders are visible. |
 | `22.1` | 22.1.2 | Cyclone IV | - |
 | `23.1` | 23.1.1 | Cyclone IV | - |
 | `24.1` | 24.1.0 | Cyclone IV | Very slow. ~2x slowdown compared to older versions. Regardless if GUI or scripts are used. |
