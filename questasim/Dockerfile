@@ -33,8 +33,8 @@ RUN <<EOF
     rm -rf /var/lib/apt/lists/*
 EOF
 
-# Install QuestaSim for Intel FPGAs from:
-# https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html
+# Install QuestaSim for Altera FPGAs from:
+# https://www.altera.com/products/development-tools/quartus
 ENV QUESTA_ROOTDIR="/opt/QuestaSim/$QUESTA_VERSION"
 RUN <<EOF
     set -e
@@ -123,7 +123,7 @@ EOF
 ENV QUESTA_ROOTDIR="/opt/QuestaSim/$QUESTA_VERSION"
 ENV PATH="$QUESTA_ROOTDIR/questa_fse/bin:${PATH}"
 
-# Install license aquired from https://licensing.intel.com/ that was fixed to a
+# Install license aquired from https://licensing.altera.com/ that was fixed to a
 # manually crafted host / NIC / MAC id of 00:ab:ab:ab:ab:ab. To use this set the
 # mac address in the docker run command with --mac-address="00:ab:ab:ab:ab:ab"
 ENV LM_LICENSE_FILE=$QUESTA_ROOTDIR/licenses/license.dat
@@ -153,7 +153,7 @@ EOF
 
 # Entrypoint is the vsim executable.
 ENTRYPOINT ["vsim"]
-# With args "-c -do <script.tcl>" an arbirtrary TCL script can be run.
+# With args "-c -do <script.tcl>" an arbitrary TCL script can be run.
 # Without the "-c" flag vsim starts in GUI mode.
 # As default do nothing and just print the version.
 CMD ["-version"]
