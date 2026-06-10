@@ -2,10 +2,10 @@
 > This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
 > For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
 
-This container contains a continerized version of `Questa Intel Starter FPGA Edition-64 vsim <version`.
+This container contains a continerized version of `Questa Altera Starter FPGA Edition-64 vsim <version`.
 
-Questa is a part of [Intel Quartus Prime Lite](https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html). To reduce the size of the image the tools of Quartus have been split up into two images:
- - [`quartus`](../quartus/README.md), tools to synthesize HDL for Intel/Altera FPGAs
+Questa is a part of [Altera Quartus Prime Lite](https://www.altera.com/products/development-tools/quartus). To reduce the size of the image the tools of Quartus have been split up into two images:
+ - [`quartus`](../quartus/README.md), tools to synthesize HDL for Altera FPGAs
  - `questasim`, tools to simulate HDL (this one here)
 
 But even with this split, the image is still very big (~4.6 GB). The large _installation step_ image layer is split up into multiple smaller layers to help speed up image pull / download and make it more robust.
@@ -18,20 +18,20 @@ But even with this split, the image is still very big (~4.6 GB). The large _inst
 | `24.1` | 24.1 | - |
 | `25.1` `latest` | 25.1 | - |
 
-Feel free to open an issue to request other versions. Note that previous to version 21.1, Intel bundled ModelSim instead of QuestaSim.
+Feel free to open an issue to request other versions. Note that previous to version 21.1, Altera bundled ModelSim instead of QuestaSim.
 
 ## Usage
 The image has `vsim` set as `ENTRYPOINT`. Simply running a container without arguments will invoke `vsim` with the default `CMD` argument `-version` and print the Questa version:
 ```shell
 $ docker run ghcr.io/nikleberg/questasim
-> Questa  Intel Starter FPGA Edition-64 vsim 2021.2 Simulator 2021.04 Apr 14 2021
+> Questa Altera Starter FPGA Edition-64 vsim 2025.2 Simulator 2025.05 May 31 2025
 ```
 
 For an actual usage you want to override the `CMD` by giving additional arguments to the `docker run` command. For example to run a simulation tcl script you could run:
 ```bash
 $ docker run ghcr.io/nikleberg/questasim -c -do <script>.tcl
-> # Questa Intel Starter FPGA Edition-64 vcom 2021.2 Compiler 2021.04 Apr 14 2021
-  # Start time: 22:15:25 on Oct 12,2023
+> # Questa Altera Starter FPGA Edition-64 vsim 2025.2 Simulator 2025.05 May 31 2025
+  # Start time: 22:15:25 on Jun 10,2026
   # vcom top.vhdl 
   # -- Loading package STANDARD
   # -- Loading package TEXTIO
@@ -79,9 +79,9 @@ export -f vsim_bash
 Note the additional `vsim_bash` alias. It overwrites the entrypoint in the image and lets you more easily debug problems by dropping you into a bash shell inside the container.
 
 ### License File
-Since v21.1 of Quartus, ModelSim was replaced by QuestaSim. It requires a valid license that can be obtained from [Intel](https://licensing.intel.com/). For ease of use a valid license is already included. But it is bound to a specific NIC id i.e. MAC address `00:ab:ab:ab:ab:ab`.
+Since v21.1 of Quartus, ModelSim was replaced by QuestaSim. It requires a valid license that can be obtained from [Altera](https://licensing.altera.com/). For ease of use a valid license is already included. But it is bound to a specific NIC id i.e. MAC address `00:ab:ab:ab:ab:ab`.
 
-Alternatively you may [aquire your own license file](https://licensing.intel.com/). To use it you have to:
+Alternatively you may [aquire your own license file](https://licensing.altera.com/). To use it you have to:
  - mount the license file into the container with `--volume /path/on/host/license:/path/on/container/license`
  - set the environment variable `LM_LICENSE_FILE` such that `vsim` finds it with: `--env=LM_LICENSE_FILE=/path/on/container/license`
 
