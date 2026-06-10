@@ -1,0 +1,10 @@
+# Ignore test artifacts from quartus/tests.sh
+quartus/out.log
+quartus/test/shizzolator
+quartus/test/capture.*
+quartus/test/artifact.tar
+
+# Ignore test artifacts from questasim/tests.sh
+questasim/out.log
+questasim/test/transcript
+questasim/test/capture.*

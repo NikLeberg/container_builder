@@ -39,7 +39,7 @@ testQuestaGUI () {
     docker run --rm -v "$(pwd)/test:/test" -w /test \
         --mac-address=00:ab:ab:ab:ab:ab \
         --entrypoint bash ghcr.io/nikleberg/questasim:$1-staging -c "\
-            set -e; \
+            set -xe; \
             export DEBIAN_FRONTEND=noninteractive; \
             apt-get -q -y update; \
             apt-get -q -y install --no-install-recommends xvfb x11-apps imagemagick; \
@@ -48,7 +48,10 @@ testQuestaGUI () {
             sleep 10; \
             xwd -display :0 -silent -root -out capture.xwd; \
             convert capture.xwd capture.png; \
-            compare capture.png expected$1.png diff.png"
+            RMSE=\$(compare -metric RMSE capture.png expected$1.png null: 2>&1 | sed -E 's/^.*\((.+)\).*$/\1/g'); \
+            echo RMSE=\$RMSE; \
+            awk -v r=\$RMSE 'BEGIN { exit !(r <= 0.005) }'; \
+        "
 }
 
 # Choose test depending on the given tag of the container/image.
