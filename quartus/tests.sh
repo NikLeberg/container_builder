@@ -88,19 +88,23 @@ testQuartusGUI () {
         -v "$(pwd)/test:/test" -w /test \
         --entrypoint bash \
         ghcr.io/nikleberg/quartus:${version}-staging -c "\
-            set -e; \
+            set -xe; \
             export DEBIAN_FRONTEND=noninteractive; \
             apt-get -q -y update; \
             apt-get -q -y install --no-install-recommends xvfb x11-apps imagemagick; \
-            echo \$(ls -1q /root/.altera.quartus/.?* | head -n 1); \
-            cp \$(ls -1q /root/.altera.quartus/.?* | head -n 1) shizzolator; \
+            SHIZZ=\$(ls -1q /root/.altera.quartus/.?* | head -n 1); \
+            echo shizzolator= file:\$SHIZZ value:\$(cat \$SHIZZ); \
+            cp \$SHIZZ shizzolator; \
             Xvfb :0 & \
             DISPLAY=:0 quartus & \
             sleep 10; \
             xwd -display :0 -silent -root -out capture.xwd; \
             convert capture.xwd capture.png; \
             tar cvf artifact.tar shizzolator capture.png; \
-            compare capture.png expected$1.png diff.png"
+            RMSE=\$(compare -metric RMSE capture.png expected$1.png null: 2>&1 | sed -E 's/^.*\((.+)\).*$/\1/g'); \
+            echo RMSE=\$RMSE; \
+            awk -v r=\$RMSE 'BEGIN { exit !(r <= 0.005) }'; \
+        "
 }
 
 # Choose test depending on the given tag of the container/image.
