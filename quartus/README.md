@@ -4,8 +4,8 @@
 
 These images contain a continerized version of `Quartus Prime <Version> Lite Edition` in various versions and supported devices.
 
-Quartus is a part of [Intel Quartus Prime Lite](https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html). To reduce the size of the images the tools of Quartus have been split up into two image groups:
- - `quartus`, tools to synthesize HDL for Intel/Altera FPGAs (these one here)
+Quartus is a part of [Altera Quartus Prime Lite](https://www.altera.com/products/development-tools/quartus). To reduce the size of the images the tools of Quartus have been split up into two image groups:
+ - `quartus`, tools to synthesize HDL for Altera FPGAs (these one here)
  - [`questasim`](../questasim/README.md), tools to simulate HDL
 
 ## Tags
@@ -20,7 +20,7 @@ Quartus is a part of [Intel Quartus Prime Lite](https://www.intel.de/content/www
 Feel free to open an issue to request other versions or additional device support.
 
 ## Usage
-> Please note that using Quartus implies acceptance of [Intel/Altera FPGA's EULA](http://fpgasoftware.intel.com/eula/) for the appropriate version(s) you use.
+> Please note that using Quartus implies acceptance of Altera FPGA's EULA for the appropriate version(s) you use.
 
 The image has `quartus_sh` set as `ENTRYPOINT`. Simply running a container without arguments will invoke `quartus_sh` with the default `CMD` argument `-version` and print the Quartus version:
 ```

@@ -18,8 +18,8 @@ RUN <<EOF
     rm -rf /var/lib/apt/lists/*
 EOF
 
-# Install Quartus device support files for Intel FPGAs from:
-# https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html
+# Install Quartus device support files for Altera FPGAs from:
+# https://www.altera.com/products/development-tools/quartus
 # The .qdz file is just a glorified zip archive. The device installer from:
 # $QUARTUS_ROOTDIR/quartus/common/devinfo/dev_install/dev_install.run is somehow
 # not able to correctly install the support files. So we do it manually.

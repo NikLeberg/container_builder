@@ -38,8 +38,8 @@ RUN <<EOF
     rm -rf /var/lib/apt/lists/*
 EOF
 
-# Install Quartus (without device support files) for Intel FPGAs from:
-# https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html
+# Install Quartus (without device support files) for Altera FPGAs from:
+# https://www.altera.com/products/development-tools/quartus
 # This also post-processes the install dir to remove duplicates.
 RUN <<EOF
     set -e
@@ -70,7 +70,7 @@ EOF
 
 
 # Fix Quartus malloc/free issues in docker environment.
-# Source: https://community.intel.com/t5/Intel-Quartus-Prime-Software/quartus-map-crash-possibly-due-to-shared-library-shenanigans/m-p/1285186
+# Source: http://web.archive.org/web/20240304182917/https://community.intel.com/t5/Intel-Quartus-Prime-Software/quartus-map-crash-possibly-due-to-shared-library-shenanigans/m-p/1285186
 FROM ubuntu:$UBUNTU_VERSION AS dlopen_hack
 
 RUN <<EOF
@@ -140,7 +140,7 @@ ENV PATH="$QUARTUS_ROOTDIR/quartus/bin:${PATH}"
 #  - invalid command name "vsyscall" / invalid command name "realloc():"
 #  - munmap invalid pointer
 #  => use dlopen_hack, see above
-# Source: https://community.intel.com/t5/Intel-Quartus-Prime-Software/Quartus-failed-to-run-inside-Docker-Linux/td-p/241058?profile.language=en
+# Source: http://web.archive.org/web/20241113195324/https://community.intel.com/t5/Intel-Quartus-Prime-Software/Quartus-failed-to-run-inside-Docker-Linux/td-p/241058
 RUN --mount=type=bind,from=dlopen_hack,target=/dlopen_hack <<EOF
     set -e
     if [ "$QUARTUS_VERSION" = "18.1" ]; then
