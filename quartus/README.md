@@ -4,14 +4,14 @@
 
 These images contain a continerized version of `Quartus Prime <Version> Lite Edition` in various versions and supported devices.
 
-Quartus is a part of [Intel Quartus Prime Lite](https://www.intel.de/content/www/de/de/products/details/fpga/development-tools/quartus-prime/resource.html). To reduce the size of the images the tools of Quartus have been split up into two image groups:
- - `quartus`, tools to synthesize HDL for Intel/Altera FPGAs (these one here)
+Quartus is a part of [Altera Quartus Prime Lite](https://www.altera.com/products/development-tools/quartus). To reduce the size of the images the tools of Quartus have been split up into two image groups:
+ - `quartus`, tools to synthesize HDL for Altera FPGAs (these one here)
  - [`questasim`](../questasim/README.md), tools to simulate HDL
 
 ## Tags
 | Tag | Quartus Version | Device Support | Note |
 |---|---|---|---|
-| `18.1` | 18.1.0 | Cyclone IV | Quartus GUI non functional with WSLg (only window borders), use [`VcXsrv`](https://github.com/marchaesen/vcxsrv). |
+| `18.1` | 18.1.0 | Cyclone IV | To use the Quartus GUI set environment variable `QT_X11_NO_MITSHM=1`. Otherwise only window borders are visible. |
 | `22.1` | 22.1.2 | Cyclone IV | - |
 | `23.1` | 23.1.1 | Cyclone IV | - |
 | `24.1` | 24.1.0 | Cyclone IV | Very slow. ~2x slowdown compared to older versions. Regardless if GUI or scripts are used. |
@@ -20,7 +20,7 @@ Quartus is a part of [Intel Quartus Prime Lite](https://www.intel.de/content/www
 Feel free to open an issue to request other versions or additional device support.
 
 ## Usage
-> Please note that using Quartus implies acceptance of [Intel/Altera FPGA's EULA](http://fpgasoftware.intel.com/eula/) for the appropriate version(s) you use.
+> Please note that using Quartus implies acceptance of Altera FPGA's EULA for the appropriate version(s) you use.
 
 The image has `quartus_sh` set as `ENTRYPOINT`. Simply running a container without arguments will invoke `quartus_sh` with the default `CMD` argument `-version` and print the Quartus version:
 ```
