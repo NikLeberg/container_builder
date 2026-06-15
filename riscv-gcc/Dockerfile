@@ -37,12 +37,13 @@ EOF
 # Put the compiled binaries into a fresh image.
 FROM ubuntu:24.04
 
-# Install host toolchain.
+# Install host toolchain and debug tools.
 RUN <<EOF
     set -e
     apt-get -q -y update
     apt-get -q -y install --no-install-recommends \
-        make gcc libc-dev openocd
+        make gcc libc-dev \
+        openocd gdb-multiarch
     apt-get clean
     rm -rf /var/lib/apt/lists/*
 EOF
