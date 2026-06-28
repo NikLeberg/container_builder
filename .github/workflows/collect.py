@@ -155,6 +155,10 @@ def getChangedFiles():
     else:
         # On a branch, compare with latest main
         changedFiles = run(["git", "diff", "--name-only", latestMainCommit, currentCommit]).split("\n")
+
+    # Ignore changes to README.md.
+    changedFiles = [f for f in changedFiles if not "README.md" in f]
+
     print(f"  Changed files: {changedFiles}")
 
     # Check if git commit log contains "[ci::ignore_workflow_change]" directive.
