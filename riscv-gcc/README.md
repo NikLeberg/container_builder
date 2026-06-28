@@ -2,7 +2,7 @@
 > This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
 > For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
 
-This container contains a continerized version of the RISC-V GCC cross-compiler toolchain in various versions, see [below](#tags).
+This container contains a containerized version of the RISC-V GCC cross-compiler toolchain in various versions, see [below](#tags).
 Additionally `make`, `openocd` and a host version of a `gcc` toolchain are installed as well.
 
 ## Tags

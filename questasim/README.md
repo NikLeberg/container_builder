@@ -2,7 +2,7 @@
 > This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
 > For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
 
-This container contains a continerized version of `Questa Altera Starter FPGA Edition-64 vsim <version`.
+This container contains a containerized version of `Questa Altera Starter FPGA Edition-64 vsim <version`.
 
 Questa is a part of [Altera Quartus Prime Lite](https://www.altera.com/products/development-tools/quartus). To reduce the size of the image the tools of Quartus have been split up into two images:
  - [`quartus`](../quartus/README.md), tools to synthesize HDL for Altera FPGAs

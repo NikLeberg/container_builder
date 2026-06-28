@@ -2,7 +2,7 @@
 > These images are part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
 > For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
 
-These images contain a continerized version of `Quartus Prime <Version> Lite Edition` in various versions and supported devices.
+These images contain a containerized version of `Quartus Prime <Version> Lite Edition` in various versions and supported devices.
 
 Quartus is a part of [Altera Quartus Prime Lite](https://www.altera.com/products/development-tools/quartus). To reduce the size of the images the tools of Quartus have been split up into two image groups:
  - `quartus`, tools to synthesize HDL for Altera FPGAs (these one here)
@@ -92,6 +92,7 @@ Feel free to open an issue to request other add-ons or additional versions.
 For improved functionality and ease-of-use you may want to add some of these arguments to the `docker run` command stated above:
  - Anything mentioned in [`dev-base`](../dev-base/README.md)
  - `--volume=/dev:/dev --privileged`: Allows USB/JTAG access to FPGAs for programming.
+ - `--net=host`: Use host network. This may be used to make UDP/TCP based services (like the JTAG server `jtagd`) available to other containers or the host.
 
 ## License
 [MIT](../LICENSE) © [NikLeberg](https://github.com/NikLeberg).

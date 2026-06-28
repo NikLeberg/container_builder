@@ -2,7 +2,7 @@
 > This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
 > For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
 
-This container contains a continerized version of `oss.cad.suite` - _open source digital design and verification tools_ from [YosysHQ/oss-cad-suite-build](https://github.com/YosysHQ/oss-cad-suite-build).
+This container contains a containerized version of `oss.cad.suite` - _open source digital design and verification tools_ from [YosysHQ/oss-cad-suite-build](https://github.com/YosysHQ/oss-cad-suite-build).
 
 ## Tags
 | Tag(s) | Version | Note |
