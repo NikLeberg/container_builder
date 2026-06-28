@@ -92,6 +92,7 @@ Feel free to open an issue to request other add-ons or additional versions.
 For improved functionality and ease-of-use you may want to add some of these arguments to the `docker run` command stated above:
  - Anything mentioned in [`dev-base`](../dev-base/README.md)
  - `--volume=/dev:/dev --privileged`: Allows USB/JTAG access to FPGAs for programming.
+ - `--net=host`: Use host network. This may be used to make UDP/TCP based services (like the JTAG server `jtagd`) available to other containers or the host.
 
 ## License
 [MIT](../LICENSE) © [NikLeberg](https://github.com/NikLeberg).
