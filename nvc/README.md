@@ -9,11 +9,6 @@ This container contains a containerized version of `nvc` - _VHDL compiler and si
 |---|---|---|---|
 | `master` | master | 20 | This uses the current nvc git master branch at time of build and may be unstable. |
 | `1.20` `latest` | 1.20.0 | 20 | - |
-| `1.19` | 1.19.3 | 20 | - |
-| `1.18` | 1.18.2 | 20 | - |
-| `1.17` | 1.17.2 | 20 | - |
-| `1.16` | 1.16.2 | 20 | - |
-| `1.15` | 1.15.2 | 20 | - |
 
 Feel free to open an issue to request other versions.
 
