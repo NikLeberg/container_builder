@@ -2,13 +2,16 @@
 > This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
 > For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
 
-This container contains a containerized version of `nvc` - _VHDL compiler and simulator_ from [nickg/nvc](www.nickg.me.uk/nvc/).
+This container ships a containerized version of `nvc` - _VHDL compiler and simulator_ from [nickg/nvc](www.nickg.me.uk/nvc/).
 
 ## Tags
-| Tag(s) | NVC Version | LLVM Version | Note |
-|---|---|---|---|
-| `master` | master | 20 | This uses the current nvc git master branch at time of build and may be unstable. |
-| `1.20` `latest` | 1.20.0 | 20 | - |
+| Tag(s) | NVC Version | Release Date | LLVM Version | Note |
+|-----------------|--------|------------|----|---|
+| `master`        | master | -          | 20 | Uses upstream nvc git master branch at time of build and may be unstable. |
+| `1.23` `latest` | 1.23.0 | 2026-09-19 | 20 | - |
+| `1.22`          | 1.22.1 | 2026-08-01 | 20 | - |
+| `1.21`          | 1.21.1 | 2026-06-20 | 20 | - |
+| `1.20`          | 1.20.1 | 2026-04-22 | 20 | - |
 
 Feel free to open an issue to request other versions.
 

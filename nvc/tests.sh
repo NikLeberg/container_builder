@@ -42,7 +42,7 @@ testDesign () {
 
 # Choose test depending on the given tag of the container/image.
 case $1 in
-    1.21 | 1.20)
+    1.23 | 1.22 | 1.21 | 1.20)
         testExe $1
         testDesign $1;;
     master)
