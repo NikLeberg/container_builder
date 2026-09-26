@@ -3,7 +3,7 @@ ARG QUARTUS_VERSION=25.1
 FROM ghcr.io/nikleberg/quartus:${QUARTUS_VERSION}-staging
 
 ARG QUARTUS_ROOTDIR="/opt/quartus_lite"
-ARG ADDON_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/RiscFreeSetup-25.1std.0.1129-linux.run
+ARG ADDON_URL=https://download.altera.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/RiscFreeSetup-25.1std.0.1129-linux.run
 ARG ADDON_SHA=2d457bd18bfbf32f8f4037266b6c04853caed8e8
 ARG ADDON_FILE=RiscFreeSetup-25.1std.0.1129-linux.run
 

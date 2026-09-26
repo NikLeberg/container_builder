@@ -6,7 +6,7 @@
         "args": [
             "UBUNTU_VERSION=22.04",
             "QUARTUS_VERSION=18.1",
-            "QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/18.1std/625/ib_installers/QuartusLiteSetup-18.1.0.625-linux.run",
+            "QUARTUS_URL=https://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/QuartusLiteSetup-18.1.0.625-linux.run",
             "QUARTUS_SHA=3cc0e856c0c203ed47d6eaca05a85c2f29b7bd01",
             "SHIZZOLATOR_NAME=iV72V2fdjta",
             "SHIZZOLATOR_DATA=1c35b4094c56f765"
@@ -23,7 +23,7 @@
         "dockerfile": "base.dockerfile",
         "args": [
             "QUARTUS_VERSION=22.1.2",
-            "QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/22.1std.2/922/ib_installers/QuartusLiteSetup-22.1std.2.922-linux.run",
+            "QUARTUS_URL=https://download.altera.com/akdlm/software/acdsinst/22.1std.2/922/ib_installers/QuartusLiteSetup-22.1std.2.922-linux.run",
             "QUARTUS_SHA=9fbb3a3721c3cb94706c2d9532a8213f120f5c56",
             "SHIZZOLATOR_NAME=5NoREgoqh7Y",
             "SHIZZOLATOR_DATA=1c35b4094c56f765"
@@ -39,7 +39,7 @@
         "dockerfile": "base.dockerfile",
         "args": [
             "QUARTUS_VERSION=23.1.1",
-            "QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/QuartusLiteSetup-23.1std.1.993-linux.run",
+            "QUARTUS_URL=https://download.altera.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/QuartusLiteSetup-23.1std.1.993-linux.run",
             "QUARTUS_SHA=bbca0986c79ca4b367838fca31b061ed87bfe50e",
             "SHIZZOLATOR_NAME=hKDOGI1VsW1",
             "SHIZZOLATOR_DATA=97a0bdcdcd0d4604"
@@ -55,7 +55,7 @@
         "dockerfile": "base.dockerfile",
         "args": [
             "QUARTUS_VERSION=24.1",
-            "QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/QuartusLiteSetup-24.1std.0.1077-linux.run",
+            "QUARTUS_URL=https://download.altera.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/QuartusLiteSetup-24.1std.0.1077-linux.run",
             "QUARTUS_SHA=62a899e695d4ea478bc51850867cf6222d9589cf",
             "SHIZZOLATOR_NAME=i3q6bSoc4a0",
             "SHIZZOLATOR_DATA=7010d412b97a9deb"
@@ -72,7 +72,7 @@
         "dockerfile": "base.dockerfile",
         "args": [
             "QUARTUS_VERSION=25.1",
-            "QUARTUS_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/QuartusLiteSetup-25.1std.0.1129-linux.run",
+            "QUARTUS_URL=https://download.altera.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/QuartusLiteSetup-25.1std.0.1129-linux.run",
             "QUARTUS_SHA=ce0773469eacab5b7035c175484625f4ec3737d1",
             "SHIZZOLATOR_NAME=i3q6bSoc4a0",
             "SHIZZOLATOR_DATA=e37e9f21a65ee0df"
@@ -87,7 +87,7 @@
         "tags": "18.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [
-            "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/18.1std/625/ib_installers/cyclone-18.1.0.625.qdz",
+            "DEVICE_URL=https://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/cyclone-18.1.0.625.qdz",
             "DEVICE_SHA=0063923ed4b3e12f706a5fb95ddce71fbb89d833",
             "DEVICE_FILE=cyclone-18.1.0.625.qdz"
         ],
@@ -102,7 +102,7 @@
         "tags": "22.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [
-            "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/22.1std.2/922/ib_installers/cyclone-22.1std.2.922.qdz",
+            "DEVICE_URL=https://download.altera.com/akdlm/software/acdsinst/22.1std.2/922/ib_installers/cyclone-22.1std.2.922.qdz",
             "DEVICE_SHA=97163542d8dd846703fc1912ea0c844bc9359a2e",
             "DEVICE_FILE=cyclone-22.1std.2.922.qdz"
         ],
@@ -117,7 +117,7 @@
         "tags": "23.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [
-            "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/cyclone-23.1std.1.993.qdz",
+            "DEVICE_URL=https://download.altera.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/cyclone-23.1std.1.993.qdz",
             "DEVICE_SHA=4c260c32282032c477d5520a84ebd1200d01ecf0",
             "DEVICE_FILE=cyclone-23.1std.1.993.qdz"
         ],
@@ -132,7 +132,7 @@
         "tags": "24.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [
-            "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/cyclone-24.1std.0.1077.qdz",
+            "DEVICE_URL=https://download.altera.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/cyclone-24.1std.0.1077.qdz",
             "DEVICE_SHA=176c1f54c7da0623555a02864d3eb144fe6c00d3",
             "DEVICE_FILE=cyclone-24.1std.0.1077.qdz"
         ],
@@ -147,7 +147,7 @@
         "tags": "25.1-cycloneiv",
         "dockerfile": "device.dockerfile",
         "args": [
-            "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/cyclone-25.1std.0.1129.qdz",
+            "DEVICE_URL=https://download.altera.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/cyclone-25.1std.0.1129.qdz",
             "DEVICE_SHA=835d2b1732549294eed625b692d044135499b5e8",
             "DEVICE_FILE=cyclone-25.1std.0.1129.qdz"
         ],
@@ -162,7 +162,7 @@
         "tags": "23.1-cyclonev",
         "dockerfile": "device.dockerfile",
         "args": [
-            "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/cyclonev-23.1std.1.993.qdz",
+            "DEVICE_URL=https://download.altera.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/cyclonev-23.1std.1.993.qdz",
             "DEVICE_SHA=4d849516eac750c95eaa5848d22573d60e5cca26",
             "DEVICE_FILE=cyclonev-23.1std.1.993.qdz"
         ],
@@ -177,7 +177,7 @@
         "tags": "24.1-cyclonev",
         "dockerfile": "device.dockerfile",
         "args": [
-            "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/cyclonev-24.1std.0.1077.qdz",
+            "DEVICE_URL=https://download.altera.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/cyclonev-24.1std.0.1077.qdz",
             "DEVICE_SHA=a361c6ab1aba00f6385fc8deb8b81045c3f9ad7c",
             "DEVICE_FILE=cyclonev-24.1std.0.1077.qdz"
         ],
@@ -192,7 +192,7 @@
         "tags": "25.1-cyclonev",
         "dockerfile": "device.dockerfile",
         "args": [
-            "DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/cyclonev-25.1std.0.1129.qdz",
+            "DEVICE_URL=https://download.altera.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/cyclonev-25.1std.0.1129.qdz",
             "DEVICE_SHA=a7225ec1bd36ccfd6826ea6273df5d21dd95633b",
             "DEVICE_FILE=cyclonev-25.1std.0.1129.qdz"
         ],
@@ -208,7 +208,7 @@
         "dockerfile": "addon.dockerfile",
         "args": [
             "QUARTUS_VERSION=23.1",
-            "ADDON_URL=https://downloads.intel.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/RiscFreeSetup-23.1std.1.993-linux.run",
+            "ADDON_URL=https://download.altera.com/akdlm/software/acdsinst/23.1std.1/993/ib_installers/RiscFreeSetup-23.1std.1.993-linux.run",
             "ADDON_SHA=8c8406ab25d9a8b5855c3a589413508b75515ab2",
             "ADDON_FILE=RiscFreeSetup-23.1std.1.993-linux.run"
         ],
@@ -223,7 +223,7 @@
         "dockerfile": "addon.dockerfile",
         "args": [
             "QUARTUS_VERSION=24.1",
-            "ADDON_URL=https://downloads.intel.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/RiscFreeSetup-24.1std.0.1077-linux.run",
+            "ADDON_URL=https://download.altera.com/akdlm/software/acdsinst/24.1std/1077/ib_installers/RiscFreeSetup-24.1std.0.1077-linux.run",
             "ADDON_SHA=60fb94c7d52fc4ca28166409210b32c2bd1c2ffd",
             "ADDON_FILE=RiscFreeSetup-24.1std.0.1077-linux.run"
         ],
@@ -238,7 +238,7 @@
         "dockerfile": "addon.dockerfile",
         "args": [
             "QUARTUS_VERSION=25.1",
-            "ADDON_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/RiscFreeSetup-25.1std.0.1129-linux.run",
+            "ADDON_URL=https://download.altera.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/RiscFreeSetup-25.1std.0.1129-linux.run",
             "ADDON_SHA=2d457bd18bfbf32f8f4037266b6c04853caed8e8",
             "ADDON_FILE=RiscFreeSetup-25.1std.0.1129-linux.run"
         ],

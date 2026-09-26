@@ -8,7 +8,7 @@
 #  - The split tars are then imported in multiple layers in the second stage.
 
 ARG QUESTA_VERSION=25.1
-ARG QUESTA_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/QuestaSetup-25.1std.0.1129-linux.run
+ARG QUESTA_URL=https://download.altera.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/QuestaSetup-25.1std.0.1129-linux.run
 ARG QUESTA_SHA=149fe1e1cf253f2929804582c6cb658bca941dd5
 ARG VSIM_VERSION=2025.2
 

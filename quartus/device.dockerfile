@@ -4,7 +4,7 @@ FROM ubuntu:24.04 AS installer
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ARG DEVICE_URL=https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/cyclone-25.1std.0.1129.qdz
+ARG DEVICE_URL=https://download.altera.com/akdlm/software/acdsinst/25.1std/1129/ib_installers/cyclone-25.1std.0.1129.qdz
 ARG DEVICE_SHA=835d2b1732549294eed625b692d044135499b5e8
 ARG DEVICE_FILE=cyclone-25.1std.0.1129.qdz
 
