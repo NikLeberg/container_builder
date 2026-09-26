@@ -1,6 +1,6 @@
 ARG QUARTUS_ROOTDIR="/opt/quartus_lite"
 
-FROM ubuntu:24.04 AS installer
+FROM ubuntu:26.04 AS installer
 
 ARG DEBIAN_FRONTEND=noninteractive
 
