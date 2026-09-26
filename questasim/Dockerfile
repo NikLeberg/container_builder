@@ -23,7 +23,13 @@ ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     LC_CTYPE=C.UTF-8
 
-# Install wget so we can download questa installer.
+# Install required tools.
+#  - wget to fetch curl impersonate
+#  - curl-impersonate to bypass Akamai bot protection
+ARG CURL_IMPERSONATE_URL=https://github.com/lexiforest/curl-impersonate/releases/download/v2.2.3/curl-impersonate-v2.2.3.x86_64-linux-gnu.tar.gz
+ARG CURL_IMPERSONATE_SHA=ca7c8aae49e33260d3a2400db16c7737aaf04692d606a843502056b42990f989
+ARG CURL_IMPERSONATE_PATH=/opt/curl-impersonate
+ARG CURL_IMPERSONATE_BIN=$CURL_IMPERSONATE_PATH/curl_firefox144
 RUN <<EOF
     set -e
     apt-get -q -y update
@@ -31,6 +37,12 @@ RUN <<EOF
         wget ca-certificates
     apt-get clean
     rm -rf /var/lib/apt/lists/*
+    wget --progress=dot $CURL_IMPERSONATE_URL -O curl-impersonate.tar.gz
+    echo "$CURL_IMPERSONATE_SHA *curl-impersonate.tar.gz" | \
+        sha256sum --check --strict -
+    mkdir -p $CURL_IMPERSONATE_PATH
+    tar -xvzf curl-impersonate.tar.gz -C $CURL_IMPERSONATE_PATH
+    rm curl-impersonate.tar.gz
 EOF
 
 # Install QuestaSim for Altera FPGAs from:
@@ -40,7 +52,7 @@ RUN <<EOF
     set -e
     mkdir questa-tmp
     cd questa-tmp
-    wget --progress=dot:giga $QUESTA_URL -O QuestaSetup-linux.run
+    $CURL_IMPERSONATE_BIN -f $QUESTA_URL -o QuestaSetup-linux.run
     echo "$QUESTA_SHA *QuestaSetup-linux.run" | sha1sum --check --strict -
     chmod +x QuestaSetup-linux.run
     ./QuestaSetup-linux.run \
