@@ -1,27 +1,27 @@
-﻿# Intel Corporation Software and/or Intellectual Property License File
-# Issued 12 October 2025
+﻿# Altera Corporation Software and/or Intellectual Property License File - PROD
+# Issued 22 October 2026
 # Upgrade to these products will no longer be available after the Maintenance Expiration  
 # date unless licenses are renewed.  
 # Fixed Node License
-# Primary Machine Name-QuestaSim-Docker
+# Primary Machine Name-Docker
 # Primary Machine ID-NIC ID 00ABABABABAB
 # Companion ID-N/A
 # Companion ID 2-N/A
 # Product License Summary:
-# 3 Questa*- FPGA Starter Edition (License: SW-QUESTA), 1 Seat(s)
-# - Maintenance Expiration of 2025.10
-# - License Expires 12-Oct-2026
+# 7 Questa*- FPGA Starter Edition (License: SW-QUESTA), 1 Seat(s)
+# - Maintenance Expiration of 2027.10
+# - License Expires 22-Oct-2027
 ################################################################################ 
 # FEATURE START 
-# This is license file for Questasim*-Intel FPGA Starter Edition 
+# This is license file for Questasim*-FPGA Starter Edition 
 # Number of seat licenses is 1 
-# License Expires 12-Oct-2026 
+# License Expires 22-Oct-2027 
 DAEMON mgcld path_to_mgcld
-INCREMENT intelqsimstarter mgcld 2026.10 12-oct-2026 uncounted \
-    3F9B127C94239887EAF0 VENDOR_STRING=59FC6A24 HOSTID=00ababababab \
-    ISSUER=Intel SN=2100300456 SIGN2="1C56 11FB 79B7 8BBF F7F5 01D6 C406 \
-    3CB8 DAED FABD A742 A095 A80D 00BF DEE7 0329 D645 1FE2 049C A46C 2475 \
-    543F 38E8 0889 8DCC 6A92 6513 6ADB 2863 8756"
+INCREMENT intelqsimstarter mgcld 2027.01 22-oct-2027 uncounted \
+    CF9DC3D6BE298B764862 VENDOR_STRING=08319B4A HOSTID=00ababababab \
+    ISSUER=Altera SN=2117874447 SIGN2="0F99 5FD9 C487 BEA2 935A 9E79 6880 \
+    C87C 12AB B5FD 5237 66A7 1818 52B7 16E2 0EBF 3262 27F6 0A7F C91B BB4F \
+    6F9C 7B85 B6AD F4B6 5246 51A7 8246 AD6C F69B"
 # FEATURE END 
 ################################################################################
-# End of Intel Corporation Software and/or Intellectual Property License File. Issued 10/12/2025
+# End of Altera Corporation Software and/or Intellectual Property License File - PROD. Issued 10/22/2026

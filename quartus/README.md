@@ -20,7 +20,7 @@ Quartus is a part of [Altera Quartus Prime Lite](https://www.altera.com/products
 Feel free to open an issue to request other versions or additional device support.
 
 ## Usage
-> Please note that using Quartus implies acceptance of Altera FPGA's EULA for the appropriate version(s) you use.
+> Please note that using Quartus implies acceptance of Altera's EULA for the appropriate version(s) you use.
 
 The image has `quartus_sh` set as `ENTRYPOINT`. Simply running a container without arguments will invoke `quartus_sh` with the default `CMD` argument `-version` and print the Quartus version:
 ```

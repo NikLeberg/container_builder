@@ -1,6 +1,9 @@
+ARG LLVM_VERSION=21
+
 FROM ubuntu:26.04 AS builder
 
 ARG GHDL_VERSION=v6.0.0
+ARG LLVM_VERSION
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -14,7 +17,7 @@ RUN <<EOF
     apt-get -q -y install \
         make \
         gcc \
-        llvm \
+        llvm-$LLVM_VERSION-dev \
         clang \
         gnat \
         libz-dev \
@@ -31,7 +34,7 @@ RUN <<EOF
     mkdir ghdl/build
     cd ghdl/build
     ../configure --prefix=/opt/ghdl \
-        --with-llvm-config \
+        --with-llvm-config=llvm-config-$LLVM_VERSION \
         --with-llvm-jit \
         --enable-checks \
         --enable-libghdl \
@@ -43,6 +46,7 @@ EOF
 
 FROM ubuntu:26.04 AS ghdl
 
+ARG LLVM_VERSION
 ARG USERNAME=ubuntu
 ARG USERHOME=/home/$USERNAME
 
@@ -57,7 +61,7 @@ RUN <<EOF
     apt-get -q -y update
     apt-get -q -y install \
         libgnat-14 \
-        libllvm21
+        libllvm$LLVM_VERSION
     apt-get clean
     rm -rf /var/lib/apt/lists/*
 EOF
