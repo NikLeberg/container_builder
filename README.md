@@ -5,7 +5,19 @@ This project uses the GitHub Actions CI to automatically build and push containe
 GitHub registry:
 - `docker pull ghcr.io/nikleberg/<image_name>:<image_tag>`
 
-For specific usage of each image please have a look at the corresponding `README.md` file in the image subfolder.
+Available images:
+- `aji_openocd` - OpenOCD build with Altera AJI virtual JTAG infrastructure
+- `dev-base` - Docker-outside-of-Docker enabled devcontainer
+- `dpi_openocd` - OpenOCD build with enabled _jtag_dpi_ driver
+- `formal` - Collection of OSS tools to run Yosys formal verification
+- `ghdl` - VHDL 2008/93/87 simulator
+- `nvc` - VHDL compiler and simulator
+- `oss-cad-suite` - open source digital design and verification tools
+- `quartus` - Altera Quartus Prime for Altera FPGAs
+- `questasim` - Questa simulator for Altera FPGAs
+- `riscv-gcc` - Pre-built RISC-V cross-compilers
+
+For specific tags and usage of each image please have a look at the corresponding `README.md` file in the image subfolder.
 
 ## Adding images
 Images are organised in subdirectories containing their respective files. To get the automatic CI system to build the image define a file `containers.json` like so:
@@ -105,16 +117,16 @@ In short:
 Thanks to [moby/buildkit](https://github.com/moby/buildkit) and the underlying [Qemu](https://www.qemu.org/) architecture virtualization, the CI can build your images for multiple architectures/platforms at once. See [here](https://github.com/tonistiigi/binfmt?tab=readme-ov-file#build-test-image) for a list of supported platforms.
 
 To build your image for `amd64` and also `riscv64` add to your `containers.json`:
-```json
+```jsonc
 [
     {
-        ...
+        // ...
         "platforms": [
             "linux/amd64",
             "linux/riscv64"
-            ...
+            // ...
         ]
-        ...
+        // ...
     }
 ]
 ```
@@ -122,13 +134,13 @@ To build your image for `amd64` and also `riscv64` add to your `containers.json`
 ### Testing
 Testing your images is an important step in ensuring they do or contain what you actually intend them to do. For this specify `testScript` with a path inside your `<image_name_folder>`. The script is ran after the staging version of your image has been built, so the tag know by docker will be `ghcr.io/nikleberg/<image_name>:<image_tag>-staging`. The script is called with the `<image_tag>` as its first argument.
 
-```json
+```jsonc
 [
     {
-        ...
+        // ...
         "testScript": "tests.sh",
         "testArtifact": "results.tar"
-        ...
+        // ...
     }
 ]
 ```
@@ -137,17 +149,17 @@ Additionally you may want to access test results (of probably failed builds). Be
 
 ### Multi Tagging
 You may want to tag one variant of your image with multiple different tags. For example you could do proper [semantic versioning](https://semver.org/) by tagging the version `1.2.3` also with `1.2` and `1` so that users of those tags will get the updates too. It can also be used to set the `latest` tag to one of the image variants. To do this, simply list the tags like so:
-```json
+```jsonc
 [
     {
-        ...
+        // ...
         "tags": [
             "1.2.3",
             "1.2",
             "1",
             "latest"
         ]
-        ...
+        // ...
     }
 ]
 ```
@@ -159,7 +171,7 @@ If you build a huge image, GitHub Actions may run out of disk space. For these i
 [Trivy](https://github.com/aquasecurity/trivy) and [Dockle](https://github.com/goodwithtech/dockle) are scanners that detect vulnerabilities and bad practices in docker images respectively. They are ran by default on any image but can be disabled by setting `"trivySkip": true` or `"dockleSkip": true`. Reasons for disabling can be for example when the scanner step takes too much time and times-out the build, has too many false-positives or is just not providing any valuable insights. Dockle also scans the image filesystem for suspicious files. You may white-list file extensions that should not be treated as suspicious with `"dockleAcceptExt": <file_ext>`.
 
 ### `container.json` reference
-```json
+```jsonc
 [
     {
         // Name of the image
@@ -207,7 +219,7 @@ If you build a huge image, GitHub Actions may run out of disk space. For these i
         "cache": true
     },
     {
-        ... // additional image variants / tags
+        // ... additional image variants / tags
     }
 ]
 ```

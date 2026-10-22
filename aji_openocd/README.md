@@ -3,7 +3,7 @@
 > For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
 Companion to the [`quartus`](../quartus/README.md) image with AJI virtual JTAG infrastructure and OpenOCD. It allows to use this virtual JTAG system with OpenOCD for example to debug IP Cores in the FPGA.
 
-This image contains a containerized version of the following [OpenOCD](https://github.com/intel/aji_openocd) fork from Intel that enables AJI.
+This image ships a containerized version of the following [OpenOCD](https://github.com/intel/aji_openocd) fork from Intel that enables AJI.
 
 Note that OpenOCD was only compiled with AJI support. All other adapters (USB, FTDI, etc.) are not compiled in.
 
