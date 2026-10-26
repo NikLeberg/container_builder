@@ -56,4 +56,8 @@ updates:
     directory: "/ghdl"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/diamond"
+    schedule:
+      interval: "weekly"
   

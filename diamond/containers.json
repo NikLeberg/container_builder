@@ -1,0 +1,13 @@
+[
+    {
+        "name": "diamond",
+        "tags": "3.14",
+        "dockerfile": "Dockerfile",
+        "args": [
+            "DIAMOND_URL=https://files.latticesemi.com/Diamond/3.14/3.14.0.75.2_Diamond_lin.zip",
+            "DIAMOND_SHA=8e793407c595455af5304b68fdc7c16d7992a5f1ed0fb963998db88699292a95"
+        ],
+        "maximizeBuildSpace": true,
+        "cache": false
+    }
+]
