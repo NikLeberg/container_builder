@@ -98,10 +98,15 @@ RUN <<EOF
         libxinerama1 libxrandr2 libxss1 libxcb-cursor0 libxcb-icccm4 \
         libxcb-keysyms1 libxcb-xinput0 libxcb-xinerama0 libxcb-shape0 \
         libxkbcommon-x11-0 libgl1 libgl1-mesa-dri libatk1.0-0 libcairo2 \
-        libpango-1.0-0 libgstreamer-plugins-base1.0-0 \
+        libpango-1.0-0 libgssapi-krb5-2 libgstreamer-plugins-base1.0-0 \
+        libstdc++6 dbus \
         make wget ca-certificates
     apt-get clean
     rm -rf /var/lib/apt/lists/*
+    # Fix synplify libstdc++ incompatibility with newer kerberos and libcuuc.
+    rm $DIAMOND_PREFIX/synpbase/linux_a_64/lib/libstdc++.so.*
+    ln -sfn /usr/lib/x86_64-linux-gnu/libstdc++.so.6 \
+        $DIAMOND_PREFIX/synpbase/linux_a_64/lib/libstdc++.so.6
 EOF
 
 # Add Diamond to path
