@@ -47,7 +47,12 @@ RUN <<EOF
     ./Diamond_lin.run \
         --console --prefix $DIAMOND_PREFIX
     cat $DIAMOND_PREFIX/InstallationLog.txt
-    rm -r Diamond_lin.zip Diamond_lin.run $DIAMOND_PREFIX/uninstaller*
+    rm -r \
+        Diamond_lin.zip \
+        Diamond_lin.run \
+        $DIAMOND_PREFIX/InstallationLog.txt \
+        $DIAMOND_PREFIX/uninstaller* \
+        $DIAMOND_PREFIX/examples
     rdfind -makehardlinks true $DIAMOND_PREFIX
 EOF
 
