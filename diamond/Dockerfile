@@ -135,11 +135,7 @@ ENV QT_X11_NO_MITSHM=1
 # Install license aquired from https://latticesemi.com/license that was fixed to
 # manually crafted host / NIC / MAC id of 00:ab:ab:ab:ab:ab. To use this set the
 # mac address in the docker run command with --mac-address="00:ab:ab:ab:ab:ab".
-# Included licenses:
-#  - Diamond-Base-NL:      Lattice Diamond Base (Node-Locked)
-#  - LATTICE-QUESTASIM-NL: QuestaSim Lattice FPGA Edition (Node-locked)
 ENV LM_LICENSE_FILE=$DIAMOND_PREFIX/license/license.dat
-ENV SALT_LICENSE_SERVER=$LM_LICENSE_FILE
 COPY license.dat $LM_LICENSE_FILE
 
 # Diamond asks at first startup if we want to send telemetry data. We don't.
