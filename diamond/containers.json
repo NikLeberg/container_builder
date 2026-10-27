@@ -1,11 +1,12 @@
 [
     {
         "name": "diamond",
-        "tags": "3.14",
+        "tags": "3.14-ecp5",
         "dockerfile": "Dockerfile",
         "args": [
             "DIAMOND_URL=https://files.latticesemi.com/Diamond/3.14/3.14.0.75.2_Diamond_lin.zip",
-            "DIAMOND_SHA=8e793407c595455af5304b68fdc7c16d7992a5f1ed0fb963998db88699292a95"
+            "DIAMOND_SHA=8e793407c595455af5304b68fdc7c16d7992a5f1ed0fb963998db88699292a95",
+            "DEVICE_KEEP=sa5p00,sa5p00a,sa5p00b,sa5p00g,sa5p00m,xo2c00,xo2c00a,or5s00,or5g00,mg5g00"
         ],
         "maximizeBuildSpace": true,
         "cache": false

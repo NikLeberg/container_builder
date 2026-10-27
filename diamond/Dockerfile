@@ -1,5 +1,5 @@
 # This docker image gets rather big as it needs to download Lattice Diamond with
-# a hefty size of more than 10 GB. This would create a single layer in the image
+# a hefty size of more than 3 GB. This would create a single layer in the image
 # with a huge size and that has to be downloaded and can't be parallelized. To
 # break this layer up, an exotic multi-stage approach is taken:
 #  - Download / Extract / Install Diamond in a builder docker stage.
@@ -9,13 +9,15 @@
 
 ARG DIAMOND_URL=https://files.latticesemi.com/Diamond/3.14/3.14.0.75.2_Diamond_lin.zip
 ARG DIAMOND_SHA=8e793407c595455af5304b68fdc7c16d7992a5f1ed0fb963998db88699292a95
-ARG DIAMOND_PREFIX="/opt/diamond"
+ARG DIAMOND_PREFIX=/opt/diamond
+ARG DEVICE_KEEP=sa5p00,sa5p00a,sa5p00b,sa5p00g,sa5p00m,xo2c00,xo2c00a,or5s00,or5g00,mg5g00
 
 FROM ubuntu:24.04 AS builder
 
 ARG DIAMOND_URL
 ARG DIAMOND_SHA
 ARG DIAMOND_PREFIX
+ARG DEVICE_KEEP
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -37,7 +39,8 @@ EOF
 
 # Install Diamond for Lattice FPGAs from:
 # https://www.latticesemi.com/latticediamond
-# This also post-processes the install dir to remove duplicates.
+# This also post-processes the install dir to remove unwanted install components
+# and device types as well as removing duplicates with rdfind.
 RUN <<EOF
     set -e
     wget --progress=dot:giga $DIAMOND_URL -O Diamond_lin.zip
@@ -52,11 +55,22 @@ RUN <<EOF
         Diamond_lin.run \
         $DIAMOND_PREFIX/InstallationLog.txt \
         $DIAMOND_PREFIX/uninstaller* \
-        $DIAMOND_PREFIX/examples
-    rdfind -makehardlinks true $DIAMOND_PREFIX
+        $DIAMOND_PREFIX/examples \
+        $DIAMOND_PREFIX/cae_library/ibis \
+        $DIAMOND_PREFIX/micosystem \
+        $DIAMOND_PREFIX/questasim
+    cd $DIAMOND_PREFIX
+    mkdir keep
+    ISPFPGA_COMMON=bin,data,maco,msgdata,slayer,userware,verilog,vhdl,vhdl_packages,webhelp
+    for d in $(echo "$ISPFPGA_COMMON,$DEVICE_KEEP" | tr ',' ' '); do
+        mv ispfpga/$d keep/
+    done
+    rm -rf ispfpga
+    mv keep ispfpga
+    rdfind -makehardlinks true -outputname /dev/null $DIAMOND_PREFIX
 EOF
 
-# Package the install dir into ~1GB tar-ed chunks at file boundaries.
+# Package the install dir into ~500MB tar-ed chunks at file boundaries.
 ARG TAR_SPLITTER_URL=https://github.com/AQUAOSOTech/tarsplitter/releases/download/v2.2.0/tarsplitter_linux
 ARG TAR_SPLITTER_SHA=d92d19b36f03eadd25e9ee17d659761a0788b2e5
 RUN <<EOF
@@ -65,7 +79,7 @@ RUN <<EOF
     wget --progress=dot $TAR_SPLITTER_URL -O tarsplitter
     echo "$TAR_SPLITTER_SHA *tarsplitter" | sha1sum --check --strict -
     chmod +x tarsplitter
-    ./tarsplitter -i diamond_dir.tar -p 11
+    ./tarsplitter -i diamond_dir.tar -p 7
     rm diamond_dir.tar tarsplitter
 EOF
 
@@ -87,10 +101,6 @@ RUN --mount=type=bind,from=builder,target=/builder tar -xf /builder/3.tar
 RUN --mount=type=bind,from=builder,target=/builder tar -xf /builder/4.tar
 RUN --mount=type=bind,from=builder,target=/builder tar -xf /builder/5.tar
 RUN --mount=type=bind,from=builder,target=/builder tar -xf /builder/6.tar
-RUN --mount=type=bind,from=builder,target=/builder tar -xf /builder/7.tar
-RUN --mount=type=bind,from=builder,target=/builder tar -xf /builder/8.tar
-RUN --mount=type=bind,from=builder,target=/builder tar -xf /builder/9.tar
-RUN --mount=type=bind,from=builder,target=/builder tar -xf /builder/10.tar
 
 # Install runtime dependencies and additional tools.
 # Given by $DIAMOND_PREFIX/bin/lin64/check_systemlibrary_diamond.bash
