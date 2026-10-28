@@ -148,4 +148,4 @@ EOF
 
 # Entrypoint is the diamond shell.
 ENTRYPOINT ["diamondc"]
-# With args "<script.tcl>" an arbitrary TCL script can be run.
+# With args "<script.tcl>" an arbitrary Tcl script can be run.

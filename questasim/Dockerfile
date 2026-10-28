@@ -165,7 +165,7 @@ EOF
 
 # Entrypoint is the vsim executable.
 ENTRYPOINT ["vsim"]
-# With args "-c -do <script.tcl>" an arbitrary TCL script can be run.
+# With args "-c -do <script.tcl>" an arbitrary Tcl script can be run.
 # Without the "-c" flag vsim starts in GUI mode.
 # As default do nothing and just print the version.
 CMD ["-version"]

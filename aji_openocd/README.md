@@ -1,5 +1,5 @@
 # aji_openocd
-> This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
+> This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VSCode devcontainer environments.
 > For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
 Companion to the [`quartus`](../quartus/README.md) image with AJI virtual JTAG infrastructure and OpenOCD. It allows to use this virtual JTAG system with OpenOCD for example to debug IP Cores in the FPGA.
 
