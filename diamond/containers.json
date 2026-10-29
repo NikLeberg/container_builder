@@ -9,6 +9,8 @@
             "DEVICE_KEEP=sa5p00,sa5p00a,sa5p00b,sa5p00g,sa5p00m,xo2c00,xo2c00a,or5s00,or5g00,mg5g00"
         ],
         "maximizeBuildSpace": true,
+        "testScript": "tests.sh",
+        "testArtifact": "test/capture.png",
         "cache": false
     }
 ]
