@@ -5,7 +5,7 @@ Main goal is to provide Docker-outside-of-Docker (DooD) functionality to re-use 
 
 The idea is, that instead of requiring one huge image with every tool baked in, have only a simple base image where additional tools can be _installed_ in on-depand spun-up and self-contained docker containers.
 
-Targets for the devcontainer are GitHub Codespaces and VsCode (Linux or Windows with WSL).
+Targets for the devcontainer are GitHub Codespaces and VSCode (Linux or Windows with WSL).
 
 
 ## Usage
@@ -40,7 +40,7 @@ I recommend adding `name: xyz` as key and setting a hostname with `--hostname xy
 }
 ```
 
-The `${localWorkspaceFolderBasename}` variable is expanded by VsCode to the name of the opened folder. I.e. if you have a project with `<project_name>/.devcontainer/devcontainer.json` (or `<project_name>/devcontainer.json`) the started container will be named `<project_name>`.
+The `${localWorkspaceFolderBasename}` variable is expanded by VSCode to the name of the opened folder. I.e. if you have a project with `<project_name>/.devcontainer/devcontainer.json` (or `<project_name>/devcontainer.json`) the started container will be named `<project_name>`.
 
 A more fully-fledged `devcontainer.json` that is using this image can be seen in my other project [neorv32_soc](https://github.com/NikLeberg/neorv32_soc/blob/main/.devcontainer/devcontainer.json).
 
@@ -50,7 +50,7 @@ If you do not want to use _devcontainers_ or simply prefer to work from the CLI,
 ```bash
 docker run --volume=/var/run/docker.sock:/var/run/docker.sock ghcr.io/nikleberg/dev-base
 ```
-Note that this use-case is not tested. There might be some magic that VsCode and _devcontainers_ does behind the scenes to enable the desired functionality of this image that a simply started container does not provide...
+Note that this use-case is not tested. There might be some magic that VSCode and _devcontainers_ does behind the scenes to enable the desired functionality of this image that a simply started container does not provide...
 
 
 ## Integrating additional Tools
@@ -107,7 +107,7 @@ Note:
  - _Installing_ the aliases means to put them into a script and sourcing that script where you want to use the command. I.e. `source <script>`.
  - Arguments `-it` lets the container be run interactively and with an attached tty.
  - Argument `--rm` removes the container after use. Otherwise every invocation of the alias would leave a stopped container around.
- - To use the alias for VsCode `tasks.json` you can set the environment variable `BASH_ENV` like so: `"options": { "env": { "BASH_ENV": "<alias_script>" } }`. Each task of `"type": "shell"` will then automatically get the aliases.
+ - To use the alias for VSCode `tasks.json` you can set the environment variable `BASH_ENV` like so: `"options": { "env": { "BASH_ENV": "<alias_script>" } }`. Each task of `"type": "shell"` will then automatically get the aliases.
 
 
 ### Bonus: GUI
@@ -118,7 +118,7 @@ Some tools may want to access the GUI. For this the X11 socket can simply be for
 I constructed this mainly for my own use-case in project [`neorv32_soc`](https://github.com/NikLeberg/neorv32_soc). There you will find a complete example of how this all comes together:
  - The [`devcontainer.json`](https://github.com/NikLeberg/neorv32_soc/blob/main/.devcontainer/devcontainer.json) that uses this `dev-base` image.
  - The [.env](https://github.com/NikLeberg/neorv32_soc/blob/main/.devcontainer/.env) that defines the environment and aliases for the different tools.
- - The [`tasks.json`](https://github.com/NikLeberg/neorv32_soc/blob/main/.vscode/tasks.json) that installs the aliases via `BASH_ENV` and uses the containerized tools in many tasks.
+ - The [`tasks.json`](https://github.com/NikLeberg/neorv32_soc/blob/main/.VSCode/tasks.json) that installs the aliases via `BASH_ENV` and uses the containerized tools in many tasks.
 
 
 ## License

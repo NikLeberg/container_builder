@@ -1,5 +1,5 @@
 # questasim
-> This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
+> This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VSCode devcontainer environments.
 > For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
 
 This image ships a containerized version of `Questa Altera Starter FPGA Edition-64 vsim <version`.
@@ -79,7 +79,7 @@ export -f vsim_bash
 Note the additional `vsim_bash` alias. It overwrites the entrypoint in the image and lets you more easily debug problems by dropping you into a bash shell inside the container.
 
 ### License File
-Since v21.1 of Quartus, ModelSim was replaced by QuestaSim. It requires a valid license that can be obtained from [Altera](https://licensing.altera.com/). For ease of use a valid license is already included. But it is bound to a specific NIC id i.e. MAC address `00:ab:ab:ab:ab:ab`. Using this bundled licence implied acceptance of Altera's EULA for the appropriate version(s) you use and aggrement to Altera's [Privacy Notice](https://www.altera.com/privacy/altera-privacy-notice) and [Terms of Use](https://www.altera.com/privacy/altera-terms-of-use).
+Since v21.1 of Quartus, ModelSim was replaced by QuestaSim. It requires a valid license that can be obtained from [Altera](https://licensing.altera.com/). For ease of use a valid license is already included. But it is bound to a specific NIC id i.e. MAC address `00:ab:ab:ab:ab:ab`. Using this bundled license implies acceptance of Altera's EULA for the appropriate version(s) you use and agreement to Altera's [Privacy Notice](https://www.altera.com/privacy/altera-privacy-notice) and [Terms of Use](https://www.altera.com/privacy/altera-terms-of-use).
 
 Alternatively you may [aquire your own license file](https://licensing.altera.com/). To use it you have to:
  - mount the license file into the container with `--volume /path/on/host/license:/path/on/container/license`
@@ -91,6 +91,17 @@ If you want to use the included license you have to set the MAC address for the 
 To use the container locally just add the `mac-address` option to the docker run command:
 ```shell
 docker run --mac-address=00:ab:ab:ab:ab:ab ghcr.io/nikleberg/questasim:22.1
+```
+
+#### Devcontainer
+For a devcontainer used with e.g. VSCode add the following config to `devcontainer.json`:
+```json
+{
+  "image": "ghcr.io/nikleberg/diamond:3.14-ecp5",
+  "runArgs": [
+    "--mac-address=00:ab:ab:ab:ab:ab"
+  ]
+}
 ```
 
 #### GitHub Action

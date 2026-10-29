@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys, os, subprocess, json
+import sys, os, subprocess, json, re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -161,9 +161,9 @@ def getChangedFiles():
 
     print(f"  Changed files: {changedFiles}")
 
-    # Check if git commit log contains "[ci::ignore_workflow_change]" directive.
-    # When it exists, then changed files in .github/workflows do not force
-    # rebuild of all containers.
+    # Check if git commit log contains "[ci::ignore::<name>]" directive.
+    # When it exists, then changed files in <name>/ are not considered to
+    # trigger a rebuild.
     gitLogs = []
     if latestMainCommit == currentCommit:
         # On main, compare with previous (merge-)commit
@@ -171,10 +171,16 @@ def getChangedFiles():
     else:
         # On a branch, compare with latest main
         gitLogs = run(["git", "log", "--ancestry-path", f"{latestMainCommit}..{currentCommit}"]).split("\n")
-    if any(["[ci::ignore_workflow_change]" in line for line in gitLogs]):
-        print("  Directive '[ci::ignore_workflow_change]' found.")
-        print("  Filtering out all changes to '.github/workflows'.")
-        changedFiles = [f for f in changedFiles if not "github/workflows" in f]
+
+    ignoreNames = set()
+    for line in gitLogs:
+        for match in re.findall(r"\[ci::ignore::([^\]]+)\]", line):
+            ignoreNames.add(match)
+    for name in ignoreNames:
+        print(f"  Directive '[ci::ignore::{name}]' found.")
+        changedFiles = [f for f in changedFiles if not f.startswith(f"{name}/")]
+    if len(ignoreNames):
+        print(f"  Remaining files: {changedFiles}")
 
     return changedFiles
 
@@ -190,8 +196,11 @@ def getChangedContainers(containers: list, changedFiles: list) -> list:
                         changedContainers.append(c)
 
     print("Containers with changes:")
+    changedVariants = set()
     for c in changedContainers:
-        print(f"  {c.getVariantName()}")
+        changedVariants.add(c.getVariantName())
+    for v in sorted(changedVariants):
+        print(f"  {v}")
 
     # Overwrite with all containers if anything in .github/workflows changes.
     if any([".github/workflows" in file for file in changedFiles]):

@@ -1,5 +1,5 @@
 # nvc
-> This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
+> This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VSCode devcontainer environments.
 > For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
 
 This container ships a containerized version of `nvc` - _VHDL compiler and simulator_ from [nickg/nvc](www.nickg.me.uk/nvc/).

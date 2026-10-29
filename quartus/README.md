@@ -1,5 +1,5 @@
 # quartus
-> These images are part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
+> These images are part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VSCode devcontainer environments.
 > For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
 
 These images contain a containerized version of `Quartus Prime <Version> Lite Edition` in various versions and supported devices.

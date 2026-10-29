@@ -1,5 +1,5 @@
 # riscv-gcc
-> This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VsCode devcontainer environments.
+> This image is part of the dockerized tools meant to be used with image [`dev-base`](../dev-base/README.md) in GitHub Codespace or VSCode devcontainer environments.
 > For answers to general why? and how? consult the [README of dev-base](../dev-base/README.md).
 
 This image ships a containerized version of the RISC-V GCC cross-compiler toolchain in various versions, see [below](#tags).
