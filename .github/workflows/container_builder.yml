@@ -27,6 +27,8 @@ jobs:
       matrix: ${{fromJson(inputs.builderMatrix)}}
     env:
       baseTag: ${{inputs.registry}}/${{inputs.username}}/${{matrix.name}}
+      DOCKER_BUILD_SUMMARY: false
+      DOCKER_BUILD_RECORD_UPLOAD: false
     name: ${{matrix.name}}:${{matrix.mainTag}}
     steps:
 
